@@ -7,6 +7,18 @@ The Mental Health Tracker is our final project for NMSU's CS 382/532 Mondern Web
 3. Luis Espinoza
 4. Edgar Ochoa
 
+## Initial Project Demo
+**Due Monday, April 21st**
+
+### Assignment Details
+Be prepared in class to demo your intial functional protype. You should at least be able to demonstrate a functional web server and intial pages. 
+
+Discuss how you are preparing to support your project's core feature set.
+- What roadblocks are you encountering?
+- How do you plan to overcome them?
+- What technical, interaction, or aesthetic design choices has your team made?
+- Are there any design choices that your team is uncertain of and would like feedback on?
+
 ## Major Tasks
 
 ### Login
