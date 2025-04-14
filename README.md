@@ -3,9 +3,10 @@ The Mental Health Tracker is our final project for NMSU's CS 382/532 Mondern Web
 
 ## Team Members
 1. Devon Sookhoo
-2. 
-3. 
-4. 
+2. Brittany Benedict
+3. Luis Espinoza
+4. Edgar Ochoa
+5. Desiree Gutierrez
 
 ## Major Tasks
 
