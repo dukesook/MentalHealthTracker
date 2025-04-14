@@ -10,7 +10,14 @@ app.use(express.json());
 
 
 app.get("/", function(req, res) {
-  res.render("pages/index");
+  let loggedIn = true;
+
+  if (loggedIn) {
+    res.render("pages/index");
+  }
+  else {
+    res.render("pages/login");
+  }
 })
 
 
@@ -33,6 +40,10 @@ app.get("/tracker", function(req, res) {
 app.get("/settings", function(req, res) {
   res.render("pages/settings");
 })
+
+app.get("/login", function(req, res) {
+  res.render("pages/login");
+});
 
 
 // Start server
