@@ -8,20 +8,60 @@ The Mental Health Tracker is our final project for NMSU's CS 382/532 Mondern Web
 4. Edgar Ochoa
 5. Desiree Gutierrez
 
-## Major Tasks
+## MongoDB
+The MongoDB database name is `mentalHealthTracker`.
 
-### Login
-- Allow the user to login with their username & password
-- Allows news users to register with their username & password.
-- Username & passwords will be hashed and stored on a MongoDB Database.
-- Allow the user to logout.
+### Collection #1: users
+```json
+{
+  "user_id": "string",
+  "password": "string"
+}
+```
+### Collection #2: depression_tests
+```json
+{
+  "date_taken": "date",
+  "Q1": "int",
+  "Q2": "int",
+  "Q3": "int",
+  "Q5": "int",
+  "Q6": "int",
+  "Q7": "int",
+  "Q8": "int",
+  "Q9": "int",
+}
+```
 
-### The Mental Health Evaluator
-- Identify the key pieces of data that we want to track. E.g. mood, relationships, work-life balance, etc
-- Create a UI for users to input this information.
-- Store this information in a MongoDB Databse.
+### Collection #3: anxiety_tests
+```json
+{
+  "date_taken": "date",
+  "Q1": "int",
+  "Q2": "int",
+  "Q3": "int",
+  "Q5": "int",
+  "Q6": "int",
+  "Q7": "int",
+}
+```
+### Collection #4: test_scores
+```json
+{
+  "user_id": "string",
+  "depression": "int",
+  "anxiety": "int",
+  "other": "int",
+}
+```
 
-### The Progress Tracker
-- Retieve all mood information related to the current user.
-- Display this information in a clean way.
-- Allow the user to filter or sort through the desired information.
+
+### Collection #5: daily_checkins
+```json
+{
+  "user_id": "string",
+  "check_in_date": "date",
+  "mood": "string",
+  "journal": "string",
+}
+```
