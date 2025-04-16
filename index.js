@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import userModel from './models/user.mjs';
 
 const app = express();
 const PORT = 3000;
@@ -57,6 +58,20 @@ app.get("/login", function(req, res) {
   res.render("pages/login");
 });
 
+
+app.get("/add_test_data", async function(req, res) {
+  let newUser = new userModel({
+    user_id: "test_user",
+    password: "test_password"
+  })
+  newUser.save().then(() => {
+    console.log("Test user added to database.");
+    res.send("Test user added to database.");
+  }).catch(err => {
+    console.error("Error adding test user:", err);
+    res.status(500).send("Error adding test user.");
+  });
+})
 
 // Start server
 app.listen(PORT, () => {
