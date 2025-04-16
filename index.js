@@ -3,6 +3,17 @@ import mongoose from 'mongoose';
 
 const app = express();
 const PORT = 3000;
+const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
+
+
+async function main() {
+  await mongoose.connect(databaseUri);
+}
+
+
+main().then(function() {
+  console.log("Mongoose connected!");
+}).catch(err => console.log(err));
 
 
 app.set("view engine", "ejs"); // Use EJS as the template engine
