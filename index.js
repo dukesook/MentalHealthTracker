@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userModel from './models/user.mjs';
+import add_test_data from './test/generateTestData.mjs';
 
 const app = express();
 const PORT = 3000;
@@ -59,19 +60,15 @@ app.get("/login", function(req, res) {
 });
 
 
-app.get("/add_test_data", async function(req, res) {
-  let newUser = new userModel({
-    user_id: "test_user",
-    password: "test_password"
-  })
-  newUser.save().then(() => {
-    console.log("Test user added to database.");
-    res.send("Test user added to database.");
-  }).catch(err => {
-    console.error("Error adding test user:", err);
-    res.status(500).send("Error adding test user.");
-  });
-})
+app.get('/add_test_data', async function(req, res) {
+  try {
+    await add_test_data();
+    res.status(200).send('Test data added!');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Something went wrong.');
+  }
+});
 
 // Start server
 app.listen(PORT, () => {
