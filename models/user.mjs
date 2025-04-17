@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
-const modelName = 'User';
+const modelName = 'User';  // Default Collection name = users (plural, lowercase, no underscores)
 const userModel = mongoose.model(modelName, userSchema);
 
 export default userModel;

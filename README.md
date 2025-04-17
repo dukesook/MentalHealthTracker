@@ -22,7 +22,7 @@ The MongoDB database name is `mentalHealthTracker`.
 ```json
 {
   "user_id": "String",
-  "date_taken": "date",
+  "date_taken": "Date",
   "Q1": "Number",
   "Q2": "Number",
   "Q3": "Number",
@@ -38,7 +38,7 @@ The MongoDB database name is `mentalHealthTracker`.
 ```json
 {
   "user_id": "String",
-  "date_taken": "date",
+  "date_taken": "Date",
   "Q1": "Number",
   "Q2": "Number",
   "Q3": "Number",
@@ -62,7 +62,7 @@ The MongoDB database name is `mentalHealthTracker`.
 ```json
 {
   "user_id": "String",
-  "check_in_date": "date",
+  "check_in_date": "Date",
   "mood": "String",
   "journal": "String",
 }
