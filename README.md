@@ -14,54 +14,56 @@ The MongoDB database name is `mentalHealthTracker`.
 ### Collection #1: users
 ```json
 {
-  "user_id": "string",
-  "password": "string"
+  "user_id": "String",
+  "password": "String"
 }
 ```
-### Collection #2: depression_tests
+### Collection #2: depressiontests
 ```json
 {
+  "user_id": "String",
   "date_taken": "date",
-  "Q1": "int",
-  "Q2": "int",
-  "Q3": "int",
-  "Q5": "int",
-  "Q6": "int",
-  "Q7": "int",
-  "Q8": "int",
-  "Q9": "int",
+  "Q1": "Number",
+  "Q2": "Number",
+  "Q3": "Number",
+  "Q5": "Number",
+  "Q6": "Number",
+  "Q7": "Number",
+  "Q8": "Number",
+  "Q9": "Number",
 }
 ```
 
-### Collection #3: anxiety_tests
+### Collection #3: anxietytests
 ```json
 {
+  "user_id": "String",
   "date_taken": "date",
-  "Q1": "int",
-  "Q2": "int",
-  "Q3": "int",
-  "Q5": "int",
-  "Q6": "int",
-  "Q7": "int",
+  "Q1": "Number",
+  "Q2": "Number",
+  "Q3": "Number",
+  "Q5": "Number",
+  "Q6": "Number",
+  "Q7": "Number",
 }
 ```
-### Collection #4: test_scores
+### Collection #4: testscores
 ```json
 {
-  "user_id": "string",
-  "depression": "int",
-  "anxiety": "int",
-  "other": "int",
+  "user_id": "String",
+  "depression": "Number",
+  "anxiety": "Number",
+  "other": "Number",
 }
 ```
 
 
-### Collection #5: daily_checkins
+### Collection #5: dailycheckins
 ```json
 {
-  "user_id": "string",
+  "user_id": "String",
   "check_in_date": "date",
-  "mood": "string",
-  "journal": "string",
+  "mood": "String",
+  "journal": "String",
 }
 ```
