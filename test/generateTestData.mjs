@@ -1,29 +1,23 @@
 import userModel from '../models/user.mjs';
 import anxietyTestModel from '../models/anxiety_test.mjs';
 import depressionTestModel from '../models/depression_test.mjs';
-
+import testScoreModel from '../models/test_score.mjs';
 
 export default async function add_test_data() {
   console.log('add_test_data() called');
   
-  // Add Users
-  for (let i = 0; i < sample_users.length; i++) {
-    const user = sample_users[i];
-    await add_document(userModel, user);
-  }
+  add_data(userModel, sample_users);
+  add_data(depressionTestModel, sample_depression_tests);
+  add_data(anxietyTestModel, sample_anxiety_tests);
+  add_data(testScoreModel, sample_test_scores);
 
-  // Add Depression Tests
-  for (let i = 0; i < sample_depression_tests.length; i++) {
-    const test = sample_depression_tests[i];
-    await add_document(depressionTestModel, test);
-  }
+}
 
-  // Add Anxiety Tests
-  for (let i = 0; i < sample_anxiety_tests.length; i++) {
-    const test = sample_anxiety_tests[i];
-    await add_document(anxietyTestModel, test);
+async function add_data(model, data) {
+  for (let i = 0; i < data.length; i++) {
+    const document = data[i];
+    await add_document(model, document);
   }
-
 }
 
 
@@ -100,5 +94,20 @@ const sample_anxiety_tests = [
     Q5: 5,
     Q6: 1,
     Q7: 2
+  }
+];
+
+const sample_test_scores = [
+  {
+    user_id: 'test_user1',
+    depression: 20,
+    anxiety: 15,
+    other: 10
+  },
+  {
+    user_id: 'test_user2',
+    depression: 25,
+    anxiety: 20,
+    other: 15
   }
 ];
