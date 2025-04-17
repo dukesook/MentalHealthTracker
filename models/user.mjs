@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
+userSchema.methods.listAll = function(){
+  return this.model('User').find({})
+}
+
 const modelName = 'User';
 const userModel = mongoose.model(modelName, userSchema);
 
