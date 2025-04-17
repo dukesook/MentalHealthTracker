@@ -2,16 +2,17 @@ import userModel from '../models/user.mjs';
 import anxietyTestModel from '../models/anxiety_test.mjs';
 import depressionTestModel from '../models/depression_test.mjs';
 import testScoreModel from '../models/test_score.mjs';
+import dailyCheckinModel from '../models/daily_checkin.mjs';
+
 
 export default async function add_test_data() {
-  console.log('add_test_data() called');
-  
   add_data(userModel, sample_users);
   add_data(depressionTestModel, sample_depression_tests);
   add_data(anxietyTestModel, sample_anxiety_tests);
   add_data(testScoreModel, sample_test_scores);
-
+  add_data(dailyCheckinModel, sample_daily_checkins);
 }
+
 
 async function add_data(model, data) {
   for (let i = 0; i < data.length; i++) {
@@ -109,5 +110,20 @@ const sample_test_scores = [
     depression: 25,
     anxiety: 20,
     other: 15
+  }
+];
+
+const sample_daily_checkins = [
+  {
+    user_id: 'test_user1',
+    check_in_date: new Date('2023-01-01'),
+    mood: 'happy',
+    journal: 'Had a great day!'
+  },
+  {
+    user_id: 'test_user2',
+    check_in_date: new Date('2023-02-01'),
+    mood: 'sad',
+    journal: 'Feeling down today.'
   }
 ];
