@@ -1,7 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userModel from './models/user.mjs';
+import testsModel from './models/tests.mjs'
 import add_test_data from './test/generateTestData.mjs';
+import depressionModel from './models/depression_test.mjs';
+
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +13,10 @@ const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
 
 async function main() {
   await mongoose.connect(databaseUri);
+  // create tests
+  var user = new userModel()
+  var t = user.listAll()
+
 }
 
 
@@ -36,7 +43,12 @@ app.get("/", function(req, res) {
 
 
 app.get("/evaluation", function(req, res) {
-  res.render("pages/evaluation");
+  var t_model = new testsModel()
+  var d_testmodel = new depressionModel()
+  //var testsList = tModel.listAllTests()
+  var test_list = t_model.list_all()
+  console.log("TEST LIST:",test_list)
+  res.render("pages/evaluation",{test_list:test_list});
 })
 
 
