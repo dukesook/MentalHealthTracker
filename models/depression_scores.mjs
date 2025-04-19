@@ -17,15 +17,6 @@ var depression_scores_schema = new mongoose.Schema({
     // TODO: Add more tets
 });
 
-// testsSchema.methods.list_all = function(){
-//     return this.model('tests').find({});
-// };
-
-
-// testsSchema.methods.query = function(test_name){
-//   return this.model('tests').find({test_name})  
-// };
-
 var depression_scores_model = mongoose.model('scores',depression_scores_schema);
 
 export default depression_scores_model;

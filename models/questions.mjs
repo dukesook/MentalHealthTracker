@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+// schema used for holding questions for each test type
+// each test type must have a key designated as its name so it can be pulled
 var questions_schema = new mongoose.Schema({
     'depression':{
         '1': {
@@ -157,10 +159,6 @@ var questions_schema = new mongoose.Schema({
    
 });
 
-
-
 var questions_model = mongoose.model('test_questions',questions_schema);
-
-
 
 export default questions_model;
