@@ -110,9 +110,9 @@ app.get("/checkin", function(req, res) {
 
 app.post("/checkin", async (req, res) => {
   try {
-    console.log("Form submitted:", req.body); // Debugging line to verify form data
+    console.log("Form submitted:", req.body); // to verify the data (mood+journal entry) recieived in terminal
     const { mood, journal } = req.body;
-    const user = await get_current_user(); // Assuming this function gets the logged-in user
+    const user = await get_current_user();
 
     const checkin = new dailyCheckinModel({
       user_id: user._id,
@@ -122,11 +122,7 @@ app.post("/checkin", async (req, res) => {
     });
 
     await checkin.save();
-
-    res.render("pages/checkin_confirmation", { 
-      message: "Thanks, check back in tomorrow!", 
-      mood // pass the mood to the confirmation page
-    });
+    res.render("pages/checkin_confirmation", { message: "Thanks, check back in tomorrow!" });
   } catch (error) {
     console.error("Error saving daily check-in:", error);
     res.status(500).send("An error occurred while saving your check-in.");
