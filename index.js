@@ -75,19 +75,11 @@ app.get("/", function(req, res) {
 
 
 app.get("/evaluation", function(req, res) {
-<<<<<<< HEAD
-  var t_model = new testsModel()
-  var d_testmodel = new depressionModel()
-  //var testsList = tModel.listAllTests()
-  var test_list = t_model.list_all()
-  console.log("TEST LIST:",test_list)
-=======
   // get the tests available
   var test_list = Object.keys(test_types_model.schema.paths)
   .filter(key=> key !== '_id' && key !== '__v' && key !== 'user_id');
   if(DEBUG){console.log("TESTS AVAILABLE: "+test_list + " " + typeof(test_list));}
   // render test selection page
->>>>>>> 104392a1b25a1c0f41d733cc4368c05dd6d13931
   res.render("pages/evaluation",{test_list:test_list});
 })
 
