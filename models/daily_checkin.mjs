@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
 
 const dailyCheckinSchema = new mongoose.Schema({
-  user_id: String,
-  check_in_date: Date,
-  mood: String,
-  journal: String
+  user_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+  check_in_date: { type: Date, required: true },
+  mood: { type: String, required: true },
+  journal: { type: String, required: true }
 });
 
-const modelName = 'DailyCheckin'; // Collection name = dailycheckins (plural, lowercase, no underscores)
-const dailyCheckinModel = mongoose.model(modelName, dailyCheckinSchema);
+const dailyCheckinModel = mongoose.model('DailyCheckin', dailyCheckinSchema);
 
 export default dailyCheckinModel;

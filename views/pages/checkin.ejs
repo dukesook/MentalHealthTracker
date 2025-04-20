@@ -3,11 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Daily Check-In</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <h1>Daily Check-In</h1>
   <%- include('../partials/navbar.ejs') %>
+
+  <form action="/checkin" method="POST">
+    <h2>Hi! How are you feeling today?</h2>
+    <div>
+      <label>
+        <input type="radio" name="mood" value="happy" required> Happy
+      </label>
+      <label>
+        <input type="radio" name="mood" value="neutral" required> Neutral
+      </label>
+      <label>
+        <input type="radio" name="mood" value="sad" required> Sad
+      </label>
+      <label>
+        <input type="radio" name="mood" value="mad" required> Mad
+      </label>
+    </div>
+
+    <h2>Let's talk about it</h2>
+    <textarea name="journal" rows="5" cols="50" placeholder="Write about your day..." required></textarea>
+
+    <button type="submit" onclick="console.log('Submit button clicked')">Submit</button>
+  </form>
 </body>
 </html>

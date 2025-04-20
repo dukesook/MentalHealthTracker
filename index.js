@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import add_test_data from './test/generateTestData.mjs';
 import test_types_model from './models/test_types.mjs';
 import questions_model from './models/questions.mjs';
+import dailyCheckinModel from './models/daily_checkin.mjs';
 // script imports
 import { run_test } from './controllers/testHandler.js';
 import { create_new_user, get_current_user } from './utils/userUtils.js';
@@ -106,6 +107,27 @@ app.post('/submit_test',async function(req,res){
 app.get("/checkin", function(req, res) {
   res.render("pages/checkin");
 })
+
+app.post("/checkin", async (req, res) => {
+  try {
+    console.log("Form submitted:", req.body); // to verify the data (mood+journal entry) recieived in terminal
+    const { mood, journal } = req.body;
+    const user = await get_current_user();
+
+    const checkin = new dailyCheckinModel({
+      user_id: user._id,
+      check_in_date: new Date(),
+      mood,
+      journal
+    });
+
+    await checkin.save();
+    res.render("pages/checkin_confirmation", { message: "Thanks, check back in tomorrow!" });
+  } catch (error) {
+    console.error("Error saving daily check-in:", error);
+    res.status(500).send("An error occurred while saving your check-in.");
+  }
+});
 
 
 app.get("/tracker", function(req, res) {
