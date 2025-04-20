@@ -1,13 +1,6 @@
 // imports
 import express from 'express';
 import mongoose from 'mongoose';
-<<<<<<< HEAD
-import userModel from './models/user.mjs';
-import testsModel from './models/tests.mjs'
-import add_test_data from './test/generateTestData.mjs';
-import depressionModel from './models/depression_test.mjs';
-
-=======
 // model imports
 import add_test_data from './test/generateTestData.mjs';
 import test_types_model from './models/test_types.mjs';
@@ -15,7 +8,6 @@ import questions_model from './models/questions.mjs';
 // script imports
 import { run_test } from './controllers/testHandler.js';
 import { create_new_user, get_current_user } from './utils/userUtils.js';
->>>>>>> 104392a1b25a1c0f41d733cc4368c05dd6d13931
 
 const app = express();
 const PORT = 3000;
@@ -25,12 +17,6 @@ var DEBUG = true;
 
 async function main() {
   await mongoose.connect(databaseUri);
-<<<<<<< HEAD
-  // create tests
-  var user = new userModel()
-  var t = user.listAll()
-
-=======
   // currently creating a new user every time until we get login working
   var user = create_new_user("john","bob","Smith","passW0rddd..."); 
 }
@@ -46,7 +32,6 @@ async function create_base_collections(){
     var dep_model = new questions_model();
     dep_model.save();
   }
->>>>>>> 104392a1b25a1c0f41d733cc4368c05dd6d13931
 }
 
 
