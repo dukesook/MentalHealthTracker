@@ -8,7 +8,17 @@
 </head>
 <body>
   <%- include('../partials/navbar.ejs') %>
-  <h1>Evaluation</h1>
+  <main>
+    <div>
+      <form method="post" action="/evaluation">
+        <ul>
+          <% test_list.forEach(test => { %>
+            <button type="submit" name="selected_test" value="<%=test%>"><%=test%></button>
+          <%}); %>
+        </ul>
+      </form>
+    </div>
+  </main>
 
 </body>
 </html>
