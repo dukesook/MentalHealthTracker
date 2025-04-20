@@ -8,60 +8,20 @@ The Mental Health Tracker is our final project for NMSU's CS 382/532 Mondern Web
 4. Edgar Ochoa
 5. Desiree Gutierrez
 
-## MongoDB
-The MongoDB database name is `mentalHealthTracker`.
+## Setup
 
-### Collection #1: users
-```json
-{
-  "user_id": "string",
-  "password": "string"
-}
-```
-### Collection #2: depression_tests
-```json
-{
-  "date_taken": "date",
-  "Q1": "int",
-  "Q2": "int",
-  "Q3": "int",
-  "Q5": "int",
-  "Q6": "int",
-  "Q7": "int",
-  "Q8": "int",
-  "Q9": "int",
-}
-```
+### Install Dependencies
+Remember to run `$ npm install` to install all dependencies.
 
-### Collection #3: anxiety_tests
-```json
-{
-  "date_taken": "date",
-  "Q1": "int",
-  "Q2": "int",
-  "Q3": "int",
-  "Q5": "int",
-  "Q6": "int",
-  "Q7": "int",
-}
-```
-### Collection #4: test_scores
-```json
-{
-  "user_id": "string",
-  "depression": "int",
-  "anxiety": "int",
-  "other": "int",
-}
-```
+### MongoDB
+The database & collection names must match:
 
+![alt text](public/img/mongoDB.png)
 
-### Collection #5: daily_checkins
-```json
-{
-  "user_id": "string",
-  "check_in_date": "date",
-  "mood": "string",
-  "journal": "string",
-}
-```
+### Run Server
+While in the project root directory, run `$ node index.js`
+
+### Sample Data
+With the server running, go to the following url to populate the mentalHealthTracker
+Database with sample data:
+[http://localhost:3000/add_test_data](http://localhost:3000/add_test_data)
