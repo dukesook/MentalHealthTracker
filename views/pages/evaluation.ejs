@@ -7,7 +7,18 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Evaluation</h1>
   <%- include('../partials/navbar.ejs') %>
+  <main>
+    <div>
+      <form method="post" action="/evaluation">
+        <ul>
+          <% test_list.forEach(test => { %>
+            <button type="submit" name="selected_test" value="<%=test%>"><%=test%></button>
+          <%}); %>
+        </ul>
+      </form>
+    </div>
+  </main>
+
 </body>
 </html>
