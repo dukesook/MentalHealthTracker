@@ -6,6 +6,7 @@ import add_test_data from './test/generateTestData.mjs';
 import test_types_model from './models/test_types.mjs';
 import questions_model from './models/questions.mjs';
 import dailyCheckinModel from './models/daily_checkin.mjs';
+import userModel from './models/user.mjs';
 // script imports
 import { run_test } from './controllers/testHandler.js';
 import { create_new_user, get_current_user } from './utils/userUtils.js';
@@ -135,7 +136,38 @@ app.post("/checkin", async (req, res) => {
 
 
 app.get("/tracker", function(req, res) {
-  res.render("pages/tracker");
+  const collections = [
+    'dailycheckins', 'test_lists', 'test_questions', 'test_types', 'users',
+  ]
+
+  res.render("pages/tracker", {collections: collections});
+})
+
+
+app.get("/query/all", async function(req, res) {
+  // get query string from req
+  const collectionName = req.query.collection;
+  let model = null;
+  if (collectionName === 'dailycheckins') {
+    model = dailyCheckinModel;
+  } else if (collectionName === 'test_lists') {
+    model = test_types_model;
+  } else if (collectionName === 'test_questions') {
+    model = questions_model;
+  } else if (collectionName === 'test_types') {
+    model = test_types_model;
+  } else if (collectionName === 'users') {
+    model = userModel;
+  } else {
+    return res.status(400).send("Invalid collection name");
+  }
+  try {
+    const users = await model.find({});
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching collection:", error);
+    res.status(500).send("An error occurred while fetching collection.");
+  }
 })
 
 
