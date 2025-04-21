@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+
+<body onload="onload()">
   <h1>Settings</h1>
   <%- include('../partials/navbar.ejs') %>
+
+  <h2>Dark Mode</h2>
+  <p>Set the page to a darker view, preferred by many to comfort the eyes from the light!</p>
+  <button onclick="darkmode()">Toggle Dark/Light Mode!</button>
+  
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <!-- Dark mode is as of now only available to the settings and the login page, with some small bugs that need future fixing -->
+  <script src="/script.js"></script>
+
 </body>
 </html>
