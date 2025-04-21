@@ -16,7 +16,7 @@ Remember to run `$ npm install` to install all dependencies.
 ### MongoDB
 The database & collection names must match:
 
-![alt text](public/img/mongoDB.png)
+![alt text](public/img/mongoDB_v2.png)
 
 ### Run Server
 While in the project root directory, run `$ node index.js`
