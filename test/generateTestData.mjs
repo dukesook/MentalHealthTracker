@@ -1,15 +1,9 @@
 import userModel from '../models/user.mjs';
-import anxietyTestModel from '../models/anxiety_test.mjs';
-import depressionTestModel from '../models/depression_test.mjs';
-import testScoreModel from '../models/test_score.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
 
 
 export default async function add_test_data() {
   add_data(userModel, sample_users);
-  add_data(depressionTestModel, sample_depression_tests);
-  add_data(anxietyTestModel, sample_anxiety_tests);
-  add_data(testScoreModel, sample_test_scores);
   add_data(dailyCheckinModel, sample_daily_checkins);
 }
 
