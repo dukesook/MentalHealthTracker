@@ -9,7 +9,7 @@ import dailyCheckinModel from './models/daily_checkin.mjs';
 import userModel from './models/user.mjs';
 // script imports
 import { run_test } from './controllers/testHandler.js';
-import { create_new_user, get_current_user } from './utils/userUtils.js';
+import { create_new_user, get_current_user, get_all_tests } from './utils/userUtils.js';
 
 const app = express();
 const PORT = 3000;
@@ -106,6 +106,7 @@ app.post('/submit_test',async function(req,res){
 
  
 app.get("/checkin", function(req, res) {
+  get_all_tests('6806ecf0fffab1e8c74dd2b9','depression')
   res.render("pages/checkin");
 })
 

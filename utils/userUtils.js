@@ -2,6 +2,7 @@
 import userModel from '../models/user.mjs';
 import test_list_model from '../models/test_list.mjs';
 import test_types_model from '../models/test_types.mjs';
+import scores_model from '../models/scores.mjs';
 
 // TODO: remove, shouldn't be hardcoded but is at this time for testing
 let curr_user_id = 0; 
@@ -63,4 +64,55 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
     await user_model.save();
    
     return user_model;
+}
+
+
+
+// funciton 'get_all_tests' returns the following format. 
+// In this example we looked for all 'depression' tests. 
+// It returened a map, where the keys are the _id for the 
+// scores for each test. The value is another map with the 
+// date, user_id, and the results for the questions answered.
+//
+// {
+//   '6806edccfffab1e8c74dd2cc': {
+//     _id: new ObjectId('6806edccfffab1e8c74dd2cc'),
+//     user_id: new ObjectId('6806ecf0fffab1e8c74dd2b9'),
+//     date: 2025-04-22T01:15:56.000Z,
+//     Q1: 0,
+//     total: 0,
+//     __v: 0
+//   },
+//   '6806ee2dfffab1e8c74dd2d5': {
+//     _id: new ObjectId('6806ee2dfffab1e8c74dd2d5'),
+//     user_id: new ObjectId('6806ecf0fffab1e8c74dd2b9'),
+//     date: 2025-04-22T01:17:33.000Z,
+//     Q2: 0,
+//     Q3: 0,
+//     total: 0,
+//     __v: 0
+//   }
+// }
+
+export async function get_all_tests(user_id,test_name){
+  // find the user
+  const user_model = await userModel.findById(user_id);
+  // find the test types link for that user
+
+  // get test types
+  const test_types = await test_types_model.findById(user_model.tests);
+
+  // find the list link for that particular test type
+  const test_list = await test_list_model.findById(test_types[test_name]);
+
+  // dictionary to be retured, key will be the test id
+  var all_scoresheets = {}
+  for(const scoresheet of test_list.list){
+    // find each score sheet
+    var score = await scores_model.findById(scoresheet.test_results_id)
+    // append the score to the score's Map
+    all_scoresheets[score._id] =  score;
+  }
+
+  return all_scoresheets
 }
