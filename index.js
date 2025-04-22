@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 // model imports
 import add_test_data from './test/generateTestData.mjs';
 import test_types_model from './models/test_types.mjs';
+import test_list_model from './models/test_list.mjs';
 import questions_model from './models/questions.mjs';
 import dailyCheckinModel from './models/daily_checkin.mjs';
 import userModel from './models/user.mjs';
@@ -152,7 +153,7 @@ app.get("/query/all", async function(req, res) {
   if (collectionName === 'dailycheckins') {
     model = dailyCheckinModel;
   } else if (collectionName === 'test_lists') {
-    model = test_types_model;
+    model = test_list_model;
   } else if (collectionName === 'test_questions') {
     model = questions_model;
   } else if (collectionName === 'test_types') {

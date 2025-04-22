@@ -5,7 +5,7 @@ var test_types_schema = new mongoose.Schema({
   user_id: mongoose.SchemaTypes.ObjectId,
   depression: mongoose.SchemaTypes.ObjectId,
   anxiety: mongoose.SchemaTypes.ObjectId
-  // TODO: Add more tets
+  // TODO: Add more tests
 });
 
 var test_types_model = mongoose.model('test_types',test_types_schema);
