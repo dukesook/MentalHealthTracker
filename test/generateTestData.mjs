@@ -1,10 +1,12 @@
 import userModel from '../models/user.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
-
+import questionsModel from '../models/questions.mjs';
+import scoresModel from '../models/scores.mjs';
 
 export default async function add_test_data() {
   add_data(userModel, sample_users);
   add_data(dailyCheckinModel, sample_daily_checkins);
+  add_data(scoresModel, sample_scores);
 }
 
 
@@ -21,7 +23,8 @@ async function add_document(model, document) {
   await newDocument.save().then(() => {
     console.log("Test document added to database.");
   }).catch(err => {
-    console.error("Error adding test document:", err);
+    console.error("Error adding document. Model:", model.modelName, "Document:", document);
+    console.error("Error Message:", err);
     throw err;
   });
 }
@@ -29,27 +32,62 @@ async function add_document(model, document) {
 
 const sample_users = [
   {
-    user_id: 'test_user1',
-    password: 'test_password1'
+    user_id: '6806edccfffab1e8c74dd2cc',
+    first_name: 'Brittany',
+    middle_name: 'boui.1',
+    last_name: 'Buttcheeks',
+    password: 'big_butt_lover'
   },
   {
-    user_id: 'test_user2',
-    password: 'test_password2'
+    user_id: '6806ee2dfffab1e8c74dd2d5',
+    first_name: 'Desiree',
+    middle_name: 'dez2413',
+    last_name: 'Tetsu',
+    password: 'jellybeans123'
   }
 ];
 
 
 const sample_daily_checkins = [
   {
-    user_id: 'test_user1',
+    user_id: sample_users[0].user_id,
     check_in_date: new Date('2023-01-01'),
     mood: 'happy',
     journal: 'Had a great day!'
   },
   {
-    user_id: 'test_user2',
+    user_id: sample_users[1].user_id,
     check_in_date: new Date('2023-02-01'),
     mood: 'sad',
     journal: 'Feeling down today.'
   }
 ];
+
+const sample_scores = [
+  {
+    user_id: sample_users[0].user_id,
+    date_taken: new Date('2023-01-01'),
+    Q1: 1,
+    Q2: 1,
+    Q3: 1,
+    Q4: 1,
+    Q5: 1,
+    Q6: 1,
+    Q7: 1,
+    Q8: 1,
+    Q9: 1
+  },
+  {
+    user_id: sample_users[1].user_id,
+    date_taken: new Date('2023-02-01'),
+    Q1: 2,
+    Q2: 2,
+    Q3: 2,
+    Q4: 2,
+    Q5: 2,
+    Q6: 2,
+    Q7: 2,
+    Q8: 2,
+    Q9: 2
+  }
+]

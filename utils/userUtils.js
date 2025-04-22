@@ -94,7 +94,7 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
 //   }
 // }
 
-export async function get_all_tests(user_id,test_name){
+export async function get_all_tests(user_id, test_name){
   // find the user
   const user_model = await userModel.findById(user_id);
   // find the test types link for that user
