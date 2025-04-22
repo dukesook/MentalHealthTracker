@@ -17,6 +17,6 @@ var depression_scores_schema = new mongoose.Schema({
     // TODO: Add more tets
 });
 
-var depression_scores_model = mongoose.model('scores',depression_scores_schema);
+var scores_model = mongoose.model('scores',depression_scores_schema);
 
-export default depression_scores_model;
+export default scores_model;

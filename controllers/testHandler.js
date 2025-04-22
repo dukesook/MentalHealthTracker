@@ -1,7 +1,7 @@
 // controllers/testHandler.js
 // import scripts
 import userModel from '../models/user.mjs';
-import depression_scores_model from '../models/depression_scores.mjs';
+import scores_model from '../models/scores.mjs';
 import { add_scoresheet, get_current_user } from '../utils/userUtils.js';
 
 // Map holds the score values for each answer
@@ -40,7 +40,7 @@ export async function run_test(current_user, results, res, test_name) {
   const keys = Object.keys(results).filter(k => k !== 'selected_test');
 
   // create new score document
-  const score_doc = new depression_scores_model(); 
+  const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
   score_doc.date = Date();
   
