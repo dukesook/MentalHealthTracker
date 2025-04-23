@@ -177,6 +177,6 @@ body:not(.dark-mode){
   --color: #f1f2f6;
 }
 
-h2, h1, p {
+h2, h1, h3, p, li {
   color: var(--color);
 }
