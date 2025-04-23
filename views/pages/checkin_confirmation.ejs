@@ -6,7 +6,7 @@
   <title>Check-In Confirmation</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body onload="onload()">
   <h1><%= message %></h1>
 
   <% if (mood === "happy") { %>
@@ -52,5 +52,7 @@
   <% } %>
 
   <a href="/">Go back to the homepage</a>
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
 </body>
 </html>

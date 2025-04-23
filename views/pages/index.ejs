@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+
+<body onload="onload()">
   <h1>Mental Health Tracker</h1>
   <%- include('../partials/navbar.ejs') %>
  
@@ -91,6 +93,10 @@
       <p><a href="https://www.nhs.uk/mental-health/conditions/anxiety/">Visit information about anxiety and panic attacks at nih.gov</a></p>
       <p><a href="https://www.verywellmind.com/anxiety-7508391">Visit information about anxiety at verywellmind</a></p>
   </div>
+
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
+  
 </body>
 
 </html>

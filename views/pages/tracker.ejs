@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/style.css">
   <script src="/tracker.mjs" type="module"></script>
 </head>
-<body>
+<body onload="onload()">
   <h1>Progress Tracker</h1>
   <%- include('../partials/navbar.ejs') %>
   <button id="clearButton">Clear</button>
@@ -17,5 +17,7 @@
     <%}); %>
   </ul>
   <ul id="results"></ul>
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   <title>Daily Check-In</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body onload="onload()">
   <h1>Daily Check-In</h1>
   <%- include('../partials/navbar.ejs') %>
 
@@ -32,5 +32,7 @@
 
     <button type="submit" onclick="console.log('Submit button clicked')">Submit</button>
   </form>
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
 </body>
 </html>
