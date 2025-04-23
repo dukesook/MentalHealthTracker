@@ -46,15 +46,15 @@ nav a:hover {
 /* Formatting for the Login Page */
 /* TO-DO: Format the login box to accomodate to the Dark Mode setting */
 .glass-container {
-  width: 300px;
-  height: 350px;
+  width: 350px;
+  height: auto;
   position: absolute;
   margin-left: 35%;                             /* TO-DO: Center the login box inside the body, this does the job for the meantime... */
   z-index: 1;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.105);
   border-radius: 10px;
-  border: 1px solid #2c3b77;
+  border: 2px solid #2c3b77;
 }
 
 .glass-container::before {
@@ -90,9 +90,9 @@ nav a:hover {
   margin-top: 25px;
   border: none;
   border-radius: 10px;
-  background: transparent;
-  border: 1px solid #420c0c;
-  color: #656464;
+  border: 1.5px solid #181148;
+  background-color:#ffffffbd;
+  color: #323232;
   font-size: 13px;
 }
 
@@ -104,12 +104,19 @@ nav a:hover {
   outline: none;
 }
 
-.options {
+.login_label_text {
+    margin-bottom: -20px;
+    margin-top: 20px;
+    color: var(--color);
+    text-align: left;
+}
+
+.options:not(.dark-mode) {
   display: flex;
   align-items: center;
   margin-top: 15px;
   font-size: 12px;
-  color: rgb(64, 27, 58);
+  color: rgb(175, 85, 207);
 }
 
 .options input {
@@ -141,7 +148,7 @@ nav a:hover {
 
 .login_p {
   font-size: 12px;
-  color: #0a0d23;
+  color: var(--color);
   margin-top: 15px;
 }
 
@@ -170,10 +177,6 @@ body:not(.dark-mode){
   --color: #f1f2f6;
 }
 
-h2 {
-  color: var(--color);
-}
-
-p {
+h2, h1, p {
   color: var(--color);
 }
