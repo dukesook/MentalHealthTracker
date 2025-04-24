@@ -145,9 +145,7 @@ app.post("/checkin", async (req, res) => {
 
 
 app.get("/tracker", function(req, res) {
-  const collections = [
-    'dailycheckins', 'test_lists', 'test_questions', 'test_types', 'users',
-  ]
+  const collections = Database.collectionNames;
   const user_id = '6806ecf0fffab1e8c74dd2b9';
   // get_all_tests(user_id,'depression')
   res.render("pages/tracker", {collections: collections});
