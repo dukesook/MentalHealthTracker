@@ -11,11 +11,13 @@
   <h1>Progress Tracker</h1>
   <%- include('../partials/navbar.ejs') %>
   <button id="clearButton">Clear</button>
+  <h2>Dump All</h2>
   <ul>
     <% collections.forEach(collection => { %>
       <button id="<%=collection%>" class="collection-button"><%=collection%></button>
     <%}); %>
   </ul>
+  <h2>Get User Data</h2>
   <ul id="results"></ul>
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
   <script src="/script.js"></script>

@@ -1,3 +1,7 @@
+import Query from './query.mjs'
+
+console.log('Query: ', Query)
+
 const clearButton = document.getElementById('clearButton')
 const resultsContainer = document.getElementById('results')
 
@@ -27,14 +31,7 @@ function clear() {
 
 
 async function getCollection(collection) {
-  const data = {
-    collection: collection
-  }
-  const queryString = new URLSearchParams(data).toString();
-  let fetchRequest = `/query/all?${queryString}`;
-  const httpResponse = await fetch(fetchRequest);
-  const results = await httpResponse.json();
-  
+  const results = await Query.entireCollection(collection)
   displayResults(results);
 }
 
