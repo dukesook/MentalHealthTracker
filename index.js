@@ -16,8 +16,8 @@ import { create_new_user, get_current_user, get_all_tests } from './utils/userUt
 const app = express();
 const PORT = 3000;
 const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
+const DEBUG = true;
 
-var DEBUG = true;
 
 async function main() {
   mongoose.connect(databaseUri).then(() => {
@@ -32,22 +32,8 @@ async function main() {
       console.log("User created: " + user._id);
     }
    })
-  create_base_collections();
+  Database.create_base_collections();
 }
-
-// This function makes sure the base document exist so that
-// the evaluations can run
-async function create_base_collections(){
-  // collection will only be created if it doesn't already exist
-  questions_model.createCollection();
-  // make sure the questions exist only once in the collection
-  var count = await questions_model.countDocuments();
-  if( count === 0 ){
-    var dep_model = new questions_model();
-    dep_model.save();
-  }
-}
-
 
 main().catch(err => console.log(err));
 
