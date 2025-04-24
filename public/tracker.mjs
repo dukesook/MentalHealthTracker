@@ -1,4 +1,4 @@
-import Query from './query.mjs'
+import * as Query from './query.mjs'
 
 console.log('Query: ', Query)
 
@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const collectionButtons = document.querySelectorAll('.collection-button');
   for (const button of collectionButtons) {
     button.onclick = () => {
-      getCollection(button.id);
+      const collectionName = button.id;
+      displayCollection(collectionName);
     }
   }
 
@@ -30,8 +31,8 @@ function clear() {
 }
 
 
-async function getCollection(collection) {
-  const results = await Query.entireCollection(collection)
+async function displayCollection(collection) {
+  const results = await Query.getCollection(collection)
   displayResults(results);
 }
 
