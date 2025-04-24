@@ -1,14 +1,15 @@
 // imports
 import express from 'express';
 import mongoose from 'mongoose';
+import * as Database from './controllers/database.mjs';
 // model imports
-import add_test_data from './test/generateTestData.mjs';
 import test_types_model from './models/test_types.mjs';
 import test_list_model from './models/test_list.mjs';
 import questions_model from './models/questions.mjs';
 import dailyCheckinModel from './models/daily_checkin.mjs';
 import userModel from './models/user.mjs';
 // script imports
+import add_test_data from './test/generateTestData.mjs';
 import { run_test } from './controllers/testHandler.js';
 import { create_new_user, get_current_user, get_all_tests } from './utils/userUtils.js';
 
@@ -19,9 +20,19 @@ const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
 var DEBUG = true;
 
 async function main() {
-  await mongoose.connect(databaseUri);
+  mongoose.connect(databaseUri).then(() => {
+    if (DEBUG) {
+      console.log("Mongoose connected!");
+    }
+  })
+
   // currently creating a new user every time until we get login working
-  var user = create_new_user("john","bob","Smith","passW0rddd..."); 
+   create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
+    if (DEBUG) {
+      console.log("User created: " + user._id);
+    }
+   })
+  create_base_collections();
 }
 
 // This function makes sure the base document exist so that
@@ -38,10 +49,7 @@ async function create_base_collections(){
 }
 
 
-main().then(function() {
-  if(DEBUG) {console.log("Mongoose connected!");}
-  create_base_collections();
-}).catch(err => console.log(err));
+main().catch(err => console.log(err));
 
 
 app.set("view engine", "ejs"); // Use EJS as the template engine
@@ -149,27 +157,12 @@ app.get("/tracker", function(req, res) {
 app.get("/query/all", async function(req, res) {
   // get query string from req
   const collectionName = req.query.collection;
-  let model = null;
-  if (collectionName === 'dailycheckins') {
-    model = dailyCheckinModel;
-  } else if (collectionName === 'test_lists') {
-    model = test_list_model;
-  } else if (collectionName === 'test_questions') {
-    model = questions_model;
-  } else if (collectionName === 'test_types') {
-    model = test_types_model;
-  } else if (collectionName === 'users') {
-    model = userModel;
-  } else {
-    return res.status(400).send("Invalid collection name");
-  }
-  try {
-    const users = await model.find({});
-    res.json(users);
-  } catch (error) {
+  Database.accessCollection(collectionName).then((collection) => {
+    res.json(collection);
+  }).catch((error) => {
     console.error("Error fetching collection:", error);
     res.status(500).send("An error occurred while fetching collection.");
-  }
+  })
 })
 
 

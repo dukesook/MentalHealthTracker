@@ -1,6 +1,3 @@
-import * as Query from './query.mjs'
-
-console.log('Query: ', Query)
 
 const clearButton = document.getElementById('clearButton')
 const resultsContainer = document.getElementById('results')
@@ -32,7 +29,7 @@ function clear() {
 
 
 async function displayCollection(collection) {
-  const results = await Query.getCollection(collection)
+  const results = await requestCollection(collection)
   displayResults(results);
 }
 
@@ -56,4 +53,15 @@ function displayResults(results) {
     li.textContent = text;
     resultsContainer.appendChild(li);
   }
+}
+
+export async function requestCollection(collection) {
+  const data = {
+    collection: collection
+  }
+  const queryString = new URLSearchParams(data).toString();
+  let fetchRequest = `/query/all?${queryString}`;
+  const httpResponse = await fetch(fetchRequest);
+  const results = await httpResponse.json();
+  return results;
 }
