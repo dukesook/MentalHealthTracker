@@ -18,20 +18,21 @@ const PORT = 3000;
 const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
 const DEBUG = true;
 
+function debug(message) {
+  if (DEBUG) {
+    console.log(message);
+  }
+}
 
 async function main() {
   mongoose.connect(databaseUri).then(() => {
-    if (DEBUG) {
-      console.log("Mongoose connected!");
-    }
+    debug("Connected to MongoDB!");
   })
 
   // currently creating a new user every time until we get login working
-   create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
-    if (DEBUG) {
-      console.log("User created: " + user._id);
-    }
-   })
+  create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
+    debug("User created: " + user._id);
+  })
   Database.create_base_collections();
 }
 
@@ -57,10 +58,9 @@ app.get("/", function(req, res) {
 
 
 app.get("/evaluation", function(req, res) {
-  // get the tests available
-  var test_list = Object.keys(test_types_model.schema.paths)
-  .filter(key=> key !== '_id' && key !== '__v' && key !== 'user_id');
-  if(DEBUG){console.log("TESTS AVAILABLE: "+test_list + " " + typeof(test_list));}
+  const test_list = Database.getAvailableTests();
+  debug("TESTS AVAILABLE: "+test_list + " " + typeof(test_list));
+
   // render test selection page
   res.render("pages/evaluation",{test_list:test_list});
 })
@@ -76,11 +76,11 @@ app.post("/evaluation", async function(req, res) {
   // get questions for the selected test
   var selected_questions = questions[req.body.selected_test];
   if(!selected_questions){
-    if(DEBUG){console.log("No questions for the "+req.body.selected_test + " test");}
+    debug("No questions for the "+req.body.selected_test + " test");
     return res.status(404).send("The questions were not found");
   }
   // render the test questions
-  if(DEBUG){console.log("QUESTIONS: "+selected_questions);}
+  debug("TEST: "+req.body.selected_test);
   res.render('pages/take_a_test',{questions:selected_questions,selected_test:req.body.selected_test})
 }catch(error){
   console.log("ERROR: "+error)
