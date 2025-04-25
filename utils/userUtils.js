@@ -7,12 +7,12 @@ import scores_model from '../models/scores.mjs';
 // TODO: remove, shouldn't be hardcoded but is at this time for testing
 let curr_user_id = 0; 
 
-export function get_current_user() {
+export function get_current_user_id() {
     // TODO: Update so that user id can be pulled from login
   return curr_user_id; // hard coded until we get a login
 }
 
-export function set_current_user(user_model) {
+export function set_current_user_id(user_model) {
   curr_user_id = user_model._id;
 }
 
@@ -60,10 +60,6 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
     // save test types to update it
     await test_types.save();
 
-    // update the user id to the one we just created.
-    // TODO: probably needs updated once login is working
-    set_current_user(user_model);
-
     // save user model
     await user_model.save();
    
@@ -72,7 +68,7 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
 
 
 
-// funciton 'get_all_tests' returns the following format. 
+// function 'get_all_tests' returns the following format. 
 // In this example we looked for all 'depression' tests. 
 // It returened a map, where the keys are the _id for the 
 // scores for each test. The value is another map with the 

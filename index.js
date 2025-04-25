@@ -31,6 +31,9 @@ async function main() {
 
   // currently creating a new user every time until we get login working
   UserUtils.create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
+    // update the user id to the one we just created.
+    // TODO: probably needs updated once login is working
+    UserUtils.set_current_user_id(user._id);
     debug("User created: " + user._id);
   })
   Database.create_base_collections();
@@ -93,7 +96,7 @@ app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
   const test = req.body.selected_test;
   if (test === 'depression' || test === 'anxiety') {
-    await run_test(UserUtils.get_current_user(), req.body, res, test);
+    await run_test(UserUtils.get_current_user_id(), req.body, res, test);
   } else {
     res.status(400).send("Unknown test type");
   }
@@ -108,7 +111,7 @@ app.post("/checkin", async (req, res) => {
   try {
     console.log("Form submitted:", req.body); // Debugging line to verify form data
     const { mood, journal } = req.body;
-    const user = UserUtils.get_current_user(); // Assuming this function gets the logged-in user
+    const user = UserUtils.get_current_user_id(); // Assuming this function gets the logged-in user
 
     const checkin = new dailyCheckinModel({
       user_id: user._id,
