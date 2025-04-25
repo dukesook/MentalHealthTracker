@@ -16,6 +16,18 @@ export function set_current_user_id(user_model) {
   curr_user_id = user_model._id;
 }
 
+export async function get_or_create_user() {
+  const allUsers = await get_all_users();
+  
+  if (allUsers.length === 0) {
+    const user = await create_new_user("john","bob","Smith","passW0rddd...");
+    return user;
+  } else {
+    const user = allUsers[0]; // return the first user found
+    return user;
+  }
+}
+
 // connects a score document to the correct test type and user id
 export async function add_scoresheet(user_id, test_name, score_doc) {
   // find the user
@@ -66,7 +78,10 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
     return user_model;
 }
 
-
+export async function get_all_users() {
+  const users = await userModel.find({});
+  return users;
+}
 
 // function 'get_all_tests' returns the following format. 
 // In this example we looked for all 'depression' tests. 

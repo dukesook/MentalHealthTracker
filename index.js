@@ -27,15 +27,12 @@ function debug(message) {
 async function main() {
   mongoose.connect(databaseUri).then(() => {
     debug("Connected to MongoDB!");
-  })
+  });
 
-  // currently creating a new user every time until we get login working
-  UserUtils.create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
-    // update the user id to the one we just created.
-    // TODO: probably needs updated once login is working
-    UserUtils.set_current_user_id(user._id);
-    debug("User created: " + user._id);
-  })
+  // TODO: remove this once login is working
+  const user = await UserUtils.get_or_create_user();
+  UserUtils.set_current_user_id(user._id);
+
   Database.create_base_collections();
 }
 
