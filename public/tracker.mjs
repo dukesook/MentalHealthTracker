@@ -3,6 +3,8 @@
 const clearButton = document.getElementById('clearButton');
 const resultsContainer = document.getElementById('results');
 const debugButton = document.getElementById('debugButton');
+const userId = document.getElementById('user_id').value;
+const dailyCheckinsButton = document.getElementById('dailyCheckinsButton');
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -17,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
   clearButton.onclick = clear;
 
   debugButton.onclick = debug;
+
+  dailyCheckinsButton.onclick = displayDailyCheckins;
 });
 
 
@@ -70,10 +74,14 @@ export async function requestCheckins() {
   return results;
 }
 
+async function displayDailyCheckins() {
+  const checkins = await requestCheckins();
+  displayResults(checkins);
+}
+
 async function debug() {
   console.log('The logged in user:');
   // const checkins = requestCheckins();
   // console.log('The daily checkins: ', checkins);
-  const userId = document.getElementById('user_id').value;
   console.log('User ID:', userId);
 }
