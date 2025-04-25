@@ -1,16 +1,11 @@
 
-const clearButton = document.getElementById('clearButton')
-const resultsContainer = document.getElementById('results')
 
-const collectionNames = [
-  'dailycheckins', 'test_lists', 'test_questions', 'test_types', 'uesers',
-]
+const clearButton = document.getElementById('clearButton');
+const resultsContainer = document.getElementById('results');
+const debugButton = document.getElementById('debugButton');
+
 
 document.addEventListener('DOMContentLoaded', function() {
-  for (const collectionName of collectionNames) {
-
-  }
-
   const collectionButtons = document.querySelectorAll('.collection-button');
   for (const button of collectionButtons) {
     button.onclick = () => {
@@ -20,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   clearButton.onclick = clear;
+
+  debugButton.onclick = debug;
 });
 
 
@@ -64,4 +61,17 @@ export async function requestCollection(collection) {
   const httpResponse = await fetch(fetchRequest);
   const results = await httpResponse.json();
   return results;
+}
+
+export async function requestCheckins() {
+  const fetchRequest = '/query/?collection=dailycheckins';
+  const httpResponse = await fetch(fetchRequest);
+  const results = await httpResponse.json();
+  return results;
+}
+
+async function debug() {
+  console.log('The logged in user:');
+  const checkins = requestCheckins();
+  console.log('The daily checkins: ', checkins);
 }
