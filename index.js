@@ -1,7 +1,6 @@
 // imports
 import express from 'express';
 import mongoose from 'mongoose';
-import * as Database from './controllers/database.mjs';
 // model imports
 import test_types_model from './models/test_types.mjs';
 import test_list_model from './models/test_list.mjs';
@@ -11,7 +10,8 @@ import userModel from './models/user.mjs';
 // script imports
 import add_test_data from './test/generateTestData.mjs';
 import { run_test } from './controllers/testHandler.js';
-import { create_new_user, get_current_user, get_all_tests } from './utils/userUtils.js';
+import * as UserUtils from './utils/userUtils.js';
+import * as Database from './controllers/database.mjs';
 
 const app = express();
 const PORT = 3000;
@@ -30,7 +30,7 @@ async function main() {
   })
 
   // currently creating a new user every time until we get login working
-  create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
+  UserUtils.create_new_user("john","bob","Smith","passW0rddd...").then((user) => {
     debug("User created: " + user._id);
   })
   Database.create_base_collections();
@@ -93,7 +93,7 @@ app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
   const test = req.body.selected_test;
   if (test === 'depression' || test === 'anxiety') {
-    await run_test(get_current_user(), req.body, res, test);
+    await run_test(UserUtils.get_current_user(), req.body, res, test);
   } else {
     res.status(400).send("Unknown test type");
   }
@@ -108,7 +108,7 @@ app.post("/checkin", async (req, res) => {
   try {
     console.log("Form submitted:", req.body); // Debugging line to verify form data
     const { mood, journal } = req.body;
-    const user = await get_current_user(); // Assuming this function gets the logged-in user
+    const user = UserUtils.get_current_user(); // Assuming this function gets the logged-in user
 
     const checkin = new dailyCheckinModel({
       user_id: user._id,
@@ -133,7 +133,7 @@ app.post("/checkin", async (req, res) => {
 app.get("/tracker", function(req, res) {
   const collections = Database.collectionNames;
   const user_id = '6806ecf0fffab1e8c74dd2b9';
-  // get_all_tests(user_id,'depression')
+  // UserUtils.get_all_tests(user_id,'depression')
   res.render("pages/tracker", {collections: collections});
 })
 
