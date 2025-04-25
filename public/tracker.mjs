@@ -72,6 +72,8 @@ export async function requestCheckins() {
 
 async function debug() {
   console.log('The logged in user:');
-  const checkins = requestCheckins();
-  console.log('The daily checkins: ', checkins);
+  // const checkins = requestCheckins();
+  // console.log('The daily checkins: ', checkins);
+  const userId = document.getElementById('user_id').value;
+  console.log('User ID:', userId);
 }
