@@ -12,6 +12,10 @@ export function get_current_user() {
   return curr_user_id; // hard coded until we get a login
 }
 
+export function set_current_user(user_model) {
+  curr_user_id = user_model._id;
+}
+
 // connects a score document to the correct test type and user id
 export async function add_scoresheet(user_id, test_name, score_doc) {
   // find the user
@@ -58,7 +62,7 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
 
     // update the user id to the one we just created.
     // TODO: probably needs updated once login is working
-    curr_user_id = user_model._id;
+    set_current_user(user_model);
 
     // save user model
     await user_model.save();
