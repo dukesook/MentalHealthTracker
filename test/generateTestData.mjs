@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import userModel from '../models/user.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
 import questionsModel from '../models/questions.mjs';
@@ -32,14 +33,14 @@ async function add_document(model, document) {
 
 const sample_users = [
   {
-    user_id: '6806edccfffab1e8c74dd2cc',
+    _id: new mongoose.Types.ObjectId('6806edccfffab1e8c74dd2cc'),
     first_name: 'Brittany',
     middle_name: 'boui.1',
     last_name: 'Buttcheeks',
     password: 'big_butt_lover'
   },
   {
-    user_id: '6806ee2dfffab1e8c74dd2d5',
+    _id: new mongoose.Types.ObjectId('6806ee2dfffab1e8c74dd2d5'),
     first_name: 'Desiree',
     middle_name: 'dez2413',
     last_name: 'Tetsu',
