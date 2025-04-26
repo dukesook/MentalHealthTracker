@@ -8,20 +8,23 @@ import * as Database from '../controllers/database.mjs';
 
 export default async function add_test_data() {
   
+  Database.create_base_collections();
+
   for (const u of sample_users) {
-    const user = UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
+    const user = await UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
     console.log("added user: " + user.first_name + ".  id: " + user._id);
     u._id = user._id;
 
+    // Daily Checkins
     for (let i = 0; i < 10; i++) {
-      const dailyCheckin = generate_daily_checkin(user._id);
-      
+      const {user_id, check_in_date, mood, journal} = generate_daily_checkin(user._id);
+      await Database.createDailyCheckin(user_id, check_in_date, mood, journal);
     }
   }
   
 
   // add_data(userModel, sample_users);
-  add_data(dailyCheckinModel, sample_daily_checkins);
+  // add_data(dailyCheckinModel, sample_daily_checkins);
   // add_data(scoresModel, sample_scores);
 }
 
@@ -76,7 +79,7 @@ function generate_daily_checkin(user_id) {
   const dailyCheckin = {
     user_id: user_id,
     check_in_date: new Date(),
-    mood: randomMood(),
+    mood: randomMood,
     journal: randomJournal,
   }
   return dailyCheckin;
