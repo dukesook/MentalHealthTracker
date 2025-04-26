@@ -3,11 +3,22 @@ import userModel from '../models/user.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
 import questionsModel from '../models/questions.mjs';
 import scoresModel from '../models/scores.mjs';
+import * as UserUtils from '../utils/userUtils.js';
 
 export default async function add_test_data() {
-  add_data(userModel, sample_users);
+  
+  for (const u of sample_users) {
+    const user = UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
+    console.log("added user: " + user.first_name + ".  id: " + user._id);
+    u._id = user._id;
+  }
+  
+  // Add Checkin data
+
+
+  // add_data(userModel, sample_users);
   add_data(dailyCheckinModel, sample_daily_checkins);
-  add_data(scoresModel, sample_scores);
+  // add_data(scoresModel, sample_scores);
 }
 
 
@@ -37,20 +48,37 @@ async function add_document(model, document) {
 
 const sample_users = [
   {
-    _id: new mongoose.Types.ObjectId('6806edccfffab1e8c74dd2cc'),
+    // _id: new mongoose.Types.ObjectId('6806edccfffab1e8c74dd2cc'),
     first_name: 'Brittany',
     middle_name: 'boui.1',
     last_name: 'Buttcheeks',
     password: 'big_butt_lover'
   },
   {
-    _id: new mongoose.Types.ObjectId('6806ee2dfffab1e8c74dd2d5'),
+    // _id: new mongoose.Types.ObjectId('6806ee2dfffab1e8c74dd2d5'),
     first_name: 'Desiree',
     middle_name: 'dez2413',
     last_name: 'Tetsu',
     password: 'jellybeans123'
   }
 ];
+
+
+function generate_daily_checkin(user_id) {
+  const moods = ['happy', 'sad', 'mad', 'neutral'];
+  const randomMood = moods[Math.floor(Math.random() * moods.length)];
+  const randomJournal = 'This is a sample journal entry.';
+  const randomDate = new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30)); // Random date within the last month
+  const dailyCheckin = {
+    user_id: user_id,
+    check_in_date: new Date(),
+    mood: randomMood(),
+    journal: randomJournal,
+  }
+  return dailyCheckin;
+}
+
+
 
 
 const sample_daily_checkins = [
