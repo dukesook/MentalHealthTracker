@@ -107,18 +107,10 @@ app.get("/checkin", function(req, res) {
 
 app.post("/checkin", async (req, res) => {
   try {
-    console.log("Form submitted:", req.body); // Debugging line to verify form data
     const { mood, journal } = req.body;
-    const user = UserUtils.get_current_user_id(); // Assuming this function gets the logged-in user
+    const user_id = UserUtils.get_current_user_id();
 
-    const checkin = new dailyCheckinModel({
-      user_id: user._id,
-      check_in_date: new Date(),
-      mood,
-      journal
-    });
-
-    await checkin.save();
+    Database.createDailyCheckin(user_id, new Date(), mood, journal);
 
     res.render("pages/checkin_confirmation", { 
       message: "Thanks, check back in tomorrow!", 

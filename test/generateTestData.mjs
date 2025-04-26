@@ -4,6 +4,7 @@ import dailyCheckinModel from '../models/daily_checkin.mjs';
 import questionsModel from '../models/questions.mjs';
 import scoresModel from '../models/scores.mjs';
 import * as UserUtils from '../utils/userUtils.js';
+import * as Database from '../controllers/database.mjs';
 
 export default async function add_test_data() {
   
@@ -11,10 +12,13 @@ export default async function add_test_data() {
     const user = UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
     console.log("added user: " + user.first_name + ".  id: " + user._id);
     u._id = user._id;
+
+    for (let i = 0; i < 10; i++) {
+      const dailyCheckin = generate_daily_checkin(user._id);
+      
+    }
   }
   
-  // Add Checkin data
-
 
   // add_data(userModel, sample_users);
   add_data(dailyCheckinModel, sample_daily_checkins);

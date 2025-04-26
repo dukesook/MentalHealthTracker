@@ -120,3 +120,14 @@ export async function clear_database() {
   await scores_model.deleteMany({});
   console.log("All collections cleared.");
 }
+
+export async function createDailyCheckin(user_id, date, mood, journal) {
+  const checkin = new dailyCheckinModel({
+    user_id: user_id,
+    check_in_date: date,
+    mood,
+    journal
+  });
+
+  await checkin.save();
+}
