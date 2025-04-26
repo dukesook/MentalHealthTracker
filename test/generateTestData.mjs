@@ -55,49 +55,49 @@ const sample_users = [
 
 const sample_daily_checkins = [
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     check_in_date: new Date('2023-01-01'),
     mood: 'happy',
     journal: 'Had a great day!'
   },
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     check_in_date: new Date('2023-02-01'),
     mood: 'happy',
     journal: 'Had another great day!'
   },
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     check_in_date: new Date('2023-03-01'),
     mood: 'mad',
     journal: 'My boss was rude.'
   },
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     check_in_date: new Date('2024-04-05'),
     mood: 'neutral',
     journal: 'Just having a normal day.'
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[1]._id,
     check_in_date: new Date('2023-02-01'),
     mood: 'sad',
     journal: 'Feeling down today.'
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[1]._id,
     check_in_date: new Date('2023-03-03'),
     mood: 'sad',
     journal: 'My dog died.'
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[1]._id,
     check_in_date: new Date('2023-04-10'),
     mood: 'sad',
     journal: 'I got dumped.'
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[1]._id,
     check_in_date: new Date('2023-09-09'),
     mood: 'mad',
     journal: 'I broke my foot.'
@@ -106,7 +106,7 @@ const sample_daily_checkins = [
 
 const sample_scores = [
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     date_taken: new Date('2023-01-01'),
     Q1: 1,
     Q2: 1,
@@ -119,7 +119,7 @@ const sample_scores = [
     Q9: 1
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[1]._id,
     date_taken: new Date('2023-02-01'),
     Q1: 2,
     Q2: 2,
