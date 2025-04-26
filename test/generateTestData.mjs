@@ -14,7 +14,11 @@ export default async function add_test_data() {
 async function add_data(model, data) {
   for (let i = 0; i < data.length; i++) {
     const document = data[i];
-    await add_document(model, document);
+    try {
+      await add_document(model, document);
+    } catch (err) {
+      console.error("Error adding document:", err);
+    }
   }
 }
 
