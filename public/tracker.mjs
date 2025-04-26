@@ -80,8 +80,5 @@ async function displayDailyCheckins() {
 }
 
 async function debug() {
-  console.log('The logged in user:');
-  // const checkins = requestCheckins();
-  // console.log('The daily checkins: ', checkins);
-  console.log('User ID:', userId);
+
 }

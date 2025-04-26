@@ -13,6 +13,25 @@
   <h1>Progress Tracker</h1>
   <%- include('../partials/navbar.ejs') %>
   <button id="clearButton">Clear</button>
+
+  <h2>Daily Checkins</h2>
+  <div class="checkins-container">
+    <div class="card">
+      <h3>April 26, 2025</h3>
+      <p><strong>Mood:</strong> Happy</p>
+      <p>Had a great day at the park!</p></div>
+    <div class="card">
+      <h3>April 25, 2025</h3>
+      <p><strong>Mood:</strong> Anxious</p>
+      <p>Stressed about work, but feeling better now.</p>
+    </div>
+    <div class="card">
+      <h3>April 23, 2025</h3>
+      <p><strong>Mood:</strong> Sad</p>
+      <p>Stressed about work, but feeling better now.</p>
+    </div>
+  </div>
+
   <h2>Dump All</h2>
   <ul>
     <% collections.forEach(collection => { %>
