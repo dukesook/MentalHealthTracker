@@ -3,13 +3,15 @@ import test_list_model from '../models/test_list.mjs';
 import questions_model from '../models/questions.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
 import userModel from '../models/user.mjs';
+import scores_model from '../models/scores.mjs';
 
 export const collectionNames = [
   'dailycheckins',
   'test_lists',
   'test_questions',
   'test_types',
-  'users'
+  'users',
+  // 'scores'
 ]
 
 export async function getCollection(collectionName, userId) {
@@ -106,4 +108,15 @@ export async function get_all_tests(user_id, test_name){
   }
 
   return all_scoresheets
+}
+
+export async function clear_database() {
+  // Clear all collections in the database
+  await dailyCheckinModel.deleteMany({});
+  await test_list_model.deleteMany({});
+  // await questions_model.deleteMany({});
+  await test_types_model.deleteMany({});
+  await userModel.deleteMany({});
+  await scores_model.deleteMany({});
+  console.log("All collections cleared.");
 }

@@ -193,6 +193,17 @@ app.get('/add_test_data', async function(req, res) {
   }
 });
 
+app.get('/clear_database', async function(req, res) {
+  // WARNING - This will delete all data in the database!
+  try {
+    await Database.clear_database();
+    res.status(200).send('Database cleared!');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Something went wrong.');
+  }  
+})
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
