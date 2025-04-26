@@ -32,6 +32,7 @@ async function main() {
   // TODO: remove this once login is working
   const user = await UserUtils.get_or_create_user();
   UserUtils.set_current_user_id(user._id);
+  debug("current user: " + user.first_name + ".  id: " + user._id);
 
   Database.create_base_collections();
 }
@@ -133,10 +134,8 @@ app.post("/checkin", async (req, res) => {
 app.get("/tracker", async function(req, res) {
   const collections = Database.collectionNames;
   const user_id = UserUtils.get_current_user_id();
-  const depression_scores = await Database.get_all_tests(user_id,'depression')
-  console.log("Depression scores: ", depression_scores);
-  const anxiety_scores = await Database.get_all_tests(user_id,'anxiety')
-  console.log("Anxiety scores: ", anxiety_scores);
+  // const depression_scores = await Database.get_all_tests(user_id,'depression')
+  // const anxiety_scores = await Database.get_all_tests(user_id,'anxiety')
   res.render("pages/tracker", {
     collections: collections,
     user_id: user_id
