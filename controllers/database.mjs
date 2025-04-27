@@ -14,7 +14,7 @@ export const collectionNames = [
   // 'scores'
 ]
 
-export async function getCollection(collectionName, userId) {
+export async function getCollection(collectionName, userId = null) {
   const model = getModelByCollectionName(collectionName);
   try {
     const query = userId ? { user_id: userId } : {};  // <-- build query based on userId
@@ -44,7 +44,7 @@ export function getAvailableTests() {
   return test_list;
 }
 
-function getModelByCollectionName(collectionName) {
+export function getModelByCollectionName(collectionName) {
   switch (collectionName) {
     case 'dailycheckins':
       return dailyCheckinModel;
