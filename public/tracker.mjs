@@ -1,6 +1,5 @@
 
 
-const clearButton = document.getElementById('clearButton');
 const resultsContainer = document.getElementById('results');
 const debugButton = document.getElementById('debugButton');
 const userId = document.getElementById('user_id').value;
@@ -16,17 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  clearButton.onclick = clear;
-
   debugButton.onclick = debug;
 
   dailyCheckinsButton.onclick = displayDailyCheckins;
 });
 
-
-function clear() {
-  resultsContainer.innerHTML = ''; // Clear previous results
-}
 
 
 async function displayCollection(collection) {
