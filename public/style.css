@@ -190,7 +190,11 @@ h2, h1, h3, p, li {
 .card {
   border: 1px solid black;
   border-radius: 8px;
-  box-shadow: 10px 10px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 2px 0px rgba(0, 0, 0, 0.2);
   margin: 20px;
   padding: 10px;
+}
+
+.card:hover {
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.3);
 }
