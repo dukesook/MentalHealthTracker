@@ -137,8 +137,19 @@ app.get("/tracker", async function(req, res) {
 })
 
 
+app.get("/query", async function(req, res) {
+  const collectionName = req.query.collection;
+  const userId = UserUtils.get_current_user_id();
+  Database.getCollection(collectionName, userId).then((collection) => {
+    res.json(collection);
+  }).catch((error) => {
+    console.error("Error fetching collection:", error);
+    res.status(500).send("An error occurred while fetching collection.");
+  })
+})
+
+
 app.get("/query/all", async function(req, res) {
-  // get query string from req
   const collectionName = req.query.collection;
   Database.getCollection(collectionName).then((collection) => {
     res.json(collection);
@@ -148,19 +159,6 @@ app.get("/query/all", async function(req, res) {
   })
 })
 
-app.get("/query", async function(req, res) {
-  const query = req.query;
-  console.log("Query received:", query);
-  if (!query.collection) {
-    
-  }
-  const collectionName = query.collection;
-  const userId = UserUtils.get_current_user_id();
-  Database.getCollection(collectionName, userId).then((collection) => {
-    res.json(collection);
-  });
-
-})
 
 app.get("/settings", function(req, res) {
   res.render("pages/settings");
