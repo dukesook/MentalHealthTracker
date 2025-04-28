@@ -193,6 +193,7 @@ h2, h1, h3, p, li {
   box-shadow: 5px 5px 2px 0px rgba(0, 0, 0, 0.2);
   margin: 20px;
   padding: 10px;
+  max-width: 15%;
 }
 
 .card:hover {
