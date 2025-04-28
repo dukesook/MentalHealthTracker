@@ -75,12 +75,12 @@ function getMock_dailyCheckin() {
 
 
 describe('createDailyCheckin()', async() => {
-  it('should create a daily checkin', () => {
+  it('should create a daily checkin', async() => {
 
     vi.mock('../models/daily_checkin.mjs', getMock_dailyCheckin);
 
     const fakeUserId = new mongoose.Types.ObjectId();
-    Database.createDailyCheckin(fakeUserId, new Date(), 'mood', 'journal');
+    await Database.createDailyCheckin(fakeUserId, new Date(), 'mood', 'journal');
   });
 });
 

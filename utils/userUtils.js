@@ -3,6 +3,7 @@ import userModel from '../models/user.mjs';
 import test_list_model from '../models/test_list.mjs';
 import test_types_model from '../models/test_types.mjs';
 import scores_model from '../models/scores.mjs';
+import mongoose from 'mongoose'
 
 // TODO: remove, shouldn't be hardcoded but is at this time for testing
 let curr_user_id = 0; 
@@ -12,8 +13,12 @@ export function get_current_user_id() {
   return curr_user_id; // hard coded until we get a login
 }
 
-export function set_current_user_id(user_model) {
-  curr_user_id = user_model._id;
+export function set_current_user_id(user_id) {
+  console.log(user_id)
+  if (!(user_id instanceof mongoose.Types.ObjectId)) {
+    throw new error('user_id is not of type ObjectId');
+  }
+  curr_user_id = user_id;
 }
 
 export async function get_or_create_user() {
