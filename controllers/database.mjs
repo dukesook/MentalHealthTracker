@@ -4,6 +4,14 @@ import questions_model from '../models/questions.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
 import userModel from '../models/user.mjs';
 import scores_model from '../models/scores.mjs';
+import mongoose from 'mongoose';
+
+const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
+
+mongoose.connect(databaseUri).then(() => {
+  console.log("Connected to MongoDB!");
+});
+
 
 export const collectionNames = [
   'dailycheckins',

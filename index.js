@@ -1,13 +1,4 @@
-// imports
 import express from 'express';
-import mongoose from 'mongoose';
-// model imports
-import test_types_model from './models/test_types.mjs';
-import test_list_model from './models/test_list.mjs';
-import questions_model from './models/questions.mjs';
-import dailyCheckinModel from './models/daily_checkin.mjs';
-import userModel from './models/user.mjs';
-// script imports
 import add_test_data from './test/generateTestData.mjs';
 import { run_test } from './controllers/testHandler.js';
 import * as UserUtils from './utils/userUtils.js';
@@ -15,7 +6,6 @@ import * as Database from './controllers/database.mjs';
 
 const app = express();
 const PORT = 3000;
-const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
 const DEBUG = true;
 
 function debug(message) {
@@ -25,9 +15,6 @@ function debug(message) {
 }
 
 async function main() {
-  mongoose.connect(databaseUri).then(() => {
-    debug("Connected to MongoDB!");
-  });
 
   // TODO: remove this once login is working
   const user = await UserUtils.get_or_create_user();
@@ -83,10 +70,10 @@ app.post("/evaluation", async function(req, res) {
   // render the test questions
   debug("TEST: "+req.body.selected_test);
   res.render('pages/take_a_test',{questions:selected_questions,selected_test:req.body.selected_test})
-}catch(error){
-  console.log("ERROR: "+error)
-  return res.status(404).send("There was an error getting the test",error);
-}
+  }catch(error){
+    console.log("ERROR: "+error)
+    return res.status(404).send("There was an error getting the test",error);
+  }
 });
 
 
