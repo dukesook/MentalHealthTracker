@@ -69,7 +69,7 @@ app.get("/evaluation", function(req, res) {
 app.post("/evaluation", async function(req, res) {
   // check that quesitions document exists
   try{
-    var questions = await questions_model.findOne();
+    var questions = await Database.get_questions();
     if(!questions){
       console.log("No questions are found");
       return res.status(404).send("Test was not found");

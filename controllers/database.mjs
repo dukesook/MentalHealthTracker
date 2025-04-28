@@ -110,6 +110,10 @@ export async function get_all_tests(user_id, test_name){
   return all_scoresheets
 }
 
+export async function get_questions() {
+  return questions_model.findOne();
+}
+
 export async function clear_database() {
   // Clear all collections in the database
   await dailyCheckinModel.deleteMany({});
