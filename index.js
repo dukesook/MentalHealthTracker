@@ -166,7 +166,7 @@ app.get("/checkin", async (req, res) => {
     res.status(500).send("An error occurred while fetching prompts.");
   }
 });
- 
+
 app.get("/checkin", function(req, res) {
   res.render("pages/checkin");
 })
