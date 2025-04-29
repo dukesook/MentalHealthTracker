@@ -24,15 +24,13 @@ afterEach(() => {
 
 const saveMock = vi.fn().mockResolvedValue();
 
-function getMock_dailyCheckin() {
+vi.mock('../models/daily_checkin.mjs', () => {
   return {
     default: vi.fn(() => ({
       save: saveMock
     }))
   };
-}
-
-vi.mock('../models/daily_checkin.mjs', getMock_dailyCheckin);
+});
 
 
 test('getModel()', () => {
