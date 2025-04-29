@@ -14,7 +14,7 @@ var depression_scores_schema = new mongoose.Schema({
     Q8: Number,
     Q9: Number,
     total: Number
-    // TODO: Add more tets
+    // TODO: Add more tests
 });
 
 var scores_model = mongoose.model('scores',depression_scores_schema);

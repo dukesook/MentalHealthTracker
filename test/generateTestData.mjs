@@ -1,19 +1,42 @@
+import mongoose from 'mongoose';
 import userModel from '../models/user.mjs';
 import dailyCheckinModel from '../models/daily_checkin.mjs';
 import questionsModel from '../models/questions.mjs';
 import scoresModel from '../models/scores.mjs';
+import * as UserUtils from '../utils/userUtils.js';
+import * as Database from '../controllers/database.mjs';
 
 export default async function add_test_data() {
-  add_data(userModel, sample_users);
-  add_data(dailyCheckinModel, sample_daily_checkins);
-  add_data(scoresModel, sample_scores);
+  
+  Database.create_base_collections();
+
+  for (const u of sample_users) {
+    const user = await UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
+    console.log("added user: " + user.first_name + ".  id: " + user._id);
+    u._id = user._id;
+
+    // Daily Checkins
+    for (let i = 0; i < 10; i++) {
+      const {user_id, check_in_date, mood, journal} = generate_daily_checkin(user._id);
+      await Database.createDailyCheckin(user_id, check_in_date, mood, journal);
+    }
+  }
+  
+
+  // add_data(userModel, sample_users);
+  // add_data(dailyCheckinModel, sample_daily_checkins);
+  // add_data(scoresModel, sample_scores);
 }
 
 
 async function add_data(model, data) {
   for (let i = 0; i < data.length; i++) {
     const document = data[i];
-    await add_document(model, document);
+    try {
+      await add_document(model, document);
+    } catch (err) {
+      console.error("Error adding document:", err);
+    }
   }
 }
 
@@ -32,14 +55,14 @@ async function add_document(model, document) {
 
 const sample_users = [
   {
-    user_id: '6806edccfffab1e8c74dd2cc',
+    // _id: new mongoose.Types.ObjectId('6806edccfffab1e8c74dd2cc'),
     first_name: 'Brittany',
     middle_name: 'boui.1',
     last_name: 'Buttcheeks',
     password: 'big_butt_lover'
   },
   {
-    user_id: '6806ee2dfffab1e8c74dd2d5',
+    // _id: new mongoose.Types.ObjectId('6806ee2dfffab1e8c74dd2d5'),
     first_name: 'Desiree',
     middle_name: 'dez2413',
     last_name: 'Tetsu',
@@ -48,24 +71,77 @@ const sample_users = [
 ];
 
 
+function generate_daily_checkin(user_id) {
+  const moods = ['happy', 'sad', 'mad', 'neutral'];
+  const randomMood = moods[Math.floor(Math.random() * moods.length)];
+  const randomJournal = 'This is a sample journal entry.';
+  const randomDate = new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30)); // Random date within the last month
+  const dailyCheckin = {
+    user_id: user_id,
+    check_in_date: new Date(),
+    mood: randomMood,
+    journal: randomJournal,
+  }
+  return dailyCheckin;
+}
+
+
+
+
 const sample_daily_checkins = [
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     check_in_date: new Date('2023-01-01'),
     mood: 'happy',
     journal: 'Had a great day!'
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[0]._id,
+    check_in_date: new Date('2023-02-01'),
+    mood: 'happy',
+    journal: 'Had another great day!'
+  },
+  {
+    user_id: sample_users[0]._id,
+    check_in_date: new Date('2023-03-01'),
+    mood: 'mad',
+    journal: 'My boss was rude.'
+  },
+  {
+    user_id: sample_users[0]._id,
+    check_in_date: new Date('2024-04-05'),
+    mood: 'neutral',
+    journal: 'Just having a normal day.'
+  },
+  {
+    user_id: sample_users[1]._id,
     check_in_date: new Date('2023-02-01'),
     mood: 'sad',
     journal: 'Feeling down today.'
-  }
+  },
+  {
+    user_id: sample_users[1]._id,
+    check_in_date: new Date('2023-03-03'),
+    mood: 'sad',
+    journal: 'My dog died.'
+  },
+  {
+    user_id: sample_users[1]._id,
+    check_in_date: new Date('2023-04-10'),
+    mood: 'sad',
+    journal: 'I got dumped.'
+  },
+  {
+    user_id: sample_users[1]._id,
+    check_in_date: new Date('2023-09-09'),
+    mood: 'mad',
+    journal: 'I broke my foot.'
+  },
 ];
 
 const sample_scores = [
   {
-    user_id: sample_users[0].user_id,
+    user_id: sample_users[0]._id,
     date_taken: new Date('2023-01-01'),
     Q1: 1,
     Q2: 1,
@@ -78,7 +154,7 @@ const sample_scores = [
     Q9: 1
   },
   {
-    user_id: sample_users[1].user_id,
+    user_id: sample_users[1]._id,
     date_taken: new Date('2023-02-01'),
     Q1: 2,
     Q2: 2,

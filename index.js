@@ -29,7 +29,6 @@ import confirmationRoutes from './routes/confirmation.mjs';
 
 const app = express();
 const PORT = 3000;
-const databaseUri = 'mongodb://localhost:27017/mentalHealthTracker';
 const DEBUG = true;
 
 function debug(message) {
@@ -39,13 +38,11 @@ function debug(message) {
 }
 
 async function main() {
-  mongoose.connect(databaseUri).then(() => {
-    debug("Connected to MongoDB!");
-  });
 
   // TODO: remove this once login is working
   const user = await UserUtils.get_or_create_user();
   UserUtils.set_current_user_id(user._id);
+  debug("current user: " + user.first_name + ".  id: " + user._id);
 
   Database.create_base_collections();
 }
@@ -81,7 +78,7 @@ app.get("/evaluation", function(req, res) {
 app.post("/evaluation", async function(req, res) {
   // check that quesitions document exists
   try{
-    var questions = await questions_model.findOne();
+    var questions = await Database.get_questions();
     if(!questions){
       console.log("No questions are found");
       return res.status(404).send("Test was not found");
@@ -95,10 +92,10 @@ app.post("/evaluation", async function(req, res) {
   // render the test questions
   debug("TEST: "+req.body.selected_test);
   res.render('pages/take_a_test',{questions:selected_questions,selected_test:req.body.selected_test});
-}catch(error){
-  console.log("ERROR: "+error);
-  return res.status(404).send("There was an error getting the test",error);
-}
+  }catch(error){
+    console.log("ERROR: "+error);
+    return res.status(404).send("There was an error getting the test",error);
+  }
 });
 
 app.post('/submit_test',async function(req,res){
@@ -165,6 +162,27 @@ app.get("/checkin", async (req, res) => {
 
     res.render("pages/checkin", { prompts, mood: combinedMood });
   } catch (error) {
+    console.error("Error fetching prompts:", error.message);
+    res.status(500).send("An error occurred while fetching prompts.");
+  }
+});
+ 
+app.get("/checkin", function(req, res) {
+  res.render("pages/checkin");
+})
+
+app.post("/checkin", async (req, res) => {
+  try {
+    const { mood, journal } = req.body;
+    const user_id = UserUtils.get_current_user_id();
+
+    Database.createDailyCheckin(user_id, new Date(), mood, journal);
+
+    res.render("pages/checkin_confirmation", { 
+      message: "Thanks, check back in tomorrow!", 
+      mood // pass the mood to the confirmation page
+    });
+  } catch (error) {
     console.error("Unexpected error in /checkin route:", error.message);
 
     const fallbackPrompts = [
@@ -179,18 +197,35 @@ app.get("/checkin", async (req, res) => {
   }
 });
 
-app.get("/tracker", function(req, res) {
+app.get("/tracker", async function(req, res) {
   const collections = Database.collectionNames;
-  const user_id = '6806ecf0fffab1e8c74dd2b9';
-  // UserUtils.get_all_tests(user_id,'depression')
-  res.render("pages/tracker", {collections: collections});
+  const user_id = UserUtils.get_current_user_id();
+  const depression_scores = await Database.get_all_tests(user_id,'depression')
+  console.log("Depression scores: ",depression_scores);
+  const anxiety_scores = await Database.get_all_tests(user_id,'anxiety')
+  console.log("Anxiety scores: ",anxiety_scores);
+  res.render("pages/tracker", {
+    collections: collections,
+    user_id: user_id
+  });
+})
+
+
+app.get("/query", async function(req, res) {
+  const collectionName = req.query.collection;
+  const userId = UserUtils.get_current_user_id();
+  Database.getCollection(collectionName, userId).then((collection) => {
+    res.json(collection);
+  }).catch((error) => {
+    console.error("Error fetching collection:", error);
+    res.status(500).send("An error occurred while fetching collection.");
+  })
 });
 
 app.get("/query/all", async function(req, res) {
-  // get query string from req
   const collectionName = req.query.collection;
 
-  Database.accessCollection(collectionName).then((collection) => {
+  Database.getCollection(collectionName).then((collection) => {
     res.json(collection);
   }).catch((error) => {
     console.error("Error fetching collection:", error);
@@ -219,6 +254,17 @@ app.get('/add_test_data', async function(req, res) {
     res.status(500).send('Something went wrong.');
   }
 });
+
+app.get('/clear_database', async function(req, res) {
+  // WARNING - This will delete all data in the database!
+  try {
+    await Database.clear_database();
+    res.status(200).send('Database cleared!');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Something went wrong.');
+  }  
+})
 
 app.get("/test_api", async (req, res) => {
   try {
