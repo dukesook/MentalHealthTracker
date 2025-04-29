@@ -1,6 +1,19 @@
-// imports
+// Load the .env file
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import mongoose from 'mongoose';
+import axios from 'axios'; // Import axios for making HTTP requests
+
+console.log("Loaded API Key:", process.env.OPENROUTER_API_KEY);
+
+const API_KEY = process.env.OPENROUTER_API_KEY;
+if (!API_KEY) {
+  console.error("Error: OPENROUTER_API_KEY is not defined. Check your .env file.");
+  process.exit(1); // Exit the application if the API key is missing
+}
+
 // model imports
 import test_types_model from './models/test_types.mjs';
 import test_list_model from './models/test_list.mjs';
@@ -12,6 +25,7 @@ import add_test_data from './test/generateTestData.mjs';
 import { run_test } from './controllers/testHandler.js';
 import * as UserUtils from './utils/userUtils.js';
 import * as Database from './controllers/database.mjs';
+import confirmationRoutes from './routes/confirmation.mjs';
 
 const app = express();
 const PORT = 3000;
@@ -38,12 +52,12 @@ async function main() {
 
 main().catch(err => console.log(err));
 
-
 app.set("view engine", "ejs"); // Use EJS as the template engine
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+app.use("/", confirmationRoutes);
 
 app.get("/", function(req, res) {
   let loggedIn = true; // TODO - Somehow check if user is logged in
@@ -54,8 +68,7 @@ app.get("/", function(req, res) {
   else {
     res.render("pages/login");
   }
-})
-
+});
 
 app.get("/evaluation", function(req, res) {
   const test_list = Database.getAvailableTests();
@@ -63,7 +76,7 @@ app.get("/evaluation", function(req, res) {
 
   // render test selection page
   res.render("pages/evaluation",{test_list:test_list});
-})
+});
 
 app.post("/evaluation", async function(req, res) {
   // check that quesitions document exists
@@ -81,13 +94,12 @@ app.post("/evaluation", async function(req, res) {
   }
   // render the test questions
   debug("TEST: "+req.body.selected_test);
-  res.render('pages/take_a_test',{questions:selected_questions,selected_test:req.body.selected_test})
+  res.render('pages/take_a_test',{questions:selected_questions,selected_test:req.body.selected_test});
 }catch(error){
-  console.log("ERROR: "+error)
+  console.log("ERROR: "+error);
   return res.status(404).send("There was an error getting the test",error);
 }
 });
-
 
 app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
@@ -99,61 +111,96 @@ app.post('/submit_test',async function(req,res){
   }
 });
 
- 
-app.get("/checkin", function(req, res) {
-  res.render("pages/checkin");
-})
-
-app.post("/checkin", async (req, res) => {
+app.get("/checkin", async (req, res) => {
   try {
-    console.log("Form submitted:", req.body); // Debugging line to verify form data
-    const { mood, journal } = req.body;
-    const user = UserUtils.get_current_user_id(); // Assuming this function gets the logged-in user
+    const { mood } = req.query; // Get the moods from the query string
+    if (!mood) {
+      return res.render("pages/checkin", { prompts: [], mood: null });
+    }
 
-    const checkin = new dailyCheckinModel({
-      user_id: user._id,
-      check_in_date: new Date(),
-      mood,
-      journal
-    });
+    const moods = Array.isArray(mood) ? mood : [mood]; // Ensure moods is an array
+    const combinedMood = moods.join(" and "); // Combine moods into a single string
 
-    await checkin.save();
+    const prompt = `Give 5 short, one sentence long journal prompts for someone feeling ${combinedMood}.`;
 
-    res.render("pages/checkin_confirmation", { 
-      message: "Thanks, check back in tomorrow!", 
-      mood // pass the mood to the confirmation page
-    });
+    let prompts = [];
+    try {
+      const response = await axios.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          model: "mistralai/mistral-7b-instruct:free", // Updated model
+          messages: [{ role: "user", content: prompt }],
+          max_tokens: 170, // Reduced max_tokens for efficiency
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY}`,
+          },
+        }
+      );
+
+      if (response.data && response.data.choices && response.data.choices.length > 0) {
+        prompts = response.data.choices[0]?.message?.content?.trim().split("\n").filter(Boolean);
+        if (prompts && prompts.length > 0) {
+          // Sanitize prompts to remove numbers and quotation marks
+          prompts = prompts.map(prompt => prompt.replace(/^\d+\.\s*|["']/g, "").trim());
+        }
+      }
+    } catch (apiError) {
+      console.error("Error fetching prompts from API:", apiError.message);
+    }
+
+    // Use fallback prompts if API call fails or returns invalid data
+    if (!prompts || prompts.length === 0) {
+      console.warn("Using fallback prompts due to API failure or invalid response.");
+      prompts = [
+        "What made you smile today?",
+        "What is one thing you are grateful for?",
+        "What is something you are looking forward to?",
+        "What is a challenge you overcame recently?",
+        "What is one thing you love about yourself?"
+      ];
+    }
+
+    res.render("pages/checkin", { prompts, mood: combinedMood });
   } catch (error) {
-    console.error("Error saving daily check-in:", error);
-    res.status(500).send("An error occurred while saving your check-in.");
+    console.error("Unexpected error in /checkin route:", error.message);
+
+    const fallbackPrompts = [
+      "What made you smile today?",
+      "What is one thing you are grateful for?",
+      "What is something you are looking forward to?",
+      "What is a challenge you overcame recently?",
+      "What is one thing you love about yourself?"
+    ];
+
+    res.render("pages/checkin", { prompts: fallbackPrompts, mood: null });
   }
 });
-
 
 app.get("/tracker", function(req, res) {
   const collections = Database.collectionNames;
   const user_id = '6806ecf0fffab1e8c74dd2b9';
   // UserUtils.get_all_tests(user_id,'depression')
   res.render("pages/tracker", {collections: collections});
-})
-
+});
 
 app.get("/query/all", async function(req, res) {
   // get query string from req
   const collectionName = req.query.collection;
+
   Database.accessCollection(collectionName).then((collection) => {
     res.json(collection);
   }).catch((error) => {
     console.error("Error fetching collection:", error);
     res.status(500).send("An error occurred while fetching collection.");
-  })
-})
-
+  });
+});
 
 app.get("/settings", function(req, res) {
   res.render("pages/settings");
-})
-
+});
 
 app.get("/login", function(req, res) {
   res.render("pages/login");
@@ -163,7 +210,6 @@ app.get("/register", function(req, res) {
   res.render("pages/register");
 });
 
-
 app.get('/add_test_data', async function(req, res) {
   try {
     await add_test_data();
@@ -171,6 +217,58 @@ app.get('/add_test_data', async function(req, res) {
   } catch (err) {
     console.error(err);
     res.status(500).send('Something went wrong.');
+  }
+});
+
+app.get("/test_api", async (req, res) => {
+  try {
+    const response = await axios.post(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        model: "mistralai/mistral-7b-instruct:free", // Updated model
+        messages: [{ role: "user", content: "Test API key with OpenRouter." }],
+        max_tokens: 50,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_KEY}`,
+        },
+      }
+    );
+
+    console.log("Full OpenRouter Response:", response.data);
+
+    const reply = response.data.choices[0].message.content;
+    console.log("Generated Reply:", reply);
+
+    res.json({ reply });
+  } catch (error) {
+    console.error("Error testing OpenRouter API:", error.message);
+    if (error.response) {
+      console.error("Error Details:", error.response.data);
+    }
+    res.status(500).send("An error occurred while testing the API.");
+  }
+});
+
+//see the API's status
+app.get("/test_key", async (req, res) => {
+  try {
+    const response = await axios.get("https://openrouter.ai/api/v1/auth/key", {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    console.log("API Key Test Response:", response.data);
+    res.json({ success: true, data: response.data });
+  } catch (error) {
+    console.error("Error testing API key:", error.message);
+    if (error.response) {
+      console.error("Error Details:", error.response.data);
+    }
+    res.status(500).json({ success: false, message: "Failed to test API key." });
   }
 });
 
