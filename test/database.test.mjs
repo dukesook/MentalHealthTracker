@@ -1,4 +1,5 @@
 import {vi, describe, it, expect, test} from 'vitest';
+import {beforeEach, beforeAll, afterEach} from 'vitest'
 import * as Database from '../controllers/database.mjs';
 import test_types_model from '../models/test_types.mjs';
 import test_list_model from '../models/test_list.mjs';
@@ -8,9 +9,31 @@ import userModel from '../models/user.mjs';
 import scores_model from '../models/scores.mjs';
 import mongoose from 'mongoose'
 
-// expect.toBe();
-// expect.toBeInstanceOf();
-// expect.toBeDefined();
+beforeEach(() => {
+  // runs before each test
+})
+
+beforeAll(() => {
+  // runs once before all tests
+})
+
+afterEach(() => {
+  vi.clearAllMocks();
+})
+
+
+const saveMock = vi.fn().mockResolvedValue();
+
+function getMock_dailyCheckin() {
+  return {
+    default: vi.fn(() => ({
+      save: saveMock
+    }))
+  };
+}
+
+vi.mock('../models/daily_checkin.mjs', getMock_dailyCheckin);
+
 
 test('getModel()', () => {
   expect(Database.getModel('dailycheckins')).toBeDefined();
@@ -31,20 +54,9 @@ test('clear_database()', async() => {
 
 });
 
-function getMock_dailyCheckin() {
-  return {
-    default: vi.fn(() => ({
-      save: vi.fn().mockResolvedValue()
-    }))
-  };
-}
-
 
 describe('createDailyCheckin()', async() => {
   it('should create a daily checkin', async() => {
-
-    vi.mock('../models/daily_checkin.mjs', getMock_dailyCheckin);
-
     const fakeUserId = new mongoose.Types.ObjectId();
     await Database.createDailyCheckin(fakeUserId, new Date(), 'mood', 'journal');
     expect(dailyCheckinModel).toHaveBeenCalledWith(
@@ -54,13 +66,33 @@ describe('createDailyCheckin()', async() => {
       mood: 'mood',
       journal: 'journal'
     });
+
+    expect(saveMock).toBeCalled();
+    expect(saveMock).toBeCalledTimes(1);
+    expect(saveMock).toHaveBeenCalledOnce();
   });
 });
+
+
+
+
+
+
+
+
+
 
 /*
 vi.mock()
   - "When you import this module, replace it with this fake version."
   - Argument #1 - The path to the module to be mocked
   - Argument #2 - A Function that returns an object to replace the module
-  - Returns - 
+  - Returns - Nothing
+
+vi.fn()
+  - "Returns a Mock Function"
+  - 
+
+Mock Function
+  - mockResolvedValue() - returns a promise
 */
