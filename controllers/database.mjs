@@ -133,12 +133,13 @@ export async function clear_database() {
   console.log("All collections cleared.");
 }
 
-export async function createDailyCheckin(user_id, date, mood, journal) {
+export async function createDailyCheckin(user_id, date, mood, selected_prompt, journal_entry) {
   const checkin = new dailyCheckinModel({
     user_id: user_id,
     check_in_date: date,
     mood,
-    journal
+    selected_prompt,
+    journal_entry
   });
 
   await checkin.save();

@@ -6,10 +6,15 @@
   <title>Check-In Confirmation</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body onload="onload()">
   <%- include('../partials/navbar.ejs') %>
 
   <h1>Thank you for sharing!</h1>
+  <h2>Your Check-In:</h2>
+  <p><strong>Mood:</strong> <%= mood %></p>
+  <p><strong>Prompt:</strong> <%= selected_prompt %></p>
+  <p><strong>Journal Entry:</strong> <%= journal_entry %></p>
+
   <h2>Feedback:</h2>
   <p><%= feedback %></p>
 
@@ -24,5 +29,8 @@
   <p><%= affirmation %></p>
 
   <a href="/">Go back to the homepage</a>
+
+  <script src="/script.js"></script>
+  
 </body>
 </html>

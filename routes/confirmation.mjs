@@ -27,7 +27,7 @@ router.post("/submit_journal", async (req, res) => {
     console.log(`User wrote journal entry: "${journal_entry}"`);
 
     const promptMessage = `The user feels ${mood} and wrote: "${journal_entry}". 
-Provide a JSON response in ENGLISH with: 
+Provide a JSON response in English with: 
 - "message": feedback on the journal entry,
 - "activities": an array of 5 short activity suggestions to improve their day,
 - "affirmation": a motivating affirmation.
@@ -44,15 +44,16 @@ Respond in this format:
     };
 
     const payload = {
-      model: "mistralai/mistral-7b-instruct:free", // Updated model
+      model: "mistralai/mistral-7b-instruct:free", 
       messages: [{ role: "user", content: promptMessage }],
-      max_tokens: 250, // Reduced max_tokens for efficiency
+      max_tokens: 250, 
     };
 
     console.log("Sending request to AI API...");
     console.log("Request Headers:", headers);
     console.log("Request Payload:", JSON.stringify(payload, null, 2));
 
+    //ai API call
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       payload,
@@ -62,11 +63,11 @@ Respond in this format:
     console.log("Received response from AI API:", JSON.stringify(response.data, null, 2));
 
     let rawContent = response.data?.choices?.[0]?.message?.content?.trim();
-    if (!rawContent) {
+    if (!rawContent) { //defualt response if no respone is given
       console.error("API response is empty or invalid.");
       rawContent = JSON.stringify({
         message: "The AI is currently unavailable. Here's some general feedback to help you reflect.",
-        activities: [
+        activities: [ 
           "Take a walk outside and enjoy nature.",
           "Write down three things you're grateful for.",
           "Spend 10 minutes meditating or practicing deep breathing.",
@@ -85,16 +86,15 @@ Respond in this format:
     } catch (parseError) {
       console.error("Error parsing JSON:", parseError.message);
 
-      // Attempt to sanitize the response by fixing common issues
       try {
-        rawContent = rawContent.replace(/,\s*$/, ""); // Remove trailing commas
-        rawContent = rawContent.replace(/"([^"]*)$/, '"$1"'); // Fix unterminated strings
+        rawContent = rawContent.replace(/,\s*$/, "");
+        rawContent = rawContent.replace(/"([^"]*)$/, '"$1"'); 
         parsedResponse = JSON.parse(rawContent);
         console.warn("Sanitized and successfully parsed the response.");
       } catch (sanitizeError) {
         console.error("Sanitization failed:", sanitizeError.message);
 
-        // Fallback to default values if parsing fails
+        // result to default values if parsing fails
         parsedResponse = {
           message: "The AI response could not be processed. Here's some general feedback to help you reflect.",
           activities: [
@@ -112,7 +112,7 @@ Respond in this format:
     const feedback = parsedResponse.message || "Feedback is not available.";
     const activities = parsedResponse.activities || ["No activities available."];
     const affirmation = parsedResponse.affirmation || "Stay strong and try again soon.";
-
+//logs the response of the API
     console.log("Extracted Feedback:", feedback);
     console.log("Extracted Activities:", activities);
     console.log("Extracted Affirmation:", affirmation);
@@ -122,7 +122,10 @@ Respond in this format:
       activities,
       affirmation,
       mood,
+      selected_prompt, // pass the selected_prompt to the submission page
+      journal_entry // pass the journal_entry to the submission page
     });
+    
   } catch (error) {
     console.error("Error submitting journal:", error.message);
     if (error.response) {

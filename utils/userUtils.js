@@ -45,7 +45,7 @@ export async function add_scoresheet(user_id, test_name, score_doc) {
   // add the score document id to the list of tests, thus linking them
   test_list.list.push({
     date: new Date(),
-    test_results_id: score_doc._id
+    test_results_id: score_doc._id,
   });
   // don't forget to save the test list to update it
   await test_list.save();
@@ -53,29 +53,29 @@ export async function add_scoresheet(user_id, test_name, score_doc) {
 
 // create a new user, also creates the necessary database scaffolding/base collections
 export async function create_new_user(first_name, middle_name, last_name, password) {
-    // user model
-    const user_model = new userModel({
-        first_name,
-        middle_name,
-        last_name,
-        password
-    });
-    // create test types and link it to the user
-    const test_types = new test_types_model({ user_id: user_model._id });
-    user_model.tests = test_types._id;
+  // user model
+  const user_model = new userModel({
+    first_name,
+    middle_name,
+    last_name,
+    password,
+  });
+  // create test types and link it to the user
+  const test_types = new test_types_model({ user_id: user_model._id });
+  user_model.tests = test_types._id;
 
-    // create depresion tests list and link it to the test types collection
-    const dep_list = new test_list_model();
-    test_types.depression = dep_list._id;
-    await dep_list.save();
+  // create depresion tests list and link it to the test types collection
+  const dep_list = new test_list_model();
+  test_types.depression = dep_list._id;
+  await dep_list.save();
 
-    // create the anxiety list and link it to the test types collection
-    const anx_list = new test_list_model();
-    test_types.anxiety = anx_list._id;
-    await anx_list.save();
+  // create the anxiety list and link it to the test types collection
+  const anx_list = new test_list_model();
+  test_types.anxiety = anx_list._id;
+  await anx_list.save();
 
-    // save test types to update it
-    await test_types.save();
+  // save test types to update it
+  await test_types.save();
 
     // save user model
     await user_model.save();

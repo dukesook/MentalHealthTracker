@@ -173,14 +173,18 @@ app.get("/checkin", function(req, res) {
 
 app.post("/checkin", async (req, res) => {
   try {
-    const { mood, journal } = req.body;
+    const { mood, selected_prompt, journal_entry } = req.body;
     const user_id = UserUtils.get_current_user_id();
 
-    Database.createDailyCheckin(user_id, new Date(), mood, journal);
+    // Save the daily check-in to the database
+    await Database.createDailyCheckin(user_id, new Date(), mood, selected_prompt, journal_entry);
 
+    // Render the confirmation page with the check-in data
     res.render("pages/checkin_confirmation", { 
-      message: "Thanks, check back in tomorrow!", 
-      mood // pass the mood to the confirmation page
+      mood,
+      selected_prompt,
+      journal_entry,
+      message: "Thanks, check back in tomorrow!"
     });
   } catch (error) {
     console.error("Unexpected error in /checkin route:", error.message);
@@ -209,7 +213,7 @@ app.get("/tracker", async function(req, res) {
     user_id: user_id
   });
 })
-
+;
 
 app.get("/query", async function(req, res) {
   const collectionName = req.query.collection;
