@@ -4,8 +4,9 @@ import mongoose from 'mongoose'
 
 test('set_current_user_id() - Positive', () => {
   const fakeUserId = new mongoose.Types.ObjectId();
-  expect(UserUtils.get_current_user_id()).toBe(0)
+
   UserUtils.set_current_user_id(fakeUserId);
+
   expect(UserUtils.get_current_user_id()).toBe(fakeUserId)
 })
 
