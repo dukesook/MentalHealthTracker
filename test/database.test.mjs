@@ -56,13 +56,16 @@ test('clear_database()', async() => {
 describe('createDailyCheckin()', async() => {
   it('should create a daily checkin', async() => {
     const fakeUserId = new mongoose.Types.ObjectId();
-    await Database.createDailyCheckin(fakeUserId, new Date(), 'mood', 'journal');
+    const mood = 'pissed off';
+    const selected_prompt = 'bro, do you even lift?';
+    await Database.createDailyCheckin(fakeUserId, new Date(), mood, selected_prompt, 'journal');
     expect(dailyCheckinModel).toHaveBeenCalledWith(
     {
       user_id: fakeUserId,
       check_in_date: expect.any(Date),
-      mood: 'mood',
-      journal: 'journal'
+      mood: mood,
+      selected_prompt: selected_prompt,
+      journal_entry: 'journal'
     });
 
     expect(saveMock).toBeCalled();
