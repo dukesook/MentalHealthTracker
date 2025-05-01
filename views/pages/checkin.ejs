@@ -246,7 +246,7 @@
   </form>
 
   <% if (mood && prompts && prompts.length > 0) { %>
-    <h2>Short Journal Prompts for Feeling <%= mood %>:</h2>
+    <h2>Journal Prompts for Feeling <%= mood %>:</h2>
     <form method="post" action="/submit_journal">
       <input type="hidden" name="mood" value="<%= mood %>">
       <label for="journalPrompt">Select a prompt:</label>

@@ -118,7 +118,7 @@ app.get("/checkin", async (req, res) => {
     const moods = Array.isArray(mood) ? mood : [mood]; // Ensure moods is an array
     const combinedMood = moods.join(" and "); // Combine moods into a single string
 
-    const prompt = `Give 5 short, one sentence long journal prompts for someone feeling ${combinedMood}.`;
+    const prompt = `Give 5 short, unique, and one sentence long journal prompts for someone feeling ${combinedMood}.`;
 
     let prompts = [];
     try {
@@ -275,7 +275,7 @@ app.get("/test_api", async (req, res) => {
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "mistralai/mistral-7b-instruct:free", // Updated model
+        model: "mistralai/mistral-7b-instruct:free", 
         messages: [{ role: "user", content: "Test API key with OpenRouter." }],
         max_tokens: 50,
       },

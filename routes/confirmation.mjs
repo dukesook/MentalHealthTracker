@@ -27,14 +27,14 @@ router.post("/submit_journal", async (req, res) => {
     console.log(`User wrote journal entry: "${journal_entry}"`);
 
     const promptMessage = `The user feels ${mood} and wrote: "${journal_entry}". 
-Provide a JSON response in English with: 
-- "message": feedback on the journal entry,
-- "activities": an array of 5 short activity suggestions to improve their day,
-- "affirmation": a motivating affirmation.
+Provide a JSON response in ENGLISH with: 
+- "message": feedback for the user,
+- "activities": an array of 5 short, creative activity suggestions to improve their day (no numbering),
+- "affirmation": a motivating affirmation,
 Respond in this format:
 {
   "message": "...",
-  "activities": ["...", "...", "...", "...", "..."],
+  "activities": ["...", "...", "...", "...", "..."] ,
   "affirmation": "..."
 }`;
 
@@ -46,7 +46,7 @@ Respond in this format:
     const payload = {
       model: "mistralai/mistral-7b-instruct:free", 
       messages: [{ role: "user", content: promptMessage }],
-      max_tokens: 250, 
+      max_tokens: 350, 
     };
 
     console.log("Sending request to AI API...");
