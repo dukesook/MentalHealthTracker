@@ -1,6 +1,8 @@
 import express from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import * as Database from '../controllers/database.mjs';
+import * as UserUtils from '../utils/userUtils.js';
 
 dotenv.config();
 
@@ -9,7 +11,6 @@ const API_KEY = process.env.OPENROUTER_API_KEY;
 
 router.post("/submit_journal", async (req, res) => {
   try {
-    console.log("Incoming Request Body:", req.body);
 
     const { mood, selected_prompt, journal_entry } = req.body;
 
@@ -23,8 +24,6 @@ router.post("/submit_journal", async (req, res) => {
       });
     }
 
-    console.log(`User selected prompt: "${selected_prompt}"`);
-    console.log(`User wrote journal entry: "${journal_entry}"`);
 
     const promptMessage = `The user feels ${mood} and wrote: "${journal_entry}". 
 Provide a JSON response in ENGLISH with: 
@@ -49,18 +48,12 @@ Respond in this format:
       max_tokens: 350, 
     };
 
-    console.log("Sending request to AI API...");
-    console.log("Request Headers:", headers);
-    console.log("Request Payload:", JSON.stringify(payload, null, 2));
-
     //ai API call
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       payload,
       { headers }
     );
-
-    console.log("Received response from AI API:", JSON.stringify(response.data, null, 2));
 
     let rawContent = response.data?.choices?.[0]?.message?.content?.trim();
     if (!rawContent) { //defualt response if no respone is given
@@ -77,8 +70,6 @@ Respond in this format:
         affirmation: "You are doing your best, and that's enough. Keep going!"
       });
     }
-
-    console.log("Raw Response Content:", rawContent);
 
     let parsedResponse;
     try {
@@ -109,13 +100,18 @@ Respond in this format:
       }
     }
 
+    // Save to Database
+    await Database.createDailyCheckin(
+      UserUtils.get_current_user_id(),
+      new Date(),
+      mood,
+      selected_prompt,
+      journal_entry
+    )
+
     const feedback = parsedResponse.message || "Feedback is not available.";
     const activities = parsedResponse.activities || ["No activities available."];
     const affirmation = parsedResponse.affirmation || "Stay strong and try again soon.";
-//logs the response of the API
-    console.log("Extracted Feedback:", feedback);
-    console.log("Extracted Activities:", activities);
-    console.log("Extracted Affirmation:", affirmation);
 
     res.render("pages/checkin_confirmation", {
       feedback,
