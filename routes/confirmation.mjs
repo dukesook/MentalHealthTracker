@@ -106,8 +106,7 @@ Respond in this format:
       new Date(),
       mood,
       selected_prompt,
-      journal_entry
-    )
+      journal_entry)
 
     const feedback = parsedResponse.message || "Feedback is not available.";
     const activities = parsedResponse.activities || ["No activities available."];
