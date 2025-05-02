@@ -5,6 +5,8 @@ import questionsModel from '../models/questions.mjs';
 import scoresModel from '../models/scores.mjs';
 import * as UserUtils from '../utils/userUtils.js';
 import * as Database from '../controllers/database.mjs';
+import { faker } from '@faker-js/faker';
+
 
 export default async function add_test_data() {
   
@@ -17,8 +19,8 @@ export default async function add_test_data() {
 
     // Daily Checkins
     for (let i = 0; i < 10; i++) {
-      const {user_id, check_in_date, mood, journal} = generate_daily_checkin(user._id);
-      await Database.createDailyCheckin(user_id, check_in_date, mood, journal);
+      const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(user._id);
+      await Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
     }
   }
 
@@ -50,9 +52,10 @@ function generate_daily_checkin(user_id) {
   const randomDate = new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30)); // Random date within the last month
   const dailyCheckin = {
     user_id: user_id,
-    check_in_date: new Date(),
+    check_in_date: faker.date.anytime(),
     mood: randomMood,
-    journal: randomJournal,
+    selected_prompt: faker.lorem.sentence(),
+    journal_entry: faker.lorem.paragraph(),
   }
   return dailyCheckin;
 }
