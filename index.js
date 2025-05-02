@@ -155,10 +155,6 @@ app.get("/checkin", async (req, res) => {
   }
 });
 
-app.get("/checkin", function(req, res) {
-  res.render("pages/checkin");
-})
-
 app.post("/checkin", async (req, res) => {
   try {
     const { mood, selected_prompt, journal_entry } = req.body;
@@ -200,8 +196,7 @@ app.get("/tracker", async function(req, res) {
     collections: collections,
     user_id: user_id
   });
-})
-;
+});
 
 app.get("/query", async function(req, res) {
   const collectionName = req.query.collection;
@@ -256,7 +251,7 @@ app.get('/clear_database', async function(req, res) {
     console.error(err);
     res.status(500).send('Something went wrong.');
   }  
-})
+});
 
 app.get("/test_api", async (req, res) => {
   try {

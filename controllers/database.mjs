@@ -143,4 +143,5 @@ export async function createDailyCheckin(user_id, date, mood, selected_prompt, j
   });
 
   await checkin.save();
+  await checkin.save();
 }
