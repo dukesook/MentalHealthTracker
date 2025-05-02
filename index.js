@@ -155,36 +155,6 @@ app.get("/checkin", async (req, res) => {
   }
 });
 
-app.post("/checkin", async (req, res) => {
-  try {
-    const { mood, selected_prompt, journal_entry } = req.body;
-    const user_id = UserUtils.get_current_user_id();
-
-    // Save the daily check-in to the database
-    await Database.createDailyCheckin(user_id, new Date(), mood, selected_prompt, journal_entry);
-
-    // Render the confirmation page with the check-in data
-    res.render("pages/checkin_confirmation", { 
-      mood,
-      selected_prompt,
-      journal_entry,
-      message: "Thanks, check back in tomorrow!"
-    });
-  } catch (error) {
-    console.error("Unexpected error in /checkin route:", error.message);
-
-    const fallbackPrompts = [
-      "What made you smile today?",
-      "What is one thing you are grateful for?",
-      "What is something you are looking forward to?",
-      "What is a challenge you overcame recently?",
-      "What is one thing you love about yourself?"
-    ];
-
-    res.render("pages/checkin", { prompts: fallbackPrompts, mood: null });
-  }
-});
-
 app.get("/tracker", async function(req, res) {
   const collections = Database.collectionNames;
   const user_id = UserUtils.get_current_user_id();
