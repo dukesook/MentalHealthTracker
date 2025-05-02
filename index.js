@@ -1,32 +1,13 @@
-// Load the .env file
 import dotenv from 'dotenv';
-dotenv.config();
-
 import express from 'express';
-import mongoose from 'mongoose';
 import axios from 'axios'; // Import axios for making HTTP requests
-
-console.log("Loaded API Key:", process.env.OPENROUTER_API_KEY);
-
-const API_KEY = process.env.OPENROUTER_API_KEY;
-if (!API_KEY) {
-  console.error("Error: OPENROUTER_API_KEY is not defined. Check your .env file.");
-  process.exit(1); // Exit the application if the API key is missing
-}
-
-// model imports
-import test_types_model from './models/test_types.mjs';
-import test_list_model from './models/test_list.mjs';
-import questions_model from './models/questions.mjs';
-import dailyCheckinModel from './models/daily_checkin.mjs';
-import userModel from './models/user.mjs';
-// script imports
 import add_test_data from './test/generateTestData.mjs';
 import { run_test } from './controllers/testHandler.js';
 import * as UserUtils from './utils/userUtils.js';
 import * as Database from './controllers/database.mjs';
 import confirmationRoutes from './routes/confirmation.mjs';
 
+const API_KEY = process.env.OPENROUTER_API_KEY;
 const app = express();
 const PORT = 3000;
 const DEBUG = true;
@@ -45,6 +26,13 @@ async function main() {
   debug("current user: " + user.first_name + ".  id: " + user._id);
 
   Database.create_base_collections();
+
+  dotenv.config(); // Load the .env file
+  console.log("Loaded API Key:", process.env.OPENROUTER_API_KEY);
+  if (!API_KEY) {
+    console.error("Error: OPENROUTER_API_KEY is not defined. Check your .env file.");
+    process.exit(1); // Exit the application if the API key is missing
+  }
 }
 
 main().catch(err => console.log(err));
