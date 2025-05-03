@@ -2,7 +2,9 @@ import mongoose from 'mongoose'
 
 var testsSchema = new mongoose.Schema({
     depression: String,
-    anxiety: String
+    anxiety: String,
+    adhd: String,
+    ptsd: String
     // TODO: Add more tets
 });
 

@@ -4,7 +4,9 @@ const testScoreSchema = new mongoose.Schema({
   user_id: String,
   depression: Number,
   anxiety: Number,
-  other: Number,
+  adhd: Number,
+  ptsd: Number,
+  other: Number
 })
 
 const modelName = 'TestScore'; // Collection name = testscores (plural, lowercase, no underscores)
