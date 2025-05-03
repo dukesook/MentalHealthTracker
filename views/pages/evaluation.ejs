@@ -10,7 +10,41 @@
   <h1>Mental Health Evaluation</h1>
   <%- include('../partials/navbar.ejs') %>
   <main>
-    <div>
+    <div class="image-container">
+      <img src="img/test.jpg" alt="Background Image" />
+    
+      <div class="text-box left-box">
+        <h1>Anxiety</h1>
+        <p>Anxiety is a mental health condition often associated with panic attacks or social stress. 
+          In this example, the focus is on understanding the underlying causes and recognizing 
+          the reality of your anxiety.</p>
+          <div class="center">
+            <div class="button-box">
+              <h2>Learn more about the Anxiety</h2>
+              <button onclick="location.href='/anxiety'" class="anxiety">Try Me</button>
+            </div> 
+          </div>
+      </div>
+    
+      <div class="text-box right-box">
+        <h1>Depression</h1>
+        <p>Depression is a form of deep sadness that can be triggered by 
+          various life events or circumstances. This section will help 
+          classify the severity of your depression as mild, moderate, or severe.
+        </p>
+          <div class="center">
+            <div class="button-box">
+              <h2>Learn more about the Depression</h2>
+              <button onclick="location.href='/depression'" class="depression">Try Me</button>
+            </div> 
+          </div>
+          <div class="button-box">
+            <h2>Take a test for Depression</h2>
+            <form method="post" action="/evaluation">
+              <button type="submit" name="selected_test" value="Depression" class="depression">Try Me</button>
+            </form>
+          </div> 
+    </div>
       <form method="post" action="/evaluation">
         <ul>
           <% test_list.forEach(test => { %>

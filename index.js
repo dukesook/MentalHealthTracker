@@ -202,6 +202,14 @@ app.get("/register", function(req, res) {
   res.render("pages/register");
 });
 
+app.get("/anxiety", function(req, res) {
+  res.render("pages/anxiety");
+});
+
+app.get("/depression", function(req, res) {
+  res.render("pages/depression");
+});
+
 app.get('/add_test_data', async function(req, res) {
   try {
     await add_test_data();
