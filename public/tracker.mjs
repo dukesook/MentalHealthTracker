@@ -1,57 +1,41 @@
-
-
-const resultsContainer = document.getElementById('results');
 const debugButton = document.getElementById('debugButton');
-const userId = document.getElementById('user_id').value;
-const dailyCheckinsButton = document.getElementById('dailyCheckinsButton');
-const checkinsContainer = document.getElementsByClassName('checkins-container')[0];
+const cardListContainer = document.getElementById('card-list');
+const displayedCardHTML = document.getElementById('displayed-card');
+const userIdString = document.getElementById('user_id').value;
+const moodHTML = document.getElementById('mood');
+const filterButton = document.getElementById('filter-button');
+const clearFilterButton = document.getElementById('clear-filter-button');
+
+let g_checkins = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-  const collectionButtons = document.querySelectorAll('.collection-button');
-  for (const button of collectionButtons) {
-    button.onclick = () => {
-      const collectionName = button.id;
-      displayCollection(collectionName);
+  
+  requestCheckins().then((checkins) => {
+    g_checkins = checkins;
+
+    // Sanity Check
+    assertIsCheckin(g_checkins[0]);
+    
+    // Sort By Date
+    g_checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
+    
+    displayCheckins(g_checkins, cardListContainer);
+
+    filterButton.onclick = () => {
+      const mood = moodHTML.value;
+      const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
+      displayCheckins(filteredCheckins, cardListContainer);
     }
-  }
+
+    clearFilterButton.onclick = () => {
+      displayCheckins(g_checkins, cardListContainer);
+      moodHTML.value = ''; // Clear the mood selection
+    }
+  })
 
   debugButton.onclick = debug;
-
-  dailyCheckinsButton.onclick = debugDumpDailyCheckins;
-
-  requestCheckins().then((checkins) => {
-    displayDailyCheckins(checkins);
-  })
 });
 
-
-
-async function displayCollection(collection) {
-  const results = await requestCollection(collection)
-  displayResults(results);
-}
-
-
-function displayResults(results) {
-  resultsContainer.innerHTML = ''; // Clear previous results
-  const dontDisplay = ['__v'];
-  for (const result of results) {
-    const li = document.createElement('li');
-    
-    let text = '';
-    for (const key in result) {
-      if (dontDisplay.includes(key)) {
-        continue;
-      }
-      text += key + ': ' + result[key] + ', ';
-    }
-
-    text = text.slice(0, -2); // Remove the last comma and space
-
-    li.textContent = text;
-    resultsContainer.appendChild(li);
-  }
-}
 
 export async function requestCollection(collection) {
   const data = {
@@ -64,6 +48,7 @@ export async function requestCollection(collection) {
   return results;
 }
 
+
 export async function requestCheckins() {
   const fetchRequest = '/query/?collection=dailycheckins';
   const httpResponse = await fetch(fetchRequest);
@@ -71,38 +56,54 @@ export async function requestCheckins() {
   return results;
 }
 
-async function debugDumpDailyCheckins() {
-  const checkins = await requestCheckins();
-  displayResults(checkins);
-}
 
-function displayDailyCheckins(checkins) {
-  console.log("Daily Checkins: ", checkins);
-  // checkinsContainer
+function displayCheckins(checkins, container) {
+  container.innerHTML = '';
+
   for (const checkin of checkins) {
-    const card = createCheckinCard(checkin.check_in_date, checkin.mood, checkin.selected_prompt, checkin.journal_entry);
-    checkinsContainer.appendChild(card);
+    const card = createCheckinCard(checkin);
+    container.appendChild(card);
   }
 }
 
 
-function createCheckinCard(date, mood, prompt, journal) {
+function createCheckinCard(checkin, cardElement = null) {
+  if (!cardElement) {
+    cardElement = document.createElement('div');
+  }
+  const { check_in_date, mood, selected_prompt, journal_entry } = checkin;
 
-  date = new Date(date);
-  date = date.toDateString();
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `
+  const date = new Date(check_in_date).toDateString();
+  cardElement.className = 'card';
+  cardElement.innerHTML = `
     <h3>${date}</h3>
     <p><strong>Mood</strong>: ${mood}</p>
-    <p><strong>Prompt</strong>: ${prompt}</p>
-    <p><strong>Prompt</strong>: ${journal}</p>
-  `;
-  return card;
+    <p><strong>Prompt</strong>: ${selected_prompt}</p>
+    `;
+  
+    // On Click
+    cardElement.onclick = () => {
+      displayedCardHTML.innerHTML = cardElement.innerHTML;
+      displayedCardHTML.innerHTML += `<p><strong>Journal</strong>: ${journal_entry}</p>`;
+      displayedCardHTML.style.maxWidth = '50%';
+    }
+
+  return cardElement;
 }
 
 
+function assertIsCheckin(checkin) {
+  if (!checkin || typeof checkin !== 'object') {
+    throw new Error('Invalid checkin object');
+  }
+  if (!checkin.check_in_date || !checkin.mood || !checkin.selected_prompt || !checkin.journal_entry) {
+    throw new Error('Checkin object is missing required properties');
+  }
+}
 
 async function debug() {
-
+  // Filter by Mood
+  const mood = moodHTML.value;
+  const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
+  displayCheckins(filteredCheckins, cardListContainer);
 }

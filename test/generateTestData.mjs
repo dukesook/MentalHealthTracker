@@ -14,7 +14,7 @@ export default async function add_test_data() {
 
   // Current User
   const current_user_id = UserUtils.get_current_user_id();
-  add_data_to_user(current_user_id);
+  add_data_to_user(current_user_id, 100);
 
   // Extra Users
   for (const u of sample_users) {
@@ -25,8 +25,8 @@ export default async function add_test_data() {
 }
 
 
-function add_data_to_user(userId) {
-  for (let i = 0; i < 10; i++) {
+function add_data_to_user(userId, numCheckins = 10) {
+  for (let i = 0; i < numCheckins; i++) {
     const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(userId);
     Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
   }
