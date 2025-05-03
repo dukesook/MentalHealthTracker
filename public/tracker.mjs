@@ -1,19 +1,17 @@
 const debugButton = document.getElementById('debugButton');
 const cardListContainer = document.getElementById('card-list');
-const currentCardHTML = document.getElementById('current-card');
+const displayedCardHTML = document.getElementById('displayed-card');
 const userIdString = document.getElementById('user_id').value;
 
 
 document.addEventListener('DOMContentLoaded', function() {
-
+  
+  requestCheckins().then((checkins) => {
+    createCheckinCard(checkins[0], displayedCardHTML);
+    displayCheckins(checkins, cardListContainer);
+  })
 
   debugButton.onclick = debug;
-
-
-  requestCheckins().then((checkins) => {
-    displayDailyCheckins(checkins);
-    createCheckinCard(checkins[0], currentCardHTML);
-  })
 });
 
 
@@ -37,22 +35,25 @@ export async function requestCheckins() {
 }
 
 
-function displayDailyCheckins(checkins) {
+function displayCheckins(checkins, container) {
   // Sort By Date
   checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
 
+  container.innerHTML = '';
+
   for (const checkin of checkins) {
     const card = createCheckinCard(checkin);
-    cardListContainer.appendChild(card);
+    container.appendChild(card);
   }
 }
 
 
 function createCheckinCard(checkin, cardElement = null) {
-  const { check_in_date, mood, selected_prompt, journal_entry } = checkin;
   if (!cardElement) {
     cardElement = document.createElement('div');
   }
+  const { check_in_date, mood, selected_prompt, journal_entry } = checkin;
+
   const date = new Date(check_in_date).toDateString();
   cardElement.className = 'card';
   cardElement.innerHTML = `
@@ -60,11 +61,14 @@ function createCheckinCard(checkin, cardElement = null) {
     <p><strong>Mood</strong>: ${mood}</p>
     <p><strong>Prompt</strong>: ${selected_prompt}</p>
     `;
+  
+    // On Click
     cardElement.onclick = () => {
-      currentCardHTML.innerHTML = cardElement.innerHTML;
-      currentCardHTML.innerHTML += `<p><strong>Journal</strong>: ${journal_entry}</p>`;
-      currentCardHTML.style.maxWidth = '50%';
+      displayedCardHTML.innerHTML = cardElement.innerHTML;
+      displayedCardHTML.innerHTML += `<p><strong>Journal</strong>: ${journal_entry}</p>`;
+      displayedCardHTML.style.maxWidth = '50%';
     }
+
   return cardElement;
 }
 
