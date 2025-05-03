@@ -6,51 +6,31 @@
   <title>Check-In Confirmation</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-  <h1><%= message %></h1>
+<body onload="onload()">
+  <%- include('../partials/navbar.ejs') %>
 
-  <% if (mood === "happy") { %>
-    <h2>Since you're happy, here are some activities to try:</h2>
-    <ul>
-      <li>Do something kind for someone else (text a friend, leave a nice comment)</li>
-      <li>Start or continue a creative project</li>
-      <li>Organize a small part of your room or space</li>
-      <li>Try learning a fun skill or fact you’ve been curious about</li>
-      <li>Take a photo of something that represents today</li>
-    </ul>
-  <% } %>
+  <h1>Thank you for sharing!</h1>
+  <h2>Your Check-In:</h2>
+  <p><strong>Mood:</strong> <%= mood %></p>
+  <p><strong>Prompt:</strong> <%= selected_prompt %></p>
+  <p><strong>Journal Entry:</strong> <%= journal_entry %></p>
 
-  <% if (mood === "sad") { %>
-    <h2>Since you're feeling down, here are some activities to try:</h2>
-    <ul>
-    <li>Watch a comfort show or video</li>
-    <li>Express your emotions creatively (draw, write, paint,etc)</li>
-    <li>Try a short meditation or breathing exercise</li>
-    <li>Make a playlist that matches how you feel</li>
-    <li>Take a long shower or do a simple skincare routine</li>
-    </ul>
-  <% } %>
-  <% if (mood === "mad") { %>
-    <h2>Since you're feeling mad, here are some activities to try:</h2>
-    <ul>
-    <li>Do a high-energy workout</li>
-    <li>Step away from everything and try breathing excersises</li>
-    <li>Listen to music that matches your mood at full volume</li>
-    <li>Channel your anger into art</li>
-    <li>Step outside and focus on what you can see, hear, feel</li>
-    </ul>
-  <% } %>
-  <% if (mood === "neutral") { %>
-    <h2>Since you're feeling neutral, here are some activities to try:</h2>
-    <ul>
-    <li>Try a five-minute declutter of your space</li>
-    <li>Browse a new playlist or explore music from a different genre</li>
-    <li>Take a walk and try to notice 5 things you've never paid attention to</li>
-    <li>Try a short quiz or personality test just for fun</li>
-    <li>Make a simple snack or drink</li>
-    </ul>
-  <% } %>
+  <h2>Feedback:</h2>
+  <p><%= feedback %></p>
+
+  <h2>Activities to Improve Your Day:</h2>
+  <ul>
+    <% activities.forEach(activity => { %>
+      <li><%= activity %></li>
+    <% }) %>
+  </ul>
+
+  <h2>Motivating Affirmation:</h2>
+  <p><%= affirmation %></p>
 
   <a href="/">Go back to the homepage</a>
+
+  <script src="/script.js"></script>
+  
 </body>
 </html>

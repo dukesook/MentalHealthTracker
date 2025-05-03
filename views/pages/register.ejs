@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body onload="onload()">
+  <h1>Mental Health Tracker - Account Making</h1>
+  <%- include('../partials/navbar.ejs') %>
+
+  <div class="glass-container">
+    <div class="login-box">
+      <h2 class="login_h2">Welcome, Let's make an Account!</h2>
+
+      <form class="login_form" action="#" method="POST">
+        
+        <label class="login_label_text" for="password">Email</label>
+        <input class="login_input" type="text" id="username" name="username" required placeholder="Enter your email here!">
+
+        <label class="login_label_text" for="password">Username</label>
+        <input class="login_input" type="password" id="password" name="password" required placeholder="Enter your username here!">
+
+        <label class="login_label_text" for="password">Password</label>
+        <input class="login_input" type="password" id="password" name="password" required placeholder="Make a good one, or the classic one!">
+
+        <div class="options">
+          <input class="login_input" type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember me!</label>
+        </div>
+
+        <button class="login_button" type="submit">Login</button>
+        <p class="login_p">Already have an account?? <a href="../pages/login.ejs" id="register">Sign in!</a></p>
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
+
+</body>
+</html>

@@ -2,8 +2,9 @@
 // import scripts
 import userModel from '../models/user.mjs';
 import scores_model from '../models/scores.mjs';
-import { add_scoresheet, get_current_user } from '../utils/userUtils.js';
+import { add_scoresheet, get_current_user_id, get_current_user } from '../utils/userUtils.js';
 import questions_model from '../models/questions.mjs';
+
 
 // Map holds the score values for each answer
 var score_dict = {

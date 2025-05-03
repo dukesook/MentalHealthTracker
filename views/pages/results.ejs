@@ -6,7 +6,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body onload="onload()">
     <%- include('../partials/navbar.ejs') %>
   <h1><%= results.selected_test %></h1>
   <% Object.keys(results).forEach(key=>{ %>
@@ -27,5 +27,7 @@
     <p><%=score_interpretation%></p>
   </div>
   
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
 </body>
 </html>

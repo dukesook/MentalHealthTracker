@@ -5,32 +5,264 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Check-In</title>
   <link rel="stylesheet" href="/style.css">
+  <style>
+    .mood-category {
+      margin-bottom: 20px;
+    }
+    .mood-category h3 {
+      margin-bottom: 10px;
+    }
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+    .mood-grid label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+    .mood-grid label input[type="checkbox"] {
+      display: none; /* Hide the checkbox */
+    }
+    .mood-grid label.selected {
+      border-color: #007BFF; /* highlight color */
+      background-color: #E6F7FF; /* background for selected */
+    }
+    body.dark-mode .mood-grid label.selected {
+      /* dark mode button color changes */
+      border-color: #0056b3;
+      background-color: #222222; 
+    }
+    .mood-grid label span {
+      font-size: 24px; /* emoji size */
+    }
+    .mood-grid label p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const moodLabels = document.querySelectorAll(".mood-grid label");
+      moodLabels.forEach(label => {
+        const checkbox = label.querySelector("input[type='checkbox']");
+        label.addEventListener("click", () => {
+          checkbox.checked = !checkbox.checked;
+          label.classList.toggle("selected", checkbox.checked);
+        });
+      });
+    });
+  </script>
 </head>
-<body>
-  <h1>Daily Check-In</h1>
+
+<body onload="onload()">
+  <h1>Daily Check-in</h1>
   <%- include('../partials/navbar.ejs') %>
 
-  <form action="/checkin" method="POST">
-    <h2>Hi! How are you feeling today?</h2>
-    <div>
-      <label>
-        <input type="radio" name="mood" value="happy" required> Happy
-      </label>
-      <label>
-        <input type="radio" name="mood" value="neutral" required> Neutral
-      </label>
-      <label>
-        <input type="radio" name="mood" value="sad" required> Sad
-      </label>
-      <label>
-        <input type="radio" name="mood" value="mad" required> Mad
-      </label>
+  <h1>How are you feeling today?</h1>
+  <p>Select one or more moods that best describe how you're feeling today:</p>
+  <form method="get" action="/checkin">
+    
+    <!-- Positive Moods -->
+    <div class="mood-category">
+      <h3>Positive Moods</h3>
+      <div class="mood-grid">
+        <label>
+          <input type="checkbox" name="mood" value="Happy">
+          <span>&#x1F60A;</span>
+          <p>Happy</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Excited">
+          <span>&#x1F929;</span>
+          <p>Excited</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Grateful">
+          <span>&#x1F64F;</span>
+          <p>Grateful</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Content">
+          <span>&#x1F60C;</span>
+          <p>Content</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Loved">
+          <span>&#x2764;&#xFE0F;</span>
+          <p>Loved</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Confident">
+          <span>&#x1F4AA;</span>
+          <p>Confident</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Inspired">
+          <span>&#x1F31F;</span>
+          <p>Inspired</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Energetic">
+          <span>&#x26A1;</span>
+          <p>Energetic</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Relaxed">
+          <span>&#x1F6CB;&#xFE0F;</span>
+          <p>Relaxed</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Proud">
+          <span>&#x1F3C6;</span>
+          <p>Proud</p>
+        </label>
+      </div>
     </div>
 
-    <h2>Let's talk about it</h2>
-    <textarea name="journal" rows="5" cols="50" placeholder="Write about your day..." required></textarea>
+    <!-- Neutral Moods -->
+    <div class="mood-category">
+      <h3>Neutral Moods</h3>
+      <div class="mood-grid">
+        <label>
+          <input type="checkbox" name="mood" value="Indifferent">
+          <span>&#x1F610;</span>
+          <p>Indifferent</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Bored">
+          <span>&#x1F634;</span>
+          <p>Bored</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Reflective">
+          <span>&#x1F914;</span>
+          <p>Reflective</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Confused">
+          <span>&#x1F615;</span>
+          <p>Confused</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Numb">
+          <span>&#x1F9CA;</span>
+          <p>Numb</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Curious">
+          <span>&#x1F9D0;</span>
+          <p>Curious</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Tired">
+          <span>&#x1F62A;</span>
+          <p>Tired</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Distracted">
+          <span>&#x1F92F;</span>
+          <p>Distracted</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Overwhelmed">
+          <span>&#x1F635;</span>
+          <p>Overwhelmed</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Apathetic">
+          <span>&#x1F636;</span>
+          <p>Apathetic</p>
+        </label>
+      </div>
+    </div>
 
-    <button type="submit" onclick="console.log('Submit button clicked')">Submit</button>
+    <!-- Negative Moods -->
+    <div class="mood-category">
+      <h3>Negative Moods</h3>
+      <div class="mood-grid">
+        <label>
+          <input type="checkbox" name="mood" value="Sad">
+          <span>&#x1F622;</span>
+          <p>Sad</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Anxious">
+          <span>&#x1F61F;</span>
+          <p>Anxious</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Stressed">
+          <span>&#x1F62B;</span>
+          <p>Stressed</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Angry">
+          <span>&#x1F621;</span>
+          <p>Angry</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Lonely">
+          <span>&#x1F614;</span>
+          <p>Lonely</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Frustrated">
+          <span>&#x1F624;</span>
+          <p>Frustrated</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Embarrassed">
+          <span>&#x1F633;</span>
+          <p>Embarrassed</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Insecure">
+          <span>&#x1F61F;</span>
+          <p>Insecure</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Guilty">
+          <span>&#x1F61E;</span>
+          <p>Guilty</p>
+        </label>
+        <label>
+          <input type="checkbox" name="mood" value="Hopeless">
+          <span>&#x1F614;</span>
+          <p>Hopeless</p>
+        </label>
+      </div>
+    </div>
+
+    <button type="submit">Get Journal Prompts!</button>
   </form>
+
+  <% if (mood && prompts && prompts.length > 0) { %>
+    <h2>Journal Prompts for Feeling <%= mood %>:</h2>
+    <form method="post" action="/submit_journal">
+      <input type="hidden" name="mood" value="<%= mood %>">
+      <label for="journalPrompt">Select a prompt:</label>
+      <select name="selected_prompt" id="journalPrompt" required>
+        <% prompts.forEach(function(prompt) { %>
+          <option value="<%= prompt %>"><%= prompt %></option>
+        <% }) %>
+      </select>
+      <label for="journalResponse">Write your response:</label>
+      <textarea name="journal_entry" id="journalResponse" rows="5" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  <% } else { %>
+    <p>No prompts available. Please select a mood to get started.</p>
+  <% } %>
+  
+  <script src="/script.js"></script>
 </body>
 </html>

@@ -7,15 +7,35 @@
   <link rel="stylesheet" href="/style.css">
   <script src="/tracker.mjs" type="module"></script>
 </head>
-<body>
+<body onload="onload()">
+  <input type="hidden" id="user_id" value="<%= user_id %>">
+
+  
+  
   <h1>Progress Tracker</h1>
+  <button id="debugButton">debug</button>
   <%- include('../partials/navbar.ejs') %>
-  <button id="clearButton">Clear</button>
-  <ul>
-    <% collections.forEach(collection => { %>
-      <button id="<%=collection%>" class="collection-button"><%=collection%></button>
-    <%}); %>
-  </ul>
-  <ul id="results"></ul>
+
+  <h2>Current Journal</h2>
+  <div>
+    <div id="current-card" class="card">
+      Select a Journal Entry.
+    </div>
+  </div>
+
+  <h2>Daily Checkins</h2>
+  <div id="card-list" class="checkins-container">
+    <div class="card">
+      <h3>April 26, 2025</h3>
+      <p><strong>Mood:</strong> Happy</p>
+      <p>Had a great day at the park!</p>
+    </div>
+  </div>
+
+
+  <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
+  <script src="/script.js"></script>
+
+
 </body>
 </html>

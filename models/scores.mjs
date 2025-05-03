@@ -25,7 +25,7 @@ var scores_schema = new mongoose.Schema({
     inattention_total: Number,
     hyperactivity_total: Number,
     total: Number
-    // TODO: Add more tets
+    // TODO: Add more tests
 });
 
 var scores_model = mongoose.model('scores',scores_schema);

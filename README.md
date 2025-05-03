@@ -13,10 +13,14 @@ The Mental Health Tracker is our final project for NMSU's CS 382/532 Mondern Web
 ### Install Dependencies
 Remember to run `$ npm install` to install all dependencies.
 
-### MongoDB
-The database & collection names must match:
-
-![alt text](public/img/mongoDB_v2.png)
+### Create .env file
+The .env file is used to autheticate the user to use the OpenRouter API.
+For security reasons, do not share or track your .env file with git.
+1. create an account on https://openrouter.ai/settings/keys
+2. Click on your profile, and then keys
+3. Hit "Create Key"
+4. Create a .env file in the root of the project directory
+5. Add the following line to the .env file: `OPENROUTER_API_KEY=<Your API Key>`
 
 ### Run Server
 While in the project root directory, run `$ node index.js`
