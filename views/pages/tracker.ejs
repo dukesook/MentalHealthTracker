@@ -10,11 +10,14 @@
 <body onload="onload()">
   <input type="hidden" id="user_id" value="<%= user_id %>">
 
+  
+  
   <h1>Progress Tracker</h1>
+  <button id="debugButton">debug</button>
   <%- include('../partials/navbar.ejs') %>
 
   <h2>Current Journal</h2>
-  <div class="checkins-container">
+  <div>
     <div id="current-card" class="card">
       Select a Journal Entry.
     </div>
@@ -28,8 +31,6 @@
       <p>Had a great day at the park!</p>
     </div>
   </div>
-
-  <button id="debugButton">debug</button>
 
 
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->

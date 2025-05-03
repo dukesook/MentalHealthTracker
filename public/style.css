@@ -182,6 +182,9 @@ h2, h1, h3, p, li {
 }
 
 .checkins-container {
+  border: 1px solid black;
+  height: 600px;
+  overflow-y: auto;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
