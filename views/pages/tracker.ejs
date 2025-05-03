@@ -13,8 +13,15 @@
   <h1>Progress Tracker</h1>
   <%- include('../partials/navbar.ejs') %>
 
-  <h2>Daily Checkins</h2>
+  <h2>Current Journal</h2>
   <div class="checkins-container">
+    <div id="current-card" class="card">
+      Select a Journal Entry.
+    </div>
+  </div>
+
+  <h2>Daily Checkins</h2>
+  <div id="card-list" class="checkins-container">
     <div class="card">
       <h3>April 26, 2025</h3>
       <p><strong>Mood:</strong> Happy</p>

@@ -1,5 +1,6 @@
 const debugButton = document.getElementById('debugButton');
-const checkinsContainer = document.getElementsByClassName('checkins-container')[0];
+const cardListContainer = document.getElementById('card-list');
+const currentCardHTML = document.getElementById('current-card');
 const userIdString = document.getElementById('user_id').value;
 
 
@@ -41,7 +42,7 @@ function displayDailyCheckins(checkins) {
 
   for (const checkin of checkins) {
     const card = createCheckinCard(checkin.check_in_date, checkin.mood, checkin.selected_prompt, checkin.journal_entry);
-    checkinsContainer.appendChild(card);
+    cardListContainer.appendChild(card);
   }
 }
 
@@ -56,8 +57,13 @@ function createCheckinCard(date, mood, prompt, journal) {
     <h3>${date}</h3>
     <p><strong>Mood</strong>: ${mood}</p>
     <p><strong>Prompt</strong>: ${prompt}</p>
-    <p><strong>Journal</strong>: ${journal}</p>
-  `;
+    `;
+    // <p><strong>Journal</strong>: ${journal}</p>
+    card.onclick = () => {
+      currentCardHTML.innerHTML = card.innerHTML;
+      currentCardHTML.innerHTML += `<p><strong>Journal</strong>: ${journal}</p>`;
+      currentCardHTML.style.maxWidth = '50%';
+    }
   return card;
 }
 
