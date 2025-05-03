@@ -74,8 +74,27 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
   test_types.anxiety = anx_list._id;
   await anx_list.save();
 
+<<<<<<< HEAD
+    // create the adhd list and link it to the test types collection
+    const adhd_list = new test_list_model();
+    test_types.adhd = adhd_list._id;
+    await adhd_list.save();
+
+    // create the adhd list and link it to the test types collection
+    const ptsd_list = new test_list_model();
+    test_types.ptsd = ptsd_list._id;
+    await ptsd_list.save();
+
+    // save test types to update it
+    await test_types.save();
+
+    // update the user id to the one we just created.
+    // TODO: probably needs updated once login is working
+    curr_user_id = user_model._id;
+=======
   // save test types to update it
   await test_types.save();
+>>>>>>> main
 
     // save user model
     await user_model.save();

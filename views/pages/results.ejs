@@ -9,13 +9,19 @@
 <body onload="onload()">
     <%- include('../partials/navbar.ejs') %>
   <h1><%= results.selected_test %></h1>
-  <% Object.keys(score_dict).forEach(key=>{ %>
-    <h1><%= score_dict[key]%></h1>
+  <% Object.keys(results).forEach(key=>{ %>
+    <h1><%=  key %></h1>
+    <h1><%= results[key]%></h1>
 
   <%})%>
 
   <h1>TOTAL =<%= score_dict['total']%></h1>
-
+  <p><% if('inattention_total' in score_dict){%></p>
+    innatention total: <%=score_dict['inattention_total']%>
+<%}%>
+<p><% if('hyperactivity_total' in score_dict){%></p>
+  hyperactivity total: <%=score_dict['hyperactivity_total']%>
+<%}%>
   <div>
     <p>Score interpretation</p>
     <p><%=score_interpretation%></p>

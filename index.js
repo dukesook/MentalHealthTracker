@@ -2,19 +2,51 @@ import dotenv from 'dotenv';
 import express from 'express';
 import axios from 'axios'; // Import axios for making HTTP requests
 import add_test_data from './test/generateTestData.mjs';
+<<<<<<< HEAD
+import test_types_model from './models/test_types.mjs';
+import questions_model from './models/questions.mjs';
+import dailyCheckinModel from './models/daily_checkin.mjs';
+import userModel from './models/user.mjs';
+// script imports
+import { run_adhd_test, run_test, run_ptsd_test } from './controllers/testHandler.js';
+import { create_new_user, get_current_user, get_all_tests } from './utils/userUtils.js';
+=======
 import { run_test } from './controllers/testHandler.js';
 import * as UserUtils from './utils/userUtils.js';
 import * as Database from './controllers/database.mjs';
 import confirmationRoutes from './routes/confirmation.mjs';
+>>>>>>> main
 
 const API_KEY = process.env.OPENROUTER_API_KEY;
 const app = express();
 const PORT = 3000;
 const DEBUG = true;
 
+<<<<<<< HEAD
+var DEBUG = true;
+var valid_tests = {'depression':1,'adhd':1,'anxiety':1,'ptsd':1};
+
+async function main() {
+  await mongoose.connect(databaseUri);
+  // currently creating a new user every time until we get login working
+  var user = create_new_user("john","bob","Smith","passW0rddd..."); 
+}
+
+// This function makes sure the base document exist so that
+// the evaluations can run
+async function create_base_collections(){
+  // collection will only be created if it doesn't already exist
+  questions_model.createCollection();
+  // make sure the questions exist only once in the collection
+  var count = await questions_model.countDocuments();
+  if( count === 0 ){
+    var dep_model = new questions_model();
+    dep_model.save();
+=======
 function debug(message) {
   if (DEBUG) {
     console.log(message);
+>>>>>>> main
   }
 }
 
@@ -89,8 +121,19 @@ app.post("/evaluation", async function(req, res) {
 app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
   const test = req.body.selected_test;
+<<<<<<< HEAD
+  if (test in valid_tests) {
+    console.log(req.body,"TEST: ",test)
+    if (test === 'adhd') { 
+      await run_adhd_test(get_current_user(),req.body, res, test);}
+    else if (test === 'ptsd') {
+      await run_ptsd_test(get_current_user(),req.body, res, test);}
+    else { 
+      await run_test(get_current_user(), req.body, res, test); }
+=======
   if (test === 'depression' || test === 'anxiety') {
     await run_test(UserUtils.get_current_user_id(), req.body, res, test);
+>>>>>>> main
   } else {
     res.status(400).send("Unknown test type");
   }
