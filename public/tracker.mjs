@@ -80,13 +80,13 @@ function displayDailyCheckins(checkins) {
   console.log("Daily Checkins: ", checkins);
   // checkinsContainer
   for (const checkin of checkins) {
-    const card = createCheckinCard(checkin.check_in_date, checkin.mood, checkin.journal);
+    const card = createCheckinCard(checkin.check_in_date, checkin.mood, checkin.selected_prompt, checkin.journal_entry);
     checkinsContainer.appendChild(card);
   }
 }
 
 
-function createCheckinCard(date, mood, journal) {
+function createCheckinCard(date, mood, prompt, journal) {
 
   date = new Date(date);
   date = date.toDateString();
@@ -95,7 +95,8 @@ function createCheckinCard(date, mood, journal) {
   card.innerHTML = `
     <h3>${date}</h3>
     <p><strong>Mood</strong>: ${mood}</p>
-    <p>Journal: ${journal}</p>
+    <p><strong>Prompt</strong>: ${prompt}</p>
+    <p><strong>Prompt</strong>: ${journal}</p>
   `;
   return card;
 }
