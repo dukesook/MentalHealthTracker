@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   requestCheckins().then((checkins) => {
     displayDailyCheckins(checkins);
+    createCheckinCard(checkins[0], currentCardHTML);
   })
 });
 
@@ -37,34 +38,34 @@ export async function requestCheckins() {
 
 
 function displayDailyCheckins(checkins) {
-  // Sort checkins by date
+  // Sort By Date
   checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
 
   for (const checkin of checkins) {
-    const card = createCheckinCard(checkin.check_in_date, checkin.mood, checkin.selected_prompt, checkin.journal_entry);
+    const card = createCheckinCard(checkin);
     cardListContainer.appendChild(card);
   }
 }
 
 
-function createCheckinCard(date, mood, prompt, journal) {
-
-  date = new Date(date);
-  date = date.toDateString();
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `
+function createCheckinCard(checkin, cardElement = null) {
+  const { check_in_date, mood, selected_prompt, journal_entry } = checkin;
+  if (!cardElement) {
+    cardElement = document.createElement('div');
+  }
+  const date = new Date(check_in_date).toDateString();
+  cardElement.className = 'card';
+  cardElement.innerHTML = `
     <h3>${date}</h3>
     <p><strong>Mood</strong>: ${mood}</p>
-    <p><strong>Prompt</strong>: ${prompt}</p>
+    <p><strong>Prompt</strong>: ${selected_prompt}</p>
     `;
-    // <p><strong>Journal</strong>: ${journal}</p>
-    card.onclick = () => {
-      currentCardHTML.innerHTML = card.innerHTML;
-      currentCardHTML.innerHTML += `<p><strong>Journal</strong>: ${journal}</p>`;
+    cardElement.onclick = () => {
+      currentCardHTML.innerHTML = cardElement.innerHTML;
+      currentCardHTML.innerHTML += `<p><strong>Journal</strong>: ${journal_entry}</p>`;
       currentCardHTML.style.maxWidth = '50%';
     }
-  return card;
+  return cardElement;
 }
 
 
