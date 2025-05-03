@@ -7,7 +7,6 @@ const userIdString = document.getElementById('user_id').value;
 document.addEventListener('DOMContentLoaded', function() {
   
   requestCheckins().then((checkins) => {
-    createCheckinCard(checkins[0], displayedCardHTML);
     displayCheckins(checkins, cardListContainer);
   })
 
