@@ -4,7 +4,9 @@ import mongoose from 'mongoose'
 var test_types_schema = new mongoose.Schema({
   user_id: mongoose.SchemaTypes.ObjectId,
   depression: mongoose.SchemaTypes.ObjectId,
-  anxiety: mongoose.SchemaTypes.ObjectId
+  anxiety: mongoose.SchemaTypes.ObjectId,
+  ptsd: mongoose.SchemaTypes.ObjectId,
+  adhd: mongoose.SchemaTypes.ObjectId
   // TODO: Add more tests
 });
 

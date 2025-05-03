@@ -6,11 +6,13 @@ import { run_test } from './controllers/testHandler.js';
 import * as UserUtils from './utils/userUtils.js';
 import * as Database from './controllers/database.mjs';
 import confirmationRoutes from './routes/confirmation.mjs';
+import * as TestHandler from './controllers/testHandler.js'
 
 const API_KEY = process.env.OPENROUTER_API_KEY;
 const app = express();
 const PORT = 3000;
 const DEBUG = true;
+var valid_tests = {'depression':1,'adhd':1,'anxiety':1,'ptsd':1};
 
 function debug(message) {
   if (DEBUG) {
@@ -89,8 +91,14 @@ app.post("/evaluation", async function(req, res) {
 app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
   const test = req.body.selected_test;
-  if (test === 'depression' || test === 'anxiety') {
-    await run_test(UserUtils.get_current_user_id(), req.body, res, test);
+  if (test in valid_tests) {
+    console.log(req.body,"TEST: ",test)
+    if (test === 'adhd') { 
+      await TestHandler.run_adhd_test(UserUtils.get_current_user_id(),req.body, res, test);}
+    else if (test === 'ptsd') {
+      await TestHandler.run_ptsd_test(UserUtils.get_current_user_id(),req.body, res, test);}
+    else { 
+      await TestHandler.run_test(UserUtils.get_current_user_id(), req.body, res, test); }
   } else {
     res.status(400).send("Unknown test type");
   }
