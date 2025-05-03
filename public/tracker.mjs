@@ -2,6 +2,9 @@ const debugButton = document.getElementById('debugButton');
 const cardListContainer = document.getElementById('card-list');
 const displayedCardHTML = document.getElementById('displayed-card');
 const userIdString = document.getElementById('user_id').value;
+const moodHTML = document.getElementById('mood');
+const filterButton = document.getElementById('filter-button');
+const clearFilterButton = document.getElementById('clear-filter-button');
 
 let g_checkins = null;
 
@@ -17,6 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
     g_checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
     
     displayCheckins(g_checkins, cardListContainer);
+
+    filterButton.onclick = () => {
+      const mood = moodHTML.value;
+      const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
+      displayCheckins(filteredCheckins, cardListContainer);
+    }
+
+    clearFilterButton.onclick = () => {
+      displayCheckins(g_checkins, cardListContainer);
+      moodHTML.value = ''; // Clear the mood selection
+    }
   })
 
   debugButton.onclick = debug;
@@ -89,7 +103,7 @@ function assertIsCheckin(checkin) {
 
 async function debug() {
   // Filter by Mood
-  const mood = 'happy';
+  const mood = moodHTML.value;
   const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
   displayCheckins(filteredCheckins, cardListContainer);
 }
