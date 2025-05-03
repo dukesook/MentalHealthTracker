@@ -12,18 +12,24 @@ export default async function add_test_data() {
   
   Database.create_base_collections();
 
+  // Current User
+  const current_user_id = UserUtils.get_current_user_id();
+  add_data_to_user(current_user_id);
+
+  // Extra Users
   for (const u of sample_users) {
     const user = await UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
-    console.log("added user: " + user.first_name + ".  id: " + user._id);
-    u._id = user._id;
-
-    // Daily Checkins
-    for (let i = 0; i < 10; i++) {
-      const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(user._id);
-      await Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
-    }
+    add_data_to_user(user._id);
   }
 
+}
+
+
+function add_data_to_user(userId) {
+  for (let i = 0; i < 10; i++) {
+    const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(userId);
+    Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
+  }
 }
 
 
