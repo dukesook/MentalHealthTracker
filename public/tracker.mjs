@@ -3,11 +3,20 @@ const cardListContainer = document.getElementById('card-list');
 const displayedCardHTML = document.getElementById('displayed-card');
 const userIdString = document.getElementById('user_id').value;
 
+let g_checkins = null;
 
 document.addEventListener('DOMContentLoaded', function() {
   
   requestCheckins().then((checkins) => {
-    displayCheckins(checkins, cardListContainer);
+    g_checkins = checkins;
+
+    // Sanity Check
+    assertIsCheckin(g_checkins[0]);
+    
+    // Sort By Date
+    g_checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
+    
+    displayCheckins(g_checkins, cardListContainer);
   })
 
   debugButton.onclick = debug;
@@ -35,9 +44,6 @@ export async function requestCheckins() {
 
 
 function displayCheckins(checkins, container) {
-  // Sort By Date
-  checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
-
   container.innerHTML = '';
 
   for (const checkin of checkins) {
@@ -72,6 +78,18 @@ function createCheckinCard(checkin, cardElement = null) {
 }
 
 
-async function debug() {
+function assertIsCheckin(checkin) {
+  if (!checkin || typeof checkin !== 'object') {
+    throw new Error('Invalid checkin object');
+  }
+  if (!checkin.check_in_date || !checkin.mood || !checkin.selected_prompt || !checkin.journal_entry) {
+    throw new Error('Checkin object is missing required properties');
+  }
+}
 
+async function debug() {
+  // Filter by Mood
+  const mood = 'happy';
+  const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
+  displayCheckins(filteredCheckins, cardListContainer);
 }
