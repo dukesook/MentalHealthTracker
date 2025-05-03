@@ -36,8 +36,9 @@ export async function requestCheckins() {
 
 
 function displayDailyCheckins(checkins) {
-  console.log("Daily Checkins: ", checkins);
-  // checkinsContainer
+  // Sort checkins by date
+  checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
+
   for (const checkin of checkins) {
     const card = createCheckinCard(checkin.check_in_date, checkin.mood, checkin.selected_prompt, checkin.journal_entry);
     checkinsContainer.appendChild(card);
