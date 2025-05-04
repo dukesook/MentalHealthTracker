@@ -5,6 +5,7 @@ const userIdString = document.getElementById('user_id').value;
 const moodHTML = document.getElementById('mood');
 const filterButton = document.getElementById('filter-button');
 const clearFilterButton = document.getElementById('clear-filter-button');
+const testScoresContainer = document.getElementById('test-scores-container');
 
 let g_checkins = null;
 
@@ -33,14 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   })
 
-  const tabButtons = document.querySelectorAll('#tabs button');
+  requestTestScores().then((testScores) => {
+    console.log("Test Scores: ", testScores);
+    displayTestScores(testScores, testScoresContainer);
+  });
+  
+  // Initialize Tabs
   const tabContainers = document.querySelectorAll('.tab-container');
-
+  const tabButtons = document.querySelectorAll('#tabs button');
   for (const button of tabButtons) {
     button.onclick = () => {
-      console.log("Button clicked: ", button.getAttribute('tab'));
       const selectedTabName = button.getAttribute('tab');
-
       tabContainers.forEach(tab => {
         if (tab.getAttribute('tab-content') === selectedTabName) {
           tab.classList.remove('hidden');
@@ -91,6 +95,25 @@ function displayCheckins(checkins, container) {
     const card = createCheckinCard(checkin);
     container.appendChild(card);
   }
+}
+
+
+function displayTestScores(testScores, container) {
+  container.innerHTML = '';
+
+  for (const score_js of testScores) {
+    const scoreHTML = createTestScoreHTML(score_js);
+    container.appendChild(scoreHTML);
+  }
+}
+
+
+function createTestScoreHTML(score_js) {
+  const scoreHTML = document.createElement('div');
+  const { date, test, total } = score_js;
+  const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  scoreHTML.innerHTML = `${formattedDate} - <strong>${test}</strong>: ${total}`;
+  return scoreHTML;
 }
 
 
