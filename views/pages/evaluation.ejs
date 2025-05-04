@@ -7,54 +7,87 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body onload="onload()">
-  <h1>Mental Health Evaluation</h1>
   <%- include('../partials/navbar.ejs') %>
   <main>
     <div class="image-container">
       <img src="img/test.jpg" alt="Background Image" />
-    
-      <div class="text-box left-box">
-        <h1>Anxiety</h1>
-        <p>Anxiety is a mental health condition often associated with panic attacks or social stress. 
-          In this example, the focus is on understanding the underlying causes and recognizing 
-          the reality of your anxiety.</p>
-          <div class="center">
-            <div class="button-box">
-              <h2>Learn more about the Anxiety</h2>
-              <button onclick="location.href='/anxiety'" class="anxiety">Read More</button>
-              <h2>Take a test for Anxiety</h2>
+
+      <div class="grid-container">
+  
+        <div class="text-box">
+          <h1>Anxiety</h1>
+          <p>Anxiety is a mental health condition often associated with panic attacks or social stress. 
+            In this example, the focus is on understanding the underlying causes and recognizing 
+            the reality of your anxiety.</p>
+            <div class="center">
+              <div class="button-box">
+                <h2>Learn more about the Anxiety</h2>
+                <button onclick="location.href='/anxiety'" class="anxiety">Read More</button>
+                <h2>Take a test for Anxiety</h2>
+                <form method="post" action="/evaluation">
+                  <button type="submit" name="selected_test" value="anxiety" class="anxiety"> Take an Anxiety Test</button>
+                </form> 
+              </div> 
+            </div>
+        </div>
+      
+        <div class="text-box">
+          <h1>Depression</h1>
+          <p>Depression is a form of deep sadness that can be triggered by 
+            various life events or circumstances. This section will help 
+            classify the severity of your depression as mild, moderate, or severe.
+          </p>
+            <div class="center">
+              <div class="button-box">
+                <h2>Learn more about the Depression</h2>
+                <button onclick="location.href='/depression'" class="depression">Read More</button>
+              <h2>Take a test for Depression</h2>
               <form method="post" action="/evaluation">
-                <button type="submit" name="selected_test" value="anxiety" class="anxiety"> Take an Anxiety Test</button>
-              </form> 
+                <button type="submit" name="selected_test" value="depression" class="depression">Take a Depression Test</button>
+              </form>
             </div> 
           </div>
-      </div>
-    
-      <div class="text-box right-box">
-        <h1>Depression</h1>
-        <p>Depression is a form of deep sadness that can be triggered by 
-          various life events or circumstances. This section will help 
-          classify the severity of your depression as mild, moderate, or severe.
-        </p>
-          <div class="center">
-            <div class="button-box">
-              <h2>Learn more about the Depression</h2>
-              <button onclick="location.href='/depression'" class="depression">Read More</button>
-            <h2>Take a test for Depression</h2>
-            <form method="post" action="/evaluation">
-              <button type="submit" name="selected_test" value="depression" class="depression">Take a Depression Test</button>
-            </form>
-          </div> 
         </div>
+  
+          <div class="text-box">
+            <h1>PTSD</h1>
+            <p>Post-Traumatic Stress Disorder (PTSD) is a mental health condition 
+              that can occur after experiencing or witnessing a traumatic event. 
+              This section will help identify the severity of your PTSD symptoms 
+              and whether they may be mild, moderate, or severe.</p>
+
+              <div class="center">
+                <div class="button-box">
+                  <h2>Learn more about the PTSD</h2>
+                  <button onclick="location.href='/ptsd'" class="ptsd">Read More</button>
+                  <h2>Take a test for PTSD</h2>
+                  <form method="post" action="/evaluation">
+                    <button type="submit" name="selected_test" value="ptsd" class="ptsd"> Take an PTSD Test</button>
+                  </form> 
+                </div> 
+              </div>
+          </div>
+        
+          <div class="text-box">
+            <h1>ADHD</h1>
+            <p>Attention-Deficit/Hyperactivity Disorder (ADHD) is a neurodevelopmental condition 
+              that affects attention, impulse control, and activity levels. This section will 
+              help evaluate whether your symptoms may be mild, moderate, or severe.</p>
+
+              <div class="center">
+                <div class="button-box">
+                  <h2>Learn more about the adhd</h2>
+                  <button onclick="location.href='/adhd'" class="adhd">Read More</button>
+                <h2>Take a test for ADHD</h2>
+                <form method="post" action="/evaluation">
+                  <button type="submit" name="selected_test" value="adhd" class="adhd">Take a ADHD Test</button>
+                </form>
+              </div> 
+            </div>
+        </div>
+      </div>
     </div>
-      <form method="post" action="/evaluation">
-        <ul>
-          <% test_list.forEach(test => { %>
-            <button type="submit" name="selected_test" value="<%=test%>"><%=test%></button>
-          <%}); %>
-        </ul>
-      </form>
-    </div>
+
   </main>
 
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->

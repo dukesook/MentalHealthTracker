@@ -224,6 +224,14 @@ app.get("/depression", function(req, res) {
   res.render("pages/depression");
 });
 
+app.get("/ptsd", function(req, res) {
+  res.render("pages/ptsd");
+});
+
+app.get("/adhd", function(req, res) {
+  res.render("pages/adhd");
+});
+
 app.get('/add_test_data', async function(req, res) {
   try {
     await add_test_data();
