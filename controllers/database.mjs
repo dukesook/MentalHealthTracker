@@ -71,7 +71,7 @@ export function getModel(collectionName) {
 
 // function 'get_all_tests' returns the following format. 
 // In this example we looked for all 'depression' tests. 
-// It returened a map, where the keys are the _id for the 
+// It returned a map, where the keys are the _id for the 
 // scores for each test. The value is another map with the 
 // date, user_id, and the results for the questions answered.
 //
@@ -118,6 +118,24 @@ export async function get_all_tests(user_id, test_name){
   return all_scoresheets
 }
 
+export async function get_test_scores(user_id) {
+  const test_types = ['depression', 'anxiety', 'adhd', 'ptsd'];
+  const results = [];
+  for (const test_type of test_types) {
+    const test_scoresheets = await get_all_tests(user_id, test_type);
+    for (const score_id in test_scoresheets) {
+      const score = test_scoresheets[score_id];
+      results.push({
+        date: score.date,
+        total: score.total,
+        test: test_type,
+      });
+    }
+  }
+  return results;
+
+}
+
 export async function get_questions() {
   return questions_model.findOne();
 }
@@ -126,7 +144,7 @@ export async function clear_database() {
   // Clear all collections in the database
   await dailyCheckinModel.deleteMany({});
   await test_list_model.deleteMany({});
-  // await questions_model.deleteMany({});
+  await questions_model.deleteMany({});
   await test_types_model.deleteMany({});
   await userModel.deleteMany({});
   await scores_model.deleteMany({});

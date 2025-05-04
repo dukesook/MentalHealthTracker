@@ -8,19 +8,64 @@
 </head>
 <body onload="onload()">
     <%- include('../partials/navbar.ejs') %>
-  <h1><%= results.selected_test %></h1>
-  <% Object.keys(score_dict).forEach(key=>{ %>
-    <h1><%= score_dict[key]%></h1>
+    <% if(score_dict.hasOwnProperty('depression_warning_path')) {
+      console.log("WARNING PATH: ")%>
+      <%- include(score_dict['depression_warning_path']) %>
+    <%}%>
+  <div class="test-results-card">
+    <div class="test-results-header">
+      <p>Your <%= results.selected_test %> test results</p> 
+    </div>
+    <div class="score-interpretation">
+      <p><%=score_interpretation%></p>
+    </div>
+  </div>
+  <div class="about">
+    <div>
+      <p>About your score</p>
+      <p><%=about%></p>
+    </div>
+  </div>
+  <div id="your_answers">
+    <div><p>Your answers</p></div>
+    <% Object.keys(score_dict).forEach(key=>{ %>
+      <% if(!key.startsWith('Q')) return; %>
+      <div class="each_answer">
+        <div>
+          <p><%= questions[key.replace('Q','')].question %></p>
+        </div>
+        <div>
+          <p><%= score_dict[key]%></p>
+        </div>
+      </div>
+  
+    <%})%>
+  </div>
 
-  <%})%>
+  <!-- Display total scores, some tests may have different score sections  -->
+  <div class="scores">
+    <div class="total_score">
+      <p>Total score =<%= score_dict['total']%></p>
+    </div>
 
-  <h1>TOTAL =<%= score_dict['total']%></h1>
+    <% if(score_dict.hasOwnProperty('hyperactivity_total')){%>
+      <div class="hyperactivity_score">
+        <p>Hyperactivity score = <%=score_dict['hyperactivity_total']%></p>
+      </div>
+    <%}%> 
 
-  <div>
-    <p>Score interpretation</p>
-    <p><%=score_interpretation%></p>
+    <% if(score_dict.hasOwnProperty('inattention_total')){%>
+      <div class="inattention_score">
+        <p>Inattention score = <%=score_dict['inattention_total']%></p>
+      </div>
+    <%}%> 
+
   </div>
   
+
+
+
+  <%- include('../partials/results_disclaimer.ejs') %>
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
   <script src="/script.js"></script>
 </body>

@@ -5,6 +5,7 @@ const userIdString = document.getElementById('user_id').value;
 const moodHTML = document.getElementById('mood');
 const filterButton = document.getElementById('filter-button');
 const clearFilterButton = document.getElementById('clear-filter-button');
+const testScoresContainer = document.getElementById('test-scores-container');
 
 let g_checkins = null;
 
@@ -33,6 +34,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   })
 
+  requestTestScores().then((testScores) => {
+    console.log("Test Scores: ", testScores);
+    displayTestScores(testScores, testScoresContainer);
+  });
+  
+  // Initialize Tabs
+  const tabContainers = document.querySelectorAll('.tab-container');
+  const tabButtons = document.querySelectorAll('#tabs button');
+  for (const button of tabButtons) {
+    button.onclick = () => {
+      const selectedTabName = button.getAttribute('tab');
+      tabContainers.forEach(tab => {
+        if (tab.getAttribute('tab-content') === selectedTabName) {
+          tab.classList.remove('hidden');
+        }
+        else {
+          tab.classList.add('hidden');
+        }
+      })
+    }
+  }
+
   debugButton.onclick = debug;
 });
 
@@ -57,6 +80,14 @@ export async function requestCheckins() {
 }
 
 
+export async function requestTestScores() {
+  const fetchRequest = 'query/test_scores';
+  const httpResponse = await fetch(fetchRequest);
+  const results = await httpResponse.json();
+  return results;
+}
+
+
 function displayCheckins(checkins, container) {
   container.innerHTML = '';
 
@@ -64,6 +95,25 @@ function displayCheckins(checkins, container) {
     const card = createCheckinCard(checkin);
     container.appendChild(card);
   }
+}
+
+
+function displayTestScores(testScores, container) {
+  container.innerHTML = '';
+
+  for (const score_js of testScores) {
+    const scoreHTML = createTestScoreHTML(score_js);
+    container.appendChild(scoreHTML);
+  }
+}
+
+
+function createTestScoreHTML(score_js) {
+  const scoreHTML = document.createElement('div');
+  const { date, test, total } = score_js;
+  const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  scoreHTML.innerHTML = `${formattedDate} - <strong>${test}</strong>: ${total}`;
+  return scoreHTML;
 }
 
 
@@ -101,9 +151,11 @@ function assertIsCheckin(checkin) {
   }
 }
 
+
 async function debug() {
-  // Filter by Mood
-  const mood = moodHTML.value;
-  const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
-  displayCheckins(filteredCheckins, cardListContainer);
+  const test_scores = await requestTestScores();
+  console.log("TEST SCORES: ", test_scores);
+  for (const test of test_scores) {
+    console.log(test);
+  }
 }
