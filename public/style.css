@@ -1,3 +1,11 @@
+:root {
+  --light-mode-background-color: #F4F4F4;
+  --light-mode-text-color: #333333;
+  --dark-mode-background-color: #121212;
+  --dark-mode-text-color: #F4F4F4;
+
+}
+
 header {
   background-color: #C3B1E1;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -286,6 +294,16 @@ body, html{
 body:not(.dark-mode){
   --background-color: #F4F4F4;
   --color: #333333;
+}
+
+label {
+  background-color: var(--light-mode-background-color);
+  color: var(--light-mode-text-color);
+}
+
+label.dark-mode {
+  background-color: var(--dark-mode-background-color);
+  color: var(--dark-mode-text-color);
 }
 
 /* Format in "Dark Mode" */
