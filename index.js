@@ -194,18 +194,11 @@ app.get("/query/all", async function(req, res) {
   });
 });
 
-app.get("/query/tests", async function(req, res) {
-  // Get all tests for the current user
+app.get("/query/test_scores", async function(req, res) {
+  // Get all tests results for the current user
   const id = UserUtils.get_current_user_id();
-  const all_scoresheets = await Database.get_all_tests(id, 'ptsd');
-  console.log('type of all_scoresheets: ', typeof(all_scoresheets));
-  for (const score_id in all_scoresheets) {
-    const score = all_scoresheets[score_id];
-
-    console.log("ID: ", score_id);
-    console.log("DATE: ", score.date);
-    console.log("total: ", score.total);
-  }
+  const test_scores = await Database.get_test_scores(id);
+  res.json(test_scores);
 })
 
 app.get("/settings", function(req, res) {

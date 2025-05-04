@@ -118,6 +118,24 @@ export async function get_all_tests(user_id, test_name){
   return all_scoresheets
 }
 
+export async function get_test_scores(user_id) {
+  const test_types = ['depression', 'anxiety', 'adhd', 'ptsd'];
+  const results = [];
+  for (const test_type of test_types) {
+    const test_scoresheets = await get_all_tests(user_id, test_type);
+    for (const score_id in test_scoresheets) {
+      const score = test_scoresheets[score_id];
+      results.push({
+        date: score.date,
+        total: score.total,
+        test: test_type,
+      });
+    }
+  }
+  return results;
+
+}
+
 export async function get_questions() {
   return questions_model.findOne();
 }

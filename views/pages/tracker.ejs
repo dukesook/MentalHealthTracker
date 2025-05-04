@@ -10,30 +10,60 @@
 <body onload="onload()">
   <input type="hidden" id="user_id" value="<%= user_id %>">
 
-  
-  
   <h1>Progress Tracker</h1>
-  <button id="debugButton">debug</button>
   <%- include('../partials/navbar.ejs') %>
 
-  <h2>Current Journal</h2>
-  <div>
-    <div id="displayed-card" class="card">
-      Select a Journal Entry.
+
+  <!--Tab Buttons-->
+  <div id="tabs">
+    <button tab="checkins">Checkins</button>
+    <button tab="evaluation">Evaluations</button>
+    <button tab="debug">Debug</button>
+  </div>
+
+  <!-- Checkin Tab-->
+  <div tab-content="checkins" class="tab-container">
+    <h2>Current Journal</h2>
+    <div>
+      <div id="displayed-card" class="card">
+        Select a Journal Entry.
+      </div>
+    </div>
+
+    <h2>Daily Checkins</h2>
+    <input type="text" id="mood" placeholder="Filter by Mood" required>
+    <button id="filter-button">Filter</button>
+    <button id="clear-filter-button">Clear</button>
+    <div id="card-list" class="checkins-container">
+      <div class="card">
+        <h3>April 26, 2025</h3>
+        <p><strong>Mood:</strong> Happy</p>
+        <p>Had a great day at the park!</p>
+      </div>
     </div>
   </div>
 
-  <h2>Daily Checkins</h2>
-  <input type="text" id="mood" placeholder="Filter by Mood" required>
-  <button id="filter-button">Filter</button>
-  <button id="clear-filter-button">Clear</button>
-  <div id="card-list" class="checkins-container">
-    <div class="card">
-      <h3>April 26, 2025</h3>
-      <p><strong>Mood:</strong> Happy</p>
-      <p>Had a great day at the park!</p>
+  <!-- Evaluation Tab-->
+  <div tab-content="evaluation" class="tab-container hidden">
+    <h2>Weekly Evaluations</h2>
+    <div id="test-scores-container">
+      TODO - display test scores here.
     </div>
   </div>
+
+  <!-- Admin Tab-->
+  <div tab-content="debug" class="tab-container hidden">
+    <h2>Debug Tab</h2>
+    <form action="/add_test_data" method="get">
+      <button type="submit">Add Test Data</button>
+    </form>
+    <form action="/clear_database" method="get">
+      <button type="submit">Clear Database</button>
+    </form>
+    <button id="debugButton">Debug Button</button>
+    
+  </div>
+
 
 
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
