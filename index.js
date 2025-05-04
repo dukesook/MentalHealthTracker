@@ -171,6 +171,7 @@ app.get("/tracker", async function(req, res) {
 });
 
 app.get("/query", async function(req, res) {
+  // Get a collection associated with the current user
   const collectionName = req.query.collection;
   const userId = UserUtils.get_current_user_id();
   Database.getCollection(collectionName, userId).then((collection) => {
@@ -182,6 +183,7 @@ app.get("/query", async function(req, res) {
 });
 
 app.get("/query/all", async function(req, res) {
+  // Get the entire collection for all users (for testing purposes)
   const collectionName = req.query.collection;
 
   Database.getCollection(collectionName).then((collection) => {
@@ -191,6 +193,20 @@ app.get("/query/all", async function(req, res) {
     res.status(500).send("An error occurred while fetching collection.");
   });
 });
+
+app.get("/query/tests", async function(req, res) {
+  // Get all tests for the current user
+  const id = UserUtils.get_current_user_id();
+  const all_scoresheets = await Database.get_all_tests(id, 'ptsd');
+  console.log('type of all_scoresheets: ', typeof(all_scoresheets));
+  for (const score_id in all_scoresheets) {
+    const score = all_scoresheets[score_id];
+
+    console.log("ID: ", score_id);
+    console.log("DATE: ", score.date);
+    console.log("total: ", score.total);
+  }
+})
 
 app.get("/settings", function(req, res) {
   res.render("pages/settings");

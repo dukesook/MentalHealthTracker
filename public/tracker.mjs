@@ -102,8 +102,5 @@ function assertIsCheckin(checkin) {
 }
 
 async function debug() {
-  // Filter by Mood
-  const mood = moodHTML.value;
-  const filteredCheckins = g_checkins.filter(checkin => checkin.mood === mood);
-  displayCheckins(filteredCheckins, cardListContainer);
+
 }
