@@ -14,9 +14,6 @@
   <%- include('../partials/navbar.ejs') %>
 
 
-
-  <button id="debugButton">debug</button>
-
   <!--Tab Buttons-->
   <div id="tabs">
     <button tab="checkins">Checkins</button>
@@ -54,8 +51,16 @@
 
   <!-- Admin Tab-->
   <div tab-content="debug" class="tab-container hidden">
-    Tab #3
     <h2>Debug Tab</h2>
+    <form action="/add_test_data" method="get">
+      <button type="submit">Add Test Data</button>
+    </form>
+    <form action="/clear_database" method="get">
+      <button type="submit">Clear Database</button>
+    </form>
+    <button id="debugButton">Debug Button</button>
+    
+  </div>
 
 
 
