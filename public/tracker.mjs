@@ -33,6 +33,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   })
 
+  const tabButtons = document.querySelectorAll('#tabs button');
+  const tabContainers = document.querySelectorAll('.tab-container');
+
+  for (const button of tabButtons) {
+    button.onclick = () => {
+      console.log("Button clicked: ", button.getAttribute('tab'));
+      const selectedTabName = button.getAttribute('tab');
+
+      tabContainers.forEach(tab => {
+        if (tab.getAttribute('tab-content') === selectedTabName) {
+          tab.classList.remove('hidden');
+        }
+        else {
+          tab.classList.add('hidden');
+        }
+      })
+    }
+  }
+
   debugButton.onclick = debug;
 });
 
