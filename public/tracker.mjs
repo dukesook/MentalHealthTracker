@@ -57,6 +57,14 @@ export async function requestCheckins() {
 }
 
 
+export async function requestTestScores() {
+  const fetchRequest = 'query/test_scores';
+  const httpResponse = await fetch(fetchRequest);
+  const results = await httpResponse.json();
+  return results;
+}
+
+
 function displayCheckins(checkins, container) {
   container.innerHTML = '';
 
@@ -101,6 +109,11 @@ function assertIsCheckin(checkin) {
   }
 }
 
-async function debug() {
 
+async function debug() {
+  const test_scores = await requestTestScores();
+  console.log("TEST SCORES: ", test_scores);
+  for (const test of test_scores) {
+    console.log(test);
+  }
 }
