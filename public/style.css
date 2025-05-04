@@ -206,3 +206,7 @@ h2, h1, h3, p, li {
 .hidden {
   display: none;
 }
+
+.each_answer {
+  display: flex;
+}

@@ -8,19 +8,35 @@
 </head>
 <body onload="onload()">
     <%- include('../partials/navbar.ejs') %>
-  <h1><%= results.selected_test %></h1>
-  <% Object.keys(score_dict).forEach(key=>{ %>
-    <h1><%= score_dict[key]%></h1>
-
-  <%})%>
-
-  <h1>TOTAL =<%= score_dict['total']%></h1>
-
-  <div>
-    <p>Score interpretation</p>
-    <p><%=score_interpretation%></p>
+  <div class="test-results-card">
+    <div class="test-results-header">
+      <p>Your <%= results.selected_test %> test results</p> 
+    </div>
+    <div class="score-interpretation">
+      <p><%=score_interpretation%></p>
+    </div>
   </div>
+  <div id="your_answers">
+    <div><p>Your answers</p></div>
+    <% Object.keys(score_dict).forEach(key=>{ %>
+      <% if(!key.startsWith('Q')) return; %>
+      <div class="each_answer">
+        <div>
+          <p><%= questions[key.replace('Q','')].question %></p>
+        </div>
+        <div>
+          <p><%= score_dict[key]%></p>
+        </div>
+      </div>
   
+    <%})%>
+  </div>
+
+
+  <p>TOTAL =<%= score_dict['total']%></p>
+
+
+  <%- include('../partials/results_disclaimer.ejs') %>
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
   <script src="/script.js"></script>
 </body>
