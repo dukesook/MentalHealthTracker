@@ -8,7 +8,14 @@
 </head>
 <body onload="onload()">
     <%- include('../partials/navbar.ejs') %>
-  <div><p>Your <%= results.selected_test %> test results</p> </div>
+  <div class="test-results-card">
+    <div class="test-results-header">
+      <p>Your <%= results.selected_test %> test results</p> 
+    </div>
+    <div class="score-interpretation">
+      <p><%=score_interpretation%></p>
+    </div>
+  </div>
   <div id="your_answers">
     <div><p>Your answers</p></div>
     <% Object.keys(score_dict).forEach(key=>{ %>
@@ -26,12 +33,9 @@
   </div>
 
 
-  <h1>TOTAL =<%= score_dict['total']%></h1>
+  <p>TOTAL =<%= score_dict['total']%></p>
 
-  <div>
-    <p>Score interpretation</p>
-    <p><%=score_interpretation%></p>
-  </div>
+
   <%- include('../partials/results_disclaimer.ejs') %>
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
   <script src="/script.js"></script>

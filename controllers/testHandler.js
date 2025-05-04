@@ -37,6 +37,7 @@ function interpret_score(test, total) {
     return "Your symptoms are not consistent with ADHD"
   } else if (test === 'ptsd') {
     if (total >= 3) return "Your results indicate that you are experiencing some signs of PTSD."
+    return "Your results indicate that you are experiencing none, or very few signs of PTSD."
   }
   return "ERROR: score=" + total;
 }
@@ -45,6 +46,7 @@ function interpret_score(test, total) {
 export async function run_ptsd_test(current_user, results, res, test_name) {
   let total_score = 0; // running total for the score
   let score_copy = {}; // copy to pass to the render function
+  let test_questions = new questions_model()[test_name];
 
   score_dict = {'yes':1,'no':0};
   // get the user so we know where to save the results
@@ -81,6 +83,7 @@ export async function run_ptsd_test(current_user, results, res, test_name) {
   // render results
   res.render('pages/results', {
     results: results,
+    questions: test_questions,
     score_dict: score_copy,
     score_interpretation: interpretation
   });
@@ -158,6 +161,7 @@ export async function run_adhd_test(current_user, results, res, test_name) {
 export async function run_test(current_user, results, res, test_name) {
   let total_score = 0; // running total for the score
   let score_copy = {}; // copy to pass to the render function
+  let test_questions = new questions_model()[test_name];
 
   // get the user so we know where to save the results
   const user_model = await userModel.findById(current_user);
@@ -192,6 +196,7 @@ export async function run_test(current_user, results, res, test_name) {
   // render results
   res.render('pages/results', {
     results: results,
+    questions: test_questions,
     score_dict: score_copy,
     score_interpretation: interpretation
   });
