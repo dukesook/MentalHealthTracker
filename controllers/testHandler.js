@@ -149,6 +149,7 @@ export async function run_adhd_test(current_user, results, res, test_name) {
   // render results
   res.render('pages/results', {
     results: results,
+    questions: test_questions,
     score_dict: score_copy,
     score_interpretation: interpretation
   });
