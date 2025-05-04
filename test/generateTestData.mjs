@@ -5,6 +5,7 @@ import questionsModel from '../models/questions.mjs';
 import scoresModel from '../models/scores.mjs';
 import * as UserUtils from '../utils/userUtils.js';
 import * as Database from '../controllers/database.mjs';
+import * as TestHandler from '../controllers/testHandler.js';
 import { faker } from '@faker-js/faker';
 
 
@@ -25,13 +26,80 @@ export default async function add_test_data() {
 }
 
 
-function add_data_to_user(userId, numCheckins = 10) {
+async function add_data_to_user(userId, numCheckins = 10) {
+
+  // Checkins
   for (let i = 0; i < numCheckins; i++) {
     const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(userId);
     Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
   }
+
+  const fakeRes = {
+    render: function() { }
+  }
+
+
+
+  // ADHD
+  const adhdResult = create_adhd_test_results();
+  await TestHandler.run_adhd_test(userId, adhdResult, fakeRes, 'adhd');
+  
+  // Depression
+  const depressionResult = create_depression_test_results();
+  
+  // PTSD Test
+  // Bug! changes the testHandler.score_dict to yes/no
+  const ptsdResult = create_ptsd_test_results();
+  await TestHandler.run_ptsd_test(userId, ptsdResult, fakeRes, 'ptsd');
 }
 
+
+function create_ptsd_test_results() {
+  const results = {
+    selected_test: 'ptsd',
+    Q1: 'yes',
+    Q2: 'no',
+    Q3: 'yes',
+    Q4: 'no',
+    Q5: 'yes',
+  }
+  return results;
+}
+
+function create_adhd_test_results() {
+  const answers = ['never', 'rarely', 'sometimes', 'often', 'very_often'];
+  const results = {
+    selected_test: 'adhd',
+    Q1: 'never',
+    Q2: 'rarely',
+    Q3: 'sometimes',
+    Q4: 'often',
+    Q5: 'very_often',
+    Q6: 'never',
+    Q7: 'rarely',
+    Q8: 'sometimes',
+    Q9: 'often',
+    Q10: 'very_often',
+    Q11: 'never',
+    Q12: 'rarely',
+    Q13: 'sometimes',
+    Q14: 'often',
+    Q15: 'very_often',
+    Q16: 'never',
+    Q17: 'rarely',
+    Q18: 'sometimes'
+  }
+  return results;
+}
+
+function create_depression_test_results() {
+  const answers = ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'];
+  const results = {
+
+  }
+  
+  return results;
+}
 
 const sample_users = [
   {
