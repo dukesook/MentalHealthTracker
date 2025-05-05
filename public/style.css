@@ -198,20 +198,6 @@ body.dark-mode .nav-list li a {
   color: white !important; /* ✅ Force white text if still being overridden */
 }
 
-.left-box {
-  left: 5%;
-}
-
-.right-box {
-  right: 5%;
-}
-
-.pic{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 75%;
-}
 .pic2{
     display: block;
     margin-left: auto;
@@ -339,21 +325,19 @@ body.dark-mode .nav-list li a {
 body, html{
   background-color: var(--background-color);
 }
+.plain{
+  background-color: var(--light-mode-background-color);
+}
 
-/* Format in "Light Mode" */
-/* -- Sets text to black, the background stays as white as of the current design. */
-body:not(.dark-mode){
-  --background-color: #F4F4F4;
-  --color: #333333;
+.plain.dark-mode{
+  background-color: transparent;
 }
 
 label {
-  background-color: var(--light-mode-background-color);
   color: var(--light-mode-text-color);
 }
 
 label.dark-mode {
-  background-color: var(--dark-mode-background-color);
   color: var(--dark-mode-text-color);
 }
 
