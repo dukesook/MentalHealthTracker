@@ -151,7 +151,10 @@ const sample_users = [
 
 
 function generate_daily_checkin(user_id) {
-  const moods = ['happy', 'sad', 'mad', 'neutral'];
+  const moods = ['Happy', 'Sad', 'Mad', 'Neutral', 'Bored',
+    'Stressed', 'Numb', 'Tired', 'Overwhelmed', 'Lonely',
+    'Insecure', 'Guilty', 'Hopeless'
+  ];
   const randomMood = moods[Math.floor(Math.random() * moods.length)];
   const num_sentences = faker.number.int({ min: 2, max: 20 });
 
