@@ -27,7 +27,7 @@ router.post("/submit_journal", async (req, res) => {
 
     const promptMessage = `The user feels ${mood} and wrote: "${journal_entry}". 
 Provide a JSON response in ENGLISH with: 
-- "message": feedback for the user,
+- "message": short feedback for the user,
 - "activities": an array of 5 short, creative activity suggestions to improve their day (no numbering),
 - "affirmation": a motivating affirmation,
 Respond in this format:
@@ -100,7 +100,7 @@ Respond in this format:
       }
     }
 
-    // Save to Database
+    // save to database
     await Database.createDailyCheckin(
       UserUtils.get_current_user_id(),
       new Date(),
@@ -112,7 +112,7 @@ Respond in this format:
     const activities = parsedResponse.activities || ["No activities available."];
     const affirmation = parsedResponse.affirmation || "Stay strong and try again soon.";
 
-    res.render("pages/checkin_confirmation", {
+    res.render("pages/confirmation", {
       feedback,
       activities,
       affirmation,
@@ -126,7 +126,7 @@ Respond in this format:
     if (error.response) {
       console.error("Error Details:", JSON.stringify(error.response.data, null, 2));
     }
-    res.status(500).render("pages/checkin_confirmation", {
+    res.status(500).render("pages/confirmation", { 
       feedback: "The AI is currently unavailable. Here's some general feedback to help you reflect.",
       activities: [
         "Take a walk outside and enjoy nature.",

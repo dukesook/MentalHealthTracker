@@ -109,15 +109,15 @@ app.post('/submit_test',async function(req,res){
 
 app.get("/checkin", async (req, res) => {
   try {
-    const { mood } = req.query; // Get the moods from the query string
+    const { mood } = req.query; 
     if (!mood) {
       return res.render("pages/checkin", { prompts: [], mood: null });
     }
 
-    const moods = Array.isArray(mood) ? mood : [mood]; // Ensure moods is an array
-    const combinedMood = moods.join(" and "); // Combine moods into a single string
+    const moods = Array.isArray(mood) ? mood : [mood]; 
+    const combinedMood = moods.join(" and "); 
 
-    const prompt = `Give 5 short, unique, and one sentence long journal prompts for someone feeling ${combinedMood}.`;
+    const prompt = `Give 5 short, one sentence long JOURNAL PROMPTS for someone feeling ${combinedMood} to write about.`;
 
     let prompts = [];
     try {

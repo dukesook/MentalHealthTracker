@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .confirmation-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border: 2px solid #b6a0d5ae;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555555;
+      margin-bottom: 20px;
+    }
+
+    .affirmations, .feedback, .suggestions {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #b6a0d567;
+      border: 1px solid #b6a0d5ae;
+    }
+
+    .affirmations h2, .feedback h2, .suggestions h2 {
+      font-size: 20px;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+
+    .affirmations p, .feedback p, .suggestions p {
+      font-size: 16px;
+      color: #555555;
+    }
+
+    .suggestions ul {
+      list-style: none; 
+      padding: 0;
+    }
+
+    .suggestions ul li {
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #ffffff;
+      border: 1px solid #b6a0d5ae;
+      border-radius: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .suggestions ul li::before {
+      content: " "; 
+      font-size: 18px;
+      color: #b6a0d5ae;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: linear-gradient(to right, #001f54, #003366);
+      color: #ffffff; 
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .button:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/navbar.ejs') %> 
+
+  <div class="confirmation-container">
+    <h1>Thank You!</h1>
+    <p>Your submission has been received successfully.</p>
+    <div class="feedback">
+        <h2>Feedback</h2>
+        <p><%= feedback %></p>
+      </div>
+
+      <div class="suggestions">
+        <h2>Suggested Activities</h2>
+        <ul>
+          <% activities.forEach(activity => { %>
+            <li><%= activity %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <div class="affirmations">
+      <h2>Affirmation for you</h2>
+      <p><%= affirmation %></p>
+    </div>
+    <a href="/" class="button">Go Back to Homepage</a>
+  </div>
+</body>
+</html>
