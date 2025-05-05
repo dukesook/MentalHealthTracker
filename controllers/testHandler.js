@@ -4,6 +4,7 @@ import userModel from '../models/user.mjs';
 import scores_model from '../models/scores.mjs';
 import questions_model from '../models/questions.mjs';
 import { add_scoresheet, get_current_user_id } from '../utils/userUtils.js';
+import { faker } from '@faker-js/faker';
 
 // Map holds the score values for each answer
 var score_dict = {
@@ -70,7 +71,7 @@ export async function run_ptsd_test(current_user, results, res, test_name) {
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -124,7 +125,7 @@ export async function run_adhd_test(current_user, results, res, test_name) {
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -196,7 +197,7 @@ export async function run_anxiety_test(current_user, results, res, test_name) {
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -244,7 +245,7 @@ export async function run_depression_test(current_user, results, res, test_name)
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -280,4 +281,9 @@ export async function run_depression_test(current_user, results, res, test_name)
   }
   return info;
 
+}
+
+function get_date() {
+  // return Date();
+  return faker.date.anytime();
 }
