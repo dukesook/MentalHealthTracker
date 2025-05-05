@@ -19,8 +19,8 @@ export default async function add_test_data() {
 
   // Extra Users
   for (const u of sample_users) {
-    const user = await UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
-    add_data_to_user(user._id);
+    // const user = await UserUtils.create_new_user(u.first_name, u.middle_name, u.last_name, u.password)
+    // add_data_to_user(user._id);
   }
 
 }
@@ -34,11 +34,7 @@ async function add_data_to_user(userId, numCheckins = 10) {
     Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
   }
 
-  const fakeRes = {
-    render: function() { }
-  }
-
-
+  const fakeRes = {render: function() { } };
 
   // ADHD
   const adhdResult = create_adhd_test_results();
@@ -46,9 +42,9 @@ async function add_data_to_user(userId, numCheckins = 10) {
   
   // Depression
   const depressionResult = create_depression_test_results();
+  await TestHandler.run_depression_test(userId, depressionResult, fakeRes, 'depression');
   
   // PTSD Test
-  // Bug! changes the testHandler.score_dict to yes/no
   const ptsdResult = create_ptsd_test_results();
   await TestHandler.run_ptsd_test(userId, ptsdResult, fakeRes, 'ptsd');
 }
@@ -93,8 +89,18 @@ function create_adhd_test_results() {
 }
 
 function create_depression_test_results() {
-  const answers = ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'];
+  const answers = ['not_at_all', 'several_days', 'more_than_half_the_days', 'nearly_every_day'];
   const results = {
+    selected_test: 'depression',
+    Q1: 'not_at_all',
+    Q2: 'several_days',
+    Q3: 'more_than_half_the_days',
+    Q4: 'nearly_every_day',
+    Q5: 'not_at_all',
+    Q6: 'several_days',
+    Q7: 'more_than_half_the_days',
+    Q8: 'nearly_every_day',
+    Q9: 'not_at_all',
 
   }
   

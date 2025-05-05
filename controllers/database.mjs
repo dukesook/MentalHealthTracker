@@ -111,6 +111,10 @@ export async function get_all_tests(user_id, test_name){
   for(const scoresheet of test_list.list){
     // find each score sheet
     var score = await scores_model.findById(scoresheet.test_results_id)
+    if (!score) {
+      console.error(`Score sheet with ID ${scoresheet.test_results_id} not found.`);
+      continue; // Skip this iteration if the score sheet is not found
+    }
     // append the score to the score's Map
     all_scoresheets[score._id] =  score;
   }

@@ -7,6 +7,8 @@ import { add_scoresheet, get_current_user_id } from '../utils/userUtils.js';
 
 // Map holds the score values for each answer
 var score_dict = {
+  'yes': 1,
+  'no': 0,
   'not_at_all': 0,
   'several_days': 1,
   'more_than_half_the_days': 2,
@@ -59,7 +61,6 @@ export async function run_ptsd_test(current_user, results, res, test_name) {
   let score_copy = {}; // copy to pass to the render function
   let test_questions = new questions_model()[test_name];
 
-  score_dict = {'yes':1,'no':0};
   // get the user so we know where to save the results
   const user_model = await userModel.findById(current_user);
 
