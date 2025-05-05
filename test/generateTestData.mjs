@@ -28,40 +28,41 @@ export default async function add_test_data() {
 
 async function add_data_to_user(userId, numCheckins = 10) {
 
-  // Checkins
-  for (let i = 0; i < numCheckins; i++) {
-    const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(userId);
-    Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
-  }
-
   const fakeRes = {render: function() { } };
 
-  // ADHD
-  const adhdResult = create_adhd_test_results();
-  await TestHandler.run_adhd_test(userId, adhdResult, fakeRes, 'adhd');
-  
-  // Depression
-  const depressionResult = create_depression_test_results();
-  await TestHandler.run_depression_test(userId, depressionResult, fakeRes, 'depression');
-  
-  // PTSD Test
-  const ptsdResult = create_ptsd_test_results();
-  await TestHandler.run_ptsd_test(userId, ptsdResult, fakeRes, 'ptsd');
-
-  // Anxiety Test
-  const anxietyResult = create_anxiety_test_results();
-  await TestHandler.run_anxiety_test(userId, anxietyResult, fakeRes, 'anxiety');
+  for (let i = 0; i < numCheckins; i++) {
+    // Checkins
+    const {user_id, check_in_date, mood, selected_prompt, journal_entry} = generate_daily_checkin(userId);
+    Database.createDailyCheckin(user_id, check_in_date, mood, selected_prompt, journal_entry);
+    
+    // ADHD
+    const adhdResult = create_adhd_test_results();
+    await TestHandler.run_adhd_test(userId, adhdResult, fakeRes, 'adhd');
+    
+    // Depression
+    const depressionResult = create_depression_test_results();
+    await TestHandler.run_depression_test(userId, depressionResult, fakeRes, 'depression');
+    
+    // PTSD Test
+    const ptsdResult = create_ptsd_test_results();
+    await TestHandler.run_ptsd_test(userId, ptsdResult, fakeRes, 'ptsd');
+    
+    // Anxiety Test
+    const anxietyResult = create_anxiety_test_results();
+    await TestHandler.run_anxiety_test(userId, anxietyResult, fakeRes, 'anxiety');
+  }
 }
 
 
 function create_ptsd_test_results() {
+  const answers = ['yes', 'no'];
   const results = {
     selected_test: 'ptsd',
-    Q1: 'yes',
-    Q2: 'no',
-    Q3: 'yes',
-    Q4: 'no',
-    Q5: 'yes',
+    Q1: get_random(answers),
+    Q2: get_random(answers),
+    Q3: get_random(answers),
+    Q4: get_random(answers),
+    Q5: get_random(answers),
   }
   return results;
 }
@@ -70,24 +71,24 @@ function create_adhd_test_results() {
   const answers = ['never', 'rarely', 'sometimes', 'often', 'very_often'];
   const results = {
     selected_test: 'adhd',
-    Q1: 'never',
-    Q2: 'rarely',
-    Q3: 'sometimes',
-    Q4: 'often',
-    Q5: 'very_often',
-    Q6: 'never',
-    Q7: 'rarely',
-    Q8: 'sometimes',
-    Q9: 'often',
-    Q10: 'very_often',
-    Q11: 'never',
-    Q12: 'rarely',
-    Q13: 'sometimes',
-    Q14: 'often',
-    Q15: 'very_often',
-    Q16: 'never',
-    Q17: 'rarely',
-    Q18: 'sometimes'
+    Q1: get_random(answers),
+    Q2: get_random(answers),
+    Q3: get_random(answers),
+    Q4: get_random(answers),
+    Q5: get_random(answers),
+    Q6: get_random(answers),
+    Q7: get_random(answers),
+    Q8: get_random(answers),
+    Q9: get_random(answers),
+    Q10: get_random(answers),
+    Q11: get_random(answers),
+    Q12: get_random(answers),
+    Q13: get_random(answers),
+    Q14: get_random(answers),
+    Q15: get_random(answers),
+    Q16: get_random(answers),
+    Q17: get_random(answers),
+    Q18: get_random(answers),
   }
   return results;
 }
@@ -96,15 +97,15 @@ function create_depression_test_results() {
   const answers = ['not_at_all', 'several_days', 'more_than_half_the_days', 'nearly_every_day'];
   const results = {
     selected_test: 'depression',
-    Q1: 'not_at_all',
-    Q2: 'several_days',
-    Q3: 'more_than_half_the_days',
-    Q4: 'nearly_every_day',
-    Q5: 'not_at_all',
-    Q6: 'several_days',
-    Q7: 'more_than_half_the_days',
-    Q8: 'nearly_every_day',
-    Q9: 'not_at_all',
+    Q1: get_random(answers),
+    Q2: get_random(answers),
+    Q3: get_random(answers),
+    Q4: get_random(answers),
+    Q5: get_random(answers),
+    Q6: get_random(answers),
+    Q7: get_random(answers),
+    Q8: get_random(answers),
+    Q9: get_random(answers),
   }
   
   return results;
@@ -114,16 +115,21 @@ function create_anxiety_test_results() {
   const answers = ['not_at_all', 'several_days', 'more_than_half_the_days', 'nearly_every_day'];
   const results = {
     selected_test: 'anxiety',
-    Q1: 'not_at_all',
-    Q2: 'several_days',
-    Q3: 'more_than_half_the_days',
-    Q4: 'nearly_every_day',
-    Q5: 'not_at_all',
-    Q6: 'several_days',
-    Q7: 'more_than_half_the_days'
+    Q1: get_random(answers),
+    Q2: get_random(answers),
+    Q3: get_random(answers),
+    Q4: get_random(answers),
+    Q5: get_random(answers),
+    Q6: get_random(answers),
+    Q7: get_random(answers),
   }
   return results;
 }
+
+function get_random(list) {
+  return list[Math.floor(Math.random() * list.length)];
+}
+
 
 
 const sample_users = [
