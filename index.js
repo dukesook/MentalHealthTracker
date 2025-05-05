@@ -7,10 +7,13 @@ import * as Database from './controllers/database.mjs';
 import confirmationRoutes from './routes/confirmation.mjs';
 import * as TestHandler from './controllers/testHandler.js'
 
+import UserModel from './models/user.mjs'
+
 const API_KEY = process.env.OPENROUTER_API_KEY;
 const app = express();
 const PORT = 3000;
 const DEBUG = true;
+let loggedIn = false;         // Checks if user if logged in, or not.
 var valid_tests = {'depression':1,'adhd':1,'anxiety':1,'ptsd':1};
 
 function debug(message) {
@@ -46,15 +49,64 @@ app.use(express.static('public'));
 app.use("/", confirmationRoutes);
 
 app.get("/", function(req, res) {
-  let loggedIn = true; // TODO - Somehow check if user is logged in
-
+  // let loggedIn = false; // TODO - Somehow check if user is logged in
   if (loggedIn) {
     res.render("pages/index");
   }
   else {
     res.render("pages/login");
   }
+
+  app.post('/register', async (req, res) => {
+    const data = {
+      first_name: req.body.first_name,
+      password: req.body.password
+    }
+  
+    const checking = await UserModel.findOne({ first_name: req.body.first_name})
+    try{
+      if (checking.first_name === red.body.first_name && checking.password === req.body.password){
+        res.send("These user details already exist, try changing something!")
+      }
+      else {
+        await UserModel.insertMany([data])
+      }
+    }
+    catch {
+      res.render("pages/index", {
+        naming: req.body.first_name
+      })
+      loggedIn = true;
+    }
+  
+    // res.render("pages/index", {
+    //   naming: req.body.first_name
+    // })
+  })
+  
+  app.post('/login', async (req, res) => {
+    try {
+      const check = await UserModel.findOne({ first_name: req.body.first_name})
+      if (check.password === req.body.password){
+        res.render("pages/index", { naming: `${req.body.password}+${req.body.first_name}`})
+        loggedIn = true;
+      }
+      else {
+        res.send("The password is incorrect, check again!")
+      }
+    }
+  
+    catch (e) {
+      res.send("Wrong Details!")
+    }
+  })
+
+  app.post('/logout', async (req, res) => {
+    loggedIn = false;
+    res.render("pages/login");
+  })
 });
+
 
 app.get("/evaluation", function(req, res) {
   const test_list = Database.getAvailableTests();
@@ -205,7 +257,12 @@ app.get("/query/test_scores", async function(req, res) {
 })
 
 app.get("/settings", function(req, res) {
-  res.render("pages/settings");
+  if (loggedIn){
+    res.render("pages/settings");
+  }
+  else{
+    res.render("pages/login");
+  }
 });
 
 app.get("/login", function(req, res) {
@@ -217,19 +274,39 @@ app.get("/register", function(req, res) {
 });
 
 app.get("/anxiety", function(req, res) {
-  res.render("pages/anxiety");
+  if (loggedIn){
+    res.render("pages/anxiety");
+  }
+  else{
+    res.render("pages/login");
+  }
 });
 
 app.get("/depression", function(req, res) {
-  res.render("pages/depression");
+  if (loggedIn){
+    res.render("pages/depression");
+  }
+  else{
+    res.render("pages/login");
+  }
 });
 
 app.get("/ptsd", function(req, res) {
-  res.render("pages/ptsd");
+  if (loggedIn){
+    res.render("pages/ptsd");
+  }
+  else{
+    res.render("pages/login");
+  }
 });
 
 app.get("/adhd", function(req, res) {
-  res.render("pages/adhd");
+  if (loggedIn){
+    res.render("pages/adhd");
+  }
+  else{
+    res.render("pages/login");
+  }
 });
 
 app.get('/add_test_data', async function(req, res) {

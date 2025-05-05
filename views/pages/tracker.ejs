@@ -17,7 +17,7 @@
   <div id="tabs">
     <button tab="checkins">Checkins</button>
     <button tab="evaluation">Evaluations</button>
-    <button tab="debug">Debug</button>
+    <button tab="debug" class="hidden">Debug</button>
   </div>
 
   <!-- Checkin Tab-->
@@ -30,16 +30,32 @@
     </div>
 
     <h2>Daily Checkins</h2>
-    <input type="text" id="mood" placeholder="Filter by Mood" required>
+    <!-- <input type="text" id="mood" placeholder="Filter by Mood" required>
     <button id="filter-button">Filter</button>
-    <button id="clear-filter-button">Clear</button>
-    <div id="card-list" class="checkins-container">
-      <div class="card">
-        <h3>April 26, 2025</h3>
-        <p><strong>Mood:</strong> Happy</p>
-        <p>Had a great day at the park!</p>
-      </div>
+    <button id="clear-filter-button">Clear</button> -->
+    <div>
+      <input
+        type="text"
+        id="mood"
+        placeholder="Filter by Mood"
+        required
+        style="padding: 8px 12px; margin-right: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 200px;"
+      >
+      <button
+        id="filter-button"
+        style="padding: 8px 16px; margin-right: 8px; border: 1px solid #ccc; border-radius: 6px; background-color: #f8f8f8; font-weight: bold; cursor: pointer;"
+      >
+        Filter
+      </button>
+      <button
+        id="clear-filter-button"
+        style="padding: 8px 16px; margin-right: 8px; border: 1px solid #ccc; border-radius: 6px; background-color: #f8f8f8; font-weight: bold; cursor: pointer;"
+      >
+        Clear
+      </button>
     </div>
+    
+    <div id="card-list" class="checkins-container"></div>
   </div>
 
   <!-- Evaluation Tab-->
