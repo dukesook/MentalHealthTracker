@@ -153,14 +153,14 @@ const sample_users = [
 function generate_daily_checkin(user_id) {
   const moods = ['happy', 'sad', 'mad', 'neutral'];
   const randomMood = moods[Math.floor(Math.random() * moods.length)];
-  const randomJournal = 'This is a sample journal entry.';
-  const randomDate = new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30)); // Random date within the last month
+  const num_sentences = faker.number.int({ min: 2, max: 20 });
+
   const dailyCheckin = {
     user_id: user_id,
     check_in_date: faker.date.anytime(),
     mood: randomMood,
     selected_prompt: faker.lorem.sentence(),
-    journal_entry: faker.lorem.paragraph(),
+    journal_entry: faker.lorem.sentences(num_sentences),
   }
   return dailyCheckin;
 }
