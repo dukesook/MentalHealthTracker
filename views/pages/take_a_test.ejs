@@ -14,7 +14,7 @@
           <input type="hidden" id="selected_test" name="selected_test" value="<%=selected_test%>">
             <% Object.entries(questions).forEach(([key, question]) => { %>
                 <div id="question_<%=key%>">
-                    <%= question.question %>
+                    <p><%= question.question %></p>
                     <%question.options.forEach((option,i)=>{
                         var option_snakecase = option.replaceAll(" ","_").toLowerCase();
                         option_id = option_snakecase + "_bttn_q"+key;

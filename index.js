@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import axios from 'axios'; // Import axios for making HTTP requests
 import add_test_data from './test/generateTestData.mjs';
-import { run_test } from './controllers/testHandler.js';
 import * as UserUtils from './utils/userUtils.js';
 import * as Database from './controllers/database.mjs';
 import confirmationRoutes from './routes/confirmation.mjs';
@@ -91,17 +90,21 @@ app.post("/evaluation", async function(req, res) {
 app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
   const test = req.body.selected_test;
+  var info = {} // used for render results
   if (test in valid_tests) {
     console.log(req.body,"TEST: ",test)
     if (test === 'adhd') { 
-      await TestHandler.run_adhd_test(UserUtils.get_current_user_id(),req.body, res, test);}
+      info = await TestHandler.run_adhd_test(UserUtils.get_current_user_id(),req.body, res, test);}
     else if (test === 'ptsd') {
-      await TestHandler.run_ptsd_test(UserUtils.get_current_user_id(),req.body, res, test);}
-    else { 
-      await TestHandler.run_test(UserUtils.get_current_user_id(), req.body, res, test); }
+      info = await TestHandler.run_ptsd_test(UserUtils.get_current_user_id(),req.body, res, test);}
+    else if (test === 'depression') { 
+      info = await TestHandler.run_depression_test(UserUtils.get_current_user_id(), req.body, res, test); }
+    else if (test === 'anxiety') { 
+      info = await TestHandler.run_anxiety_test(UserUtils.get_current_user_id(), req.body, res, test); }
   } else {
     res.status(400).send("Unknown test type");
   }
+  res.render('pages/results',info );
 });
 
 app.get("/checkin", async (req, res) => {
@@ -211,6 +214,22 @@ app.get("/login", function(req, res) {
 
 app.get("/register", function(req, res) {
   res.render("pages/register");
+});
+
+app.get("/anxiety", function(req, res) {
+  res.render("pages/anxiety");
+});
+
+app.get("/depression", function(req, res) {
+  res.render("pages/depression");
+});
+
+app.get("/ptsd", function(req, res) {
+  res.render("pages/ptsd");
+});
+
+app.get("/adhd", function(req, res) {
+  res.render("pages/adhd");
 });
 
 app.get('/add_test_data', async function(req, res) {

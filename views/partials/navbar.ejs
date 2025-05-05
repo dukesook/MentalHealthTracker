@@ -1,11 +1,19 @@
 <header>
-  <nav>
-    <ul>
+  <nav class="navbar">
+    <h1 class="nav-title">Mental Health Tracker</h1>
+    <ul class="nav-list">
       <li><a href="/">Home</a></li>
       <li><a href="/evaluation">Mental Health Evaluation</a></li>
       <li><a href="/checkin">Daily Check-in</a></li>
       <li><a href="/tracker">Progress Tracker</a></li>
+      <li><a href="/login">Log In</a></li>
+      <li><a href="/register">Sign Up</a></li>
       <li><a href="/settings">Settings</a></li>
+      <li>
+        <button class="mode-toggle" onclick="darkmode()" aria-label="Toggle dark mode">
+          <span id="mode-icon">🌙</span>
+        </button>
+      </li>
     </ul>
   </nav>
 </header>
