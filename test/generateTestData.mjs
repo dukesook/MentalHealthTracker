@@ -47,6 +47,10 @@ async function add_data_to_user(userId, numCheckins = 10) {
   // PTSD Test
   const ptsdResult = create_ptsd_test_results();
   await TestHandler.run_ptsd_test(userId, ptsdResult, fakeRes, 'ptsd');
+
+  // Anxiety Test
+  const anxietyResult = create_anxiety_test_results();
+  await TestHandler.run_anxiety_test(userId, anxietyResult, fakeRes, 'anxiety');
 }
 
 
@@ -101,11 +105,26 @@ function create_depression_test_results() {
     Q7: 'more_than_half_the_days',
     Q8: 'nearly_every_day',
     Q9: 'not_at_all',
-
   }
   
   return results;
 }
+
+function create_anxiety_test_results() {
+  const answers = ['not_at_all', 'several_days', 'more_than_half_the_days', 'nearly_every_day'];
+  const results = {
+    selected_test: 'anxiety',
+    Q1: 'not_at_all',
+    Q2: 'several_days',
+    Q3: 'more_than_half_the_days',
+    Q4: 'nearly_every_day',
+    Q5: 'not_at_all',
+    Q6: 'several_days',
+    Q7: 'more_than_half_the_days'
+  }
+  return results;
+}
+
 
 const sample_users = [
   {
