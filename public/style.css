@@ -423,3 +423,28 @@ h2, h1, h3, p, li {
 .each-answer {
   display: flex;
 }
+
+#tabs {
+  margin-bottom: 1em;
+}
+
+#tabs button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+#tabs button:hover {
+  background-color: #e0e0e0;
+}
+
+#tabs button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}

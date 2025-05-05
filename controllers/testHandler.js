@@ -4,9 +4,12 @@ import userModel from '../models/user.mjs';
 import scores_model from '../models/scores.mjs';
 import questions_model from '../models/questions.mjs';
 import { add_scoresheet, get_current_user_id } from '../utils/userUtils.js';
+import { faker } from '@faker-js/faker';
 
 // Map holds the score values for each answer
 var score_dict = {
+  'yes': 1,
+  'no': 0,
   'not_at_all': 0,
   'several_days': 1,
   'more_than_half_the_days': 2,
@@ -59,7 +62,6 @@ export async function run_ptsd_test(current_user, results, res, test_name) {
   let score_copy = {}; // copy to pass to the render function
   let test_questions = new questions_model()[test_name];
 
-  score_dict = {'yes':1,'no':0};
   // get the user so we know where to save the results
   const user_model = await userModel.findById(current_user);
 
@@ -69,7 +71,7 @@ export async function run_ptsd_test(current_user, results, res, test_name) {
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -123,7 +125,7 @@ export async function run_adhd_test(current_user, results, res, test_name) {
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -195,7 +197,7 @@ export async function run_anxiety_test(current_user, results, res, test_name) {
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -243,7 +245,7 @@ export async function run_depression_test(current_user, results, res, test_name)
   // create new score document
   const score_doc = new scores_model(); 
   score_doc.user_id = user_model._id;
-  score_doc.date = Date();
+  score_doc.date = get_date();
   
   // iterate over keys and update scores
   keys.forEach((key) => {
@@ -279,4 +281,9 @@ export async function run_depression_test(current_user, results, res, test_name)
   }
   return info;
 
+}
+
+function get_date() {
+  // return Date();
+  return faker.date.anytime();
 }

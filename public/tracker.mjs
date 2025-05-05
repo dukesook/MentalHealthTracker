@@ -12,13 +12,11 @@ let g_checkins = null;
 document.addEventListener('DOMContentLoaded', function() {
   
   requestCheckins().then((checkins) => {
-    g_checkins = checkins;
-
     // Sanity Check
-    assertIsCheckin(g_checkins[0]);
+    assertIsCheckin(checkins[0]);
     
     // Sort By Date
-    g_checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
+    g_checkins = sortByDate(checkins, 'check_in_date');
     
     displayCheckins(g_checkins, cardListContainer);
 
@@ -35,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
   })
 
   requestTestScores().then((testScores) => {
-    console.log("Test Scores: ", testScores);
-    displayTestScores(testScores, testScoresContainer);
+    const sortedScores = sortByDate(testScores, 'date');
+    displayTestScoresTable(sortedScores, testScoresContainer);
   });
   
   // Initialize Tabs
@@ -158,4 +156,49 @@ async function debug() {
   for (const test of test_scores) {
     console.log(test);
   }
+}
+
+function sortByDate(list, datefield) {
+  return list.sort((a, b) => new Date(b[datefield]) - new Date(a[datefield]));
+}
+
+function displayTestScoresTable(testScores, container) {
+  container.innerHTML = '';
+
+  const table = document.createElement('table');
+  table.style.borderCollapse = 'collapse';
+  table.style.width = '100%';
+
+  // Create header row
+  const header = document.createElement('tr');
+  ['Date', 'Test', 'Score'].forEach(text => {
+    const th = document.createElement('th');
+    th.textContent = text;
+    th.style.border = '1px solid #ccc';
+    th.style.padding = '8px';
+    th.style.textAlign = 'left';
+    header.appendChild(th);
+  });
+  table.appendChild(header);
+
+  // Create data rows
+  for (const { date, test, total } of testScores) {
+    const row = document.createElement('tr');
+
+    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    [formattedDate, test, total].forEach(value => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      td.style.border = '1px solid #ccc';
+      td.style.padding = '8px';
+      row.appendChild(td);
+    });
+
+    table.appendChild(row);
+  }
+
+  container.appendChild(table);
 }
