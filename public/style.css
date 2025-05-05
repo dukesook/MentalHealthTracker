@@ -410,6 +410,7 @@ h2, h1, h3, p, li {
   margin: 20px;
   padding: 10px;
   max-width: 15%;
+  max-height: 200px;
 }
 
 .card:hover {
