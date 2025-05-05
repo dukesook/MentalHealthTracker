@@ -6,6 +6,7 @@
   --link-bg: #ffffff;
   --link-bg-dark: #333333;
   --link-hover-bg: #d0d0ff;
+  --soft-warning-color: #FFC2C2;
 }
 
 body.light-mode header {
@@ -192,26 +193,53 @@ body.dark-mode .nav-list li a {
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
+.warning-box {
+  background-color: var(--soft-warning-color);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.warning-box a {
+  text-decoration: none;
+  color: var(--light-mode-text-color);
+  font-weight: bolder;
+
+}
+
+.test-results-header {
+  padding-top:10px;
+  font-size: 1.4em;
+}
+
+.test-results-content {
+  padding-top: 10px ;
+  padding-bottom: 10px;
+}
+
+.padit {
+  padding-top:10px;
+  margin-top: 20px;
+}
+
+.question-score {
+  display: flex;
+  justify-content: center;
+  width: 10%;
+
+}
+
+.question {
+  display: flex;
+  width: 100%;
+}
+
 .text-box h1,
 .text-box h2, 
 .text-box p {
   color: white !important; /* ✅ Force white text if still being overridden */
 }
 
-.left-box {
-  left: 5%;
-}
-
-.right-box {
-  right: 5%;
-}
-
-.pic{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 75%;
-}
 .pic2{
     display: block;
     margin-left: auto;
@@ -339,21 +367,19 @@ body.dark-mode .nav-list li a {
 body, html{
   background-color: var(--background-color);
 }
+.plain{
+  background-color: var(--light-mode-background-color);
+}
 
-/* Format in "Light Mode" */
-/* -- Sets text to black, the background stays as white as of the current design. */
-body:not(.dark-mode){
-  --background-color: #F4F4F4;
-  --color: #333333;
+.plain.dark-mode{
+  background-color: transparent;
 }
 
 label {
-  background-color: var(--light-mode-background-color);
   color: var(--light-mode-text-color);
 }
 
 label.dark-mode {
-  background-color: var(--dark-mode-background-color);
   color: var(--dark-mode-text-color);
 }
 
@@ -394,7 +420,7 @@ h2, h1, h3, p, li {
   display: none;
 }
 
-.each_answer {
+.each-answer {
   display: flex;
 }
 

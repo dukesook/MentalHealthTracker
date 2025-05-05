@@ -11,9 +11,20 @@
 <body onload="onload()">
   <%- include('../partials/navbar.ejs') %>
 
-  <h2>Dark Mode</h2>
+  <!-- <h2>Dark Mode</h2>
   <p>Set the page to a darker view, preferred by many to comfort the eyes from the light!</p>
-  <button onclick="darkmode()">Toggle Dark/Light Mode!</button>
+  <button onclick="darkmode()">Toggle Dark/Light Mode!</button> -->
+
+  <!-- Log Out Button - Sends user back to login page, unable to see homepage until sign up is made.-->
+  <h2>Log Out</h2>
+  <p>Pressing this button will allow you to sign out, making the website look as if you first got in here!</p>
+  <p>Caution: Still a work in progress, due to the login system still not being 100% functional.
+    <br>
+    While it does send you back to the login page, account system is still not present...
+  </p>
+  <form action="/logout" method="POST">
+      <button type="submit">Log Out!</button>
+  </form>
   
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
   <script src="/script.js"></script>
