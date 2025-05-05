@@ -12,13 +12,11 @@ let g_checkins = null;
 document.addEventListener('DOMContentLoaded', function() {
   
   requestCheckins().then((checkins) => {
-    g_checkins = checkins;
-
     // Sanity Check
-    assertIsCheckin(g_checkins[0]);
+    assertIsCheckin(checkins[0]);
     
     // Sort By Date
-    g_checkins.sort((a, b) => new Date(b.check_in_date) - new Date(a.check_in_date));
+    g_checkins = sortByDate(checkins, 'check_in_date');
     
     displayCheckins(g_checkins, cardListContainer);
 
@@ -35,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
   })
 
   requestTestScores().then((testScores) => {
-    console.log("Test Scores: ", testScores);
-    displayTestScores(testScores, testScoresContainer);
+    const sortedScores = sortByDate(testScores, 'date');
+    displayTestScores(sortedScores, testScoresContainer);
   });
   
   // Initialize Tabs
@@ -158,4 +156,8 @@ async function debug() {
   for (const test of test_scores) {
     console.log(test);
   }
+}
+
+function sortByDate(list, datefield) {
+  return list.sort((a, b) => new Date(b[datefield]) - new Date(a[datefield]));
 }
