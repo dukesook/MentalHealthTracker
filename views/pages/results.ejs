@@ -12,60 +12,64 @@
       console.log("WARNING PATH: ")%>
       <%- include(score_dict['depression_warning_path']) %>
     <%}%>
-  <div class="test-results-card">
+  <div class="center text-box padit">
     <div class="test-results-header">
       <p>Your <%= results.selected_test %> test results</p> 
     </div>
-    <div class="score-interpretation">
+    <div class="test-results-content">
       <p><%=score_interpretation%></p>
     </div>
   </div>
-  <div class="about">
-    <div>
+  <div class="center text-box padit">
+    <div class="test-results-header">
       <p>About your score</p>
+    </div>
+    <div class="test-results-content">
       <p><%=about%></p>
     </div>
   </div>
-  <div id="your_answers">
-    <div><p>Your answers</p></div>
-    <% Object.keys(score_dict).forEach(key=>{ %>
-      <% if(!key.startsWith('Q')) return; %>
-      <div class="each_answer">
-        <div>
-          <p><%= questions[key.replace('Q','')].question %></p>
+  <div class="center text-box padit" id="your_answers">
+    <div class="test-results-header"><p>Your answers</p></div>
+      <div class="test-results-content">
+        <% Object.keys(score_dict).forEach(key=>{ %>
+        <% if(!key.startsWith('Q')) return; %>
+        <div class="each-answer">
+          <div class="question">
+            <p><%= questions[key.replace('Q','')].question %></p>
+          </div>
+          <div class="question-score">
+            <p><%= score_dict[key]%></p>
+          </div>
         </div>
-        <div>
-          <p><%= score_dict[key]%></p>
-        </div>
+    
+      <%})%>
       </div>
-  
-    <%})%>
+      
   </div>
 
   <!-- Display total scores, some tests may have different score sections  -->
-  <div class="scores">
-    <div class="total_score">
+  <div class="center text-box padit">
+    <div class="test-results-header">
       <p>Total score =<%= score_dict['total']%></p>
     </div>
 
     <% if(score_dict.hasOwnProperty('hyperactivity_total')){%>
-      <div class="hyperactivity_score">
+      <div class="test-results-header">
         <p>Hyperactivity score = <%=score_dict['hyperactivity_total']%></p>
       </div>
     <%}%> 
 
     <% if(score_dict.hasOwnProperty('inattention_total')){%>
-      <div class="inattention_score">
+      <div class="test-results-header">
         <p>Inattention score = <%=score_dict['inattention_total']%></p>
       </div>
     <%}%> 
 
   </div>
+  <div class="center text-box padit">
+    <%- include('../partials/results_disclaimer.ejs') %>
+  </div>
   
-
-
-
-  <%- include('../partials/results_disclaimer.ejs') %>
   <!-- Directs the script.js file, allowing, as of right now, to access Dark Mode -->
   <script src="/script.js"></script>
 </body>
