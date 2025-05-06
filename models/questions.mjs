@@ -372,9 +372,168 @@ var questions_schema = new mongoose.Schema({
       }
 
   }
-}
-});
+},
+'bipolar':{
+      '1': {
+          question:{
+              type:String,
+              default:'Has there ever been a period of time when you were not your usual self and you felt so good or hyper that other people thought you were not your normal self or were so hyper that you got into trouble?'
+          },
+          options: {
+              type: [String],
+              default: ['No','Yes']
+            },
+          },
+      '2': {
+        question:{
+          type:String,
+          default:'Has there ever been a period of time when you were not your usual self and you were so irritable that you shouted at people or started fights or arguments?'
+      },
+      options: {
+          type: [String],
+          default: ['No','Yes']
+        },
+      },
+      '3': {
+        question:{
+          type:String,
+          default:'Has there ever been a period of time when you were not your usual self and you felt much more self-confident than usual?'
+      },
+      options: {
+          type: [String],
+          default: ['No','Yes']
+        },
+      },
+      '4': { question:{
+        type:String,
+        default:'Has there ever been a period of time when you were not your usual self and you got much less sleep than usual and found you didn’t really miss it?'
+    },
+    options: {
+        type: [String],
+        default: ['No','Yes']
+      },
+      },
+      '5': { question:{
+        type:String,
+        default:'Has there ever been a period of time when you were not your usual self and you were much more talkative or spoke much faster than usual?'
+     },
+    options: {
+        type: [String],
+        default: ['No','Yes']
+      }
 
-var questions_model = mongoose.model('test_questions',questions_schema);
+  },
+  '6': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and your thoughts raced through your head or you couldn’t slow your mind down?'
+  },
+  options: {
+      type: [String],
+      default: ['No','Yes']
+    }
 
-export default questions_model;
+  },
+  '7': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and you were so easily distracted by things around you that you had trouble concentrating or staying on track?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '8': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and you had much more energy than usual?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '9': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and you were much more social or outgoing than usual, for example, you telephoned friends in the middle of the night?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '10': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and you were much more interested in sex than usual?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '11': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and you did things that were unusual for you or that other people might have thought were excessive, foolish, or risky?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '12': { question:{
+    type:String,
+    default:'Has there ever been a period of time when you were not your usual self and spending money got you or your family into trouble?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '13': { question:{
+    type:String,
+    default:'If you checked YES to more than one of the above, have several of these ever happened during the same period of time?'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+  },
+  '14': { question:{
+    type:String,
+    default:'How much of a problem did any of these cause you? Like being unable to work; having family, money or legal troubles; getting into arguments or fights?'
+  },
+  options: {
+    type: [String],
+    default: ['No problem','Minor problem', 'Moderate problem', 'Serious problem']
+  }
+
+  },
+  '15': { question:{
+    type:String,
+    default:' Have any of your blood relatives had manic-depressive illness or bipolar disorder? i.e. Children, siblings, parents, grandparents, aunts, and uncles.'
+  },
+  options: {
+    type: [String],
+    default: ['No','Yes']
+  }
+
+    },
+    '16': { question:{
+      type:String,
+      default: 'Has a health professional ever told you that you have manic-depressive illness or bipolar disorder?'
+    },
+    options: {
+      type: [String],
+      default: ['No','Yes']
+    }
+  }
+  }});
+
+  var questions_model = mongoose.model('test_questions',questions_schema);
+
+  export default questions_model;
