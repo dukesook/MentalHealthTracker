@@ -27,8 +27,8 @@ async function main() {
   // TODO: remove this once login is working
   const user = await UserUtils.get_or_create_user();
   UserUtils.set_current_user_id(user._id);
-  debug("current user: " + user.first_name + ".  id: " + user._id);
 
+  // base collections are needed in order for app to function
   Database.create_base_collections();
 
   dotenv.config(); // Load the .env file
@@ -109,8 +109,8 @@ app.get("/", function(req, res) {
 
 
 app.get("/evaluation", function(req, res) {
+  // get a list of available tests to take
   const test_list = Database.getAvailableTests();
-  debug("TESTS AVAILABLE: "+test_list + " " + typeof(test_list));
 
   // render test selection page
   res.render("pages/evaluation",{test_list:test_list});
@@ -131,7 +131,6 @@ app.post("/evaluation", async function(req, res) {
     return res.status(404).send("The questions were not found");
   }
   // render the test questions
-  debug("TEST: "+req.body.selected_test);
   res.render('pages/take_a_test',{questions:selected_questions,selected_test:req.body.selected_test});
   }catch(error){
     console.log("ERROR: "+error);
@@ -139,12 +138,12 @@ app.post("/evaluation", async function(req, res) {
   }
 });
 
+// for when a user submits their answers to a test
 app.post('/submit_test',async function(req,res){
   // determine which test it is and run the appropriate function
   const test = req.body.selected_test;
   var info = {} // used for render results
   if (test in valid_tests) {
-    console.log(req.body,"TESTTTTT: ",test)
     if (test === 'adhd') { 
       info = await TestHandler.run_adhd_test(UserUtils.get_current_user_id(),req.body, res, test);}
     else if (test === 'ptsd') {
