@@ -8,7 +8,6 @@ var test_types_schema = new mongoose.Schema({
   ptsd: mongoose.SchemaTypes.ObjectId,
   adhd: mongoose.SchemaTypes.ObjectId,
   bipolar: mongoose.SchemaTypes.ObjectId
-  // TODO: Add more tests
 });
 
 var test_types_model = mongoose.model('test_types',test_types_schema);
