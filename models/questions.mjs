@@ -512,25 +512,6 @@ var questions_schema = new mongoose.Schema({
     default: ['No problem','Minor problem', 'Moderate problem', 'Serious problem']
   }
 
-  },
-  '15': { question:{
-    type:String,
-    default:' Have any of your blood relatives had manic-depressive illness or bipolar disorder? i.e. Children, siblings, parents, grandparents, aunts, and uncles.'
-  },
-  options: {
-    type: [String],
-    default: ['No','Yes']
-  }
-
-    },
-    '16': { question:{
-      type:String,
-      default: 'Has a health professional ever told you that you have manic-depressive illness or bipolar disorder?'
-    },
-    options: {
-      type: [String],
-      default: ['No','Yes']
-    }
   }
   }});
 

@@ -79,10 +79,15 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
   test_types.adhd = adhd_list._id;
   await adhd_list.save();
 
-  // create the adhd list and link it to the test types collection
+  // create the ptsd list and link it to the test types collection
   const ptsd_list = new test_list_model();
   test_types.ptsd = ptsd_list._id;
   await ptsd_list.save();
+
+  // create the bipolar list and link it to the test types collection
+  const bipolar_list = new test_list_model();
+  test_types.bipolar = bipolar_list._id;
+  await bipolar_list.save();
 
   // save test types to update it
   await test_types.save();

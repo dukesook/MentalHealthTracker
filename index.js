@@ -14,7 +14,7 @@ const app = express();
 const PORT = 3000;
 const DEBUG = true;
 let loggedIn = false;         // Checks if user if logged in, or not.
-var valid_tests = {'depression':1,'adhd':1,'anxiety':1,'ptsd':1};
+var valid_tests = {'depression':1,'adhd':1,'anxiety':1,'ptsd':1, 'bipolar':1};
 
 function debug(message) {
   if (DEBUG) {
@@ -144,7 +144,7 @@ app.post('/submit_test',async function(req,res){
   const test = req.body.selected_test;
   var info = {} // used for render results
   if (test in valid_tests) {
-    console.log(req.body,"TEST: ",test)
+    console.log(req.body,"TESTTTTT: ",test)
     if (test === 'adhd') { 
       info = await TestHandler.run_adhd_test(UserUtils.get_current_user_id(),req.body, res, test);}
     else if (test === 'ptsd') {
@@ -153,6 +153,8 @@ app.post('/submit_test',async function(req,res){
       info = await TestHandler.run_depression_test(UserUtils.get_current_user_id(), req.body, res, test); }
     else if (test === 'anxiety') { 
       info = await TestHandler.run_anxiety_test(UserUtils.get_current_user_id(), req.body, res, test); }
+    else if (test === 'bipolar') { 
+      info = await TestHandler.run_bipolar_test(UserUtils.get_current_user_id(), req.body, res, test); }
   } else {
     res.status(400).send("Unknown test type");
   }
