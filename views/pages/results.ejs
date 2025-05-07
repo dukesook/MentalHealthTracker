@@ -7,36 +7,44 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body onload="onload()">
+  <!-- navigation bar -->
     <%- include('../partials/navbar.ejs') %>
-    <% if(score_dict.hasOwnProperty('depression_warning_path')) {
-      console.log("WARNING PATH: ")%>
+    <!-- Include depression at-rik message and resource links if needed -->
+    <% if(score_dict.hasOwnProperty('depression_warning_path')) { %>
       <%- include(score_dict['depression_warning_path']) %>
     <%}%>
+  <!-- Display the results for this particular test -->
   <div class="center text-box padit">
     <div class="test-results-header">
       <p>Your <%= results.selected_test %> test results</p> 
     </div>
+    <!-- Each test has a score interpretation -->
     <div class="test-results-content">
       <p><%=score_interpretation%></p>
     </div>
   </div>
+  <!-- Each test has information about how the score is interpreted -->
   <div class="center text-box padit">
     <div class="test-results-header">
       <p>About your score</p>
     </div>
     <div class="test-results-content">
-      <p><%=about%></p>
+      <!-- This is different for each test -->
+      <p><%=about%></p> 
     </div>
   </div>
+  <!-- Iterate over each question in the test to display the answers back to the user -->
   <div class="center text-box padit" id="your_answers">
     <div class="test-results-header"><p>Your answers</p></div>
       <div class="test-results-content">
         <% Object.keys(score_dict).forEach(key=>{ %>
+          <!-- Display each question without identifying keys -->
         <% if(!key.startsWith('Q')) return; %>
         <div class="each-answer">
           <div class="question">
             <p><%= questions[key.replace('Q','')].question %></p>
           </div>
+          <!-- Display the score for each question -->
           <div class="question-score">
             <p><%= score_dict[key]%></p>
           </div>
@@ -44,7 +52,6 @@
     
       <%})%>
       </div>
-      
   </div>
 
   <!-- Display total scores, some tests may have different score sections  -->
@@ -52,7 +59,7 @@
     <div class="test-results-header">
       <p>Total score =<%= score_dict['total']%></p>
     </div>
-
+    <!-- Special score sections, not all tests will have these -->
     <% if(score_dict.hasOwnProperty('hyperactivity_total')){%>
       <div class="test-results-header">
         <p>Hyperactivity score = <%=score_dict['hyperactivity_total']%></p>
@@ -66,6 +73,7 @@
     <%}%> 
 
   </div>
+  <!-- Include disclaimer for all tests -->
   <div class="center text-box padit">
     <%- include('../partials/results_disclaimer.ejs') %>
   </div>

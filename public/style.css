@@ -192,7 +192,7 @@ body.dark-mode .nav-list li a {
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
-
+/* for depression at-risk warning message on results page */
 .warning-box {
   background-color: var(--soft-warning-color);
   padding: 1rem;
@@ -200,6 +200,7 @@ body.dark-mode .nav-list li a {
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
+/* for depression at-risk warning message on results page */
 .warning-box a {
   text-decoration: none;
   color: var(--light-mode-text-color);
@@ -207,21 +208,25 @@ body.dark-mode .nav-list li a {
 
 }
 
+/* test results header in the results.ejs page */
 .test-results-header {
   padding-top:10px;
   font-size: 1.4em;
 }
 
+/* test results content in the results.ejs page */
 .test-results-content {
   padding-top: 10px ;
   padding-bottom: 10px;
 }
 
+/* for padding in test results page */
 .padit {
   padding-top:10px;
   margin-top: 20px;
 }
 
+/* test results score */
 .question-score {
   display: flex;
   justify-content: center;
@@ -229,6 +234,7 @@ body.dark-mode .nav-list li a {
 
 }
 
+/* test results question styling */
 .question {
   display: flex;
   width: 100%;

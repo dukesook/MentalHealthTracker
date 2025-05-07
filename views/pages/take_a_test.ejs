@@ -7,19 +7,24 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body onload="onload()">
+  <!-- navigation bar -->
   <%- include('../partials/navbar.ejs') %>
   <main>
     <form method="post" action="/submit_test">
         <div class="text-box">
           <input type="hidden" id="selected_test" name="selected_test" value="<%=selected_test%>">
+          <!-- iterate over each question -->
             <% Object.entries(questions).forEach(([key, question]) => { %>
+              <!-- div id set per key -->
                 <div class="center" id="question_<%=key%>">
                     <p><%= question.question %></p>
                     <%question.options.forEach((option,i)=>{
+                      // we use snake case for #id
                         var option_snakecase = option.replaceAll(" ","_").toLowerCase();
                         option_id = option_snakecase + "_bttn_q"+key;
                         var name = "Q"+key
                         %>
+                        // radio button creation
                         <div>
                             <input type="radio" id="<%= option_id %>" name="<%=name%>" value="<%=option_snakecase%>">
                             <label for="<%=option_id%>"><%=option%></label>      

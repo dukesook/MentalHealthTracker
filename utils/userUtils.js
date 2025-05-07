@@ -2,19 +2,19 @@
 import userModel from '../models/user.mjs';
 import test_list_model from '../models/test_list.mjs';
 import test_types_model from '../models/test_types.mjs';
-import scores_model from '../models/scores.mjs';
 import mongoose from 'mongoose'
 
 // TODO: remove, shouldn't be hardcoded but is at this time for testing
 let curr_user_id = 0; 
 
+// get the current user id
 export function get_current_user_id() {
     // TODO: Update so that user id can be pulled from login
   return curr_user_id; // hard coded until we get a login
 }
 
+// set the current user
 export function set_current_user_id(user_id) {
-  console.log(user_id)
   if (!(user_id instanceof mongoose.Types.ObjectId)) {
     throw new error('user_id is not of type ObjectId');
   }
@@ -79,10 +79,15 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
   test_types.adhd = adhd_list._id;
   await adhd_list.save();
 
-  // create the adhd list and link it to the test types collection
+  // create the ptsd list and link it to the test types collection
   const ptsd_list = new test_list_model();
   test_types.ptsd = ptsd_list._id;
   await ptsd_list.save();
+
+  // create the bipolar list and link it to the test types collection
+  const bipolar_list = new test_list_model();
+  test_types.bipolar = bipolar_list._id;
+  await bipolar_list.save();
 
   // save test types to update it
   await test_types.save();
@@ -93,6 +98,7 @@ export async function create_new_user(first_name, middle_name, last_name, passwo
   return user_model;
 }
 
+// return all users
 export async function get_all_users() {
   const users = await userModel.find({});
   return users;

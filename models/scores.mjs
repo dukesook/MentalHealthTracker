@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-// schema that points to all the user's tests
+// schema for the score sheet
 var scores_schema = new mongoose.Schema({
     user_id: mongoose.SchemaTypes.ObjectId,
     date: Date,
@@ -25,7 +25,6 @@ var scores_schema = new mongoose.Schema({
     inattention_total: Number,
     hyperactivity_total: Number,
     total: Number
-    // TODO: Add more tests
 });
 
 var scores_model = mongoose.model('scores',scores_schema);
